@@ -1,3 +1,4 @@
+// dropdowns.js
 function fillAthleteSelect(data) {
   const athleteSelect = document.getElementById('athleteSelect');
   const optionClassement = document.createElement('option');
@@ -20,15 +21,6 @@ function fillAthleteSelect(data) {
     option.value = sport;
     option.textContent = sport;
     sportSelect.appendChild(option);
-  });
-
-  // Utiliser des événements personnalisés
-  athleteSelect.addEventListener('change', () => {
-    document.dispatchEvent(new CustomEvent('athleteChanged'));
-  });
-
-  sportSelect.addEventListener('change', () => {
-    document.dispatchEvent(new CustomEvent('sportChanged'));
   });
 }
 

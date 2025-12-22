@@ -1,11 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Graphiques d'activités</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="jsscript/main.js" type="module"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Récap du Million</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        .leaflet-container .leaflet-marker-icon {
+            background-image: url(https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png);
+        }
+        .leaflet-container .leaflet-marker-shadow {
+            background-image: url(https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png);
+        }
+    </style>
 </head>
 <body>
     <h1>Récap du Million</h1>
@@ -39,18 +47,19 @@
             <h3>Temps cumulé</h3>
             <p id="totalTime">0 h</p>
         </div>
-        <div class="stat-card">
-            <h3>Meilleur jour</h3>
-            <p id="bestDay">-</p>
-        </div>
-        <div class="stat-card">
-            <h3>Meilleure semaine</h3>
-            <p id="bestWeek">-</p>
-        </div>
     </div>
 
-    <canvas id="elevationChart" width="800" height="400"></canvas>
+    <div class="chart-container">
+        <canvas id="elevationChart"></canvas>
+    </div>
 
-    <script src="jsscript/main.js"></script>
+    <div id="mapContainer" class="map-container">
+        <div id="map"></div>
+    </div>
+
+    <!-- Scripts dans le bon ordre -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script type="module" src="jsscript/main.js"></script>
 </body>
 </html>

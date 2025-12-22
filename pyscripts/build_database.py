@@ -26,7 +26,7 @@ for file in files:
         "moving_time_s": data.get("moving_time"),
         "elevation_gain_m": data.get("total_elevation_gain"),
         "calories": data.get("calories"),
-        "polyline": data.get("map"),
+        "tracemap": data.get("map"),
     }
 
     rows.append(row)
@@ -46,7 +46,7 @@ output_dir = Path("../public/data")
 output_dir.mkdir(parents=True, exist_ok=True)
 
 # Créer une copie sans la colonne 'month' problématique
-df_export = df_2025[['athlete_id', 'activity_id','name', 'date', 'sport', 'polyline',
+df_export = df_2025[['athlete_id', 'activity_id','name', 'date', 'sport', 'tracemap',
                 'distance_m', 'moving_time_s', 'elevation_gain_m', 'calories', 'year']].copy()
 
 # Remplacer les valeurs NaN par 0 pour les champs numériques
