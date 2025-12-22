@@ -53,11 +53,34 @@
         <canvas id="elevationChart"></canvas>
     </div>
 
-    <div id="mapContainer" class="map-container">
-        <div id="map"></div>
-    </div>
+ <div id="mapContainer" class="map-container">
+  <div id="map-and-legend">
+    <div id="map"></div>
+    <div id="legendContainer" class="legend-container"></div>
+  </div>
+</div>
 
-    <!-- Scripts dans le bon ordre -->
+    <div id="rankingTableContainer" class="table-container" style="display: none;">
+  <table id="rankingTable">
+    <thead>
+      <tr>
+        <th data-sort="athlete_id">Athlète</th>
+        <th data-sort="total_elevation">Dénivelé (m)</th>
+        <th data-sort="activity_count">Nombre d'activités</th>
+        <th data-sort="total_distance">Distance (km)</th>
+        <th data-sort="total_time">Temps (h)</th>
+        <th data-sort="elevation_per_distance">D+/Distance (m/km)</th>
+        <th data-sort="elevation_per_time">D+/Temps (m/h)</th>
+        <th data-sort="elevation_per_activity">D+/Activité (m)</th>
+      </tr>
+    </thead>
+    <tbody id="rankingTableBody">
+
+    </tbody>
+  </table>
+</div>
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script type="module" src="jsscript/main.js"></script>

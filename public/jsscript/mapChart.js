@@ -40,67 +40,50 @@ function showMapChart(filteredData) {
     return;
   }
 
+  // Récupère les athlètes uniques pour la légende
+  const athletes = [...new Set(activitiesWithPolylines.map(activity => ({
+    athlete_id: activity.athlete_id
+  })))];
+
+  // Génère la légende
+  generateLegend(athletes);
+
   // Ajoute les nouvelles polylines
   activitiesWithPolylines.forEach(activity => {
     try {
       const decodedPoints = decodePolyline(activity.tracemap.polyline);
+      if (!decodedPoints || decodedPoints.length === 0) return;
 
-      // Vérifie que les points décodés sont valides
-      if (!decodedPoints || decodedPoints.length === 0) {
-        console.warn(`Polyline invalide pour l'activité ${activity.name || activity.activity_id}`);
-        return;
-      }
-
-      // Vérifie que tous les points ont des coordonnées valides
       const validPoints = decodedPoints.filter(point =>
-        !isNaN(point[0]) && !isNaN(point[1]) && Math.abs(point[0]) <= 90 && Math.abs(point[1]) <= 180
+        !isNaN(point[0]) && !isNaN(point[1])
       );
+      if (validPoints.length === 0) return;
 
-      if (validPoints.length === 0) {
-        console.warn(`Aucun point valide pour l'activité ${activity.name || activity.activity_id}`);
-        return;
-      }
-
-      // Utilise getAthleteColor pour obtenir la même couleur que dans les graphiques
       const color = getAthleteColor(activity.athlete_id);
-
       const polyline = L.polyline(validPoints, {
         color: color,
         weight: 4,
-        opacity: 0.9,
-        smoothFactor: 1,
-        lineCap: 'round',
-        lineJoin: 'round'
+        opacity: 0.9
       }).addTo(map);
 
       polyline.bindPopup(`
         <b>${activity.name || 'Activité'}</b><br>
+        Date: ${activity.date}<br>
         Athlète: ${activity.athlete_id}<br>
-        Sport: ${activity.sport || 'Inconnu'}<br>
-        Date: ${activity.date || 'Inconnue'}<br>
-        Dénivelé: ${activity.elevation_gain_m || 0} m<br>
-        Distance: ${(activity.distance_m / 1000).toFixed(2)} km
+        Sport: ${activity.sport || 'Inconnu'}
       `);
-
       polylines.push(polyline);
     } catch (e) {
-      console.error(`Erreur lors du traitement de l'activité ${activity.name || activity.activity_id}:`, e);
+      console.error(`Erreur pour l'activité ${activity.activity_id}:`, e);
     }
   });
 
-  // Ajuste la vue de la carte
   if (polylines.length > 0) {
-    try {
-      const group = new L.FeatureGroup(polylines);
-      map.fitBounds(group.getBounds().pad(0.5));
-    } catch (e) {
-      console.error("Erreur lors de l'ajustement de la vue de la carte:", e);
-      map.setView([46.2276, 2.2137], 6); // Vue par défaut si erreur
-    }
-  } else {
-    map.setView([46.2276, 2.2137], 6); // Vue par défaut si aucune polyline
+    const group = new L.FeatureGroup(polylines);
+    map.fitBounds(group.getBounds().pad(0.5));
   }
 }
+
 
 // Fonction pour décoder une polyline
 function decodePolyline(encoded) {
@@ -153,5 +136,37 @@ function decodePolyline(encoded) {
 
   return points;
 }
+function generateLegend(activities) {
+  const legendContainer = document.getElementById('legendContainer');
+  if (!legendContainer) {
+    console.error("Le conteneur de légende n'existe pas dans le DOM.");
+    return;
+  }
+
+  // Crée un Set pour éviter les doublons d'athlètes
+  const uniqueAthletes = [...new Set(activities.map(activity => activity.athlete_id))];
+
+  legendContainer.innerHTML = '<h3 style="color: #fff; margin-top: 0;">Légende</h3>';
+
+  uniqueAthletes.forEach(athleteId => {
+    const color = getAthleteColor(athleteId);
+
+    const legendItem = document.createElement('div');
+    legendItem.className = 'legend-item';
+
+    const colorBox = document.createElement('div');
+    colorBox.className = 'legend-color';
+    colorBox.style.backgroundColor = color;
+
+    const text = document.createElement('div');
+    text.className = 'legend-text';
+    text.textContent = `Athlète ${athleteId}`;
+
+    legendItem.appendChild(colorBox);
+    legendItem.appendChild(text);
+    legendContainer.appendChild(legendItem);
+  });
+}
+
 
 export { initMap, showMapChart };

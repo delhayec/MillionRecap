@@ -5,6 +5,7 @@ import { showCombinedChart } from './combinedChart.js';
 import { showRankingChart } from './rankingChart.js';
 import { showMapChart, initMap } from './mapChart.js';
 import { updateStats } from './statsDisplay.js';
+import { showRankingTable } from './rankingTable.js';
 
 // Variables globales
 let allData = [];
@@ -101,11 +102,12 @@ function updateChart() {
 
   if (selectedAthlete === "classement") {
     showRankingChart(allData, selectedSport, chartOptions, customColors);
+    showRankingTable(filteredData);
   } else {
     showCombinedChart(filteredData, selectedSport, chartOptions, customColors);
+    showMapChart(filteredData, customColors); // Passe customColors à showMapChart
   }
 
-  showMapChart(filteredData, customColors); // Passe customColors à showMapChart
   updateStats(filteredData);
 }
 
