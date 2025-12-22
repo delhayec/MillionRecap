@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Graphiques d'activités</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Récap du Million</h1>
+
+    <div class="filters">
+        <label for="athleteSelect">Athlète :</label>
+        <select id="athleteSelect">
+            <option value="">-- Tous --</option>
+        </select>
+
+        <label for="sportSelect">Sport :</label>
+        <select id="sportSelect">
+            <option value="">-- Tous --</option>
+        </select>
+    </div>
+
+    <div id="statsContainer" class="stats-container">
+        <div class="stat-card">
+            <h3>Dénivelé cumulé</h3>
+            <p id="totalElevation">0 m</p>
+        </div>
+        <div class="stat-card">
+            <h3>Nombre d'activités</h3>
+            <p id="totalActivities">0</p>
+        </div>
+        <div class="stat-card">
+            <h3>Distance cumulée</h3>
+            <p id="totalDistance">0 km</p>
+        </div>
+        <div class="stat-card">
+            <h3>Temps cumulé</h3>
+            <p id="totalTime">0 h</p>
+        </div>
+        <div class="stat-card">
+            <h3>Meilleur jour</h3>
+            <p id="bestDay">-</p>
+        </div>
+        <div class="stat-card">
+            <h3>Meilleure semaine</h3>
+            <p id="bestWeek">-</p>
+        </div>
+    </div>
+
+    <canvas id="elevationChart" width="800" height="400"></canvas>
+
+    <script src="jsscript/main.js"></script>
+</body>
+</html>

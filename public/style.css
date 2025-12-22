@@ -1,0 +1,71 @@
+/* style.css */
+body {
+  background-color: #0a0817;
+  color: white;
+  font-family: 'Time New Roman';
+  margin: 0;
+  padding: 20px;
+}
+
+select, canvas {
+  background-color: #181335;
+  color: white;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 8px;
+  margin: 5px;
+}
+
+#elevationChart {
+  background-color: #181335;
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.filters {
+  margin-bottom: 20px;
+}
+
+label {
+  margin-right: 10px;
+  color: #ccc;
+}
+
+select {
+  min-width: 150px;
+}
+
+
+/* Styles pour les statistiques */
+.stats-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    padding: 15px;
+    flex: 1;
+    min-width: 200px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.stat-card h3 {
+    margin: 0 0 10px 0;
+    color: #aaa;
+    font-size: 14px;
+}
+
+.stat-card p {
+    margin: 0;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+}
