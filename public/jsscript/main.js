@@ -13,9 +13,19 @@ let deniveleChart = null;
 
 // Palette de couleurs personnalisée
 const customColors = [
-  '#938bb7', '#8B5CF6', '#A855F7', '#EC4899', '#F43F5E',
-  '#F59E0B', '#EAB308', '#84CC16', '#10B981', '#14B8A6',
-  '#06B6D4', '#3B82F6', '#00619a'
+  '#8F87C6', // violet doux
+  '#796cef', // violet
+  '#9A5FE0', // violet-magenta
+  '#D9468F', // rose
+  '#E84C5B', // rouge-rose
+  '#F08C2E', // orange
+  '#D9A317', // jaune
+  '#8FBF2F', // vert-jaune
+  '#3FB86B', // vert
+  '#2FB3A3', // vert-cyan
+  '#2BB0D9', // cyan
+  '#4A86E8', // bleu
+  '#003c75'  // bleu profond
 ];
 
 // Options de style réutilisables

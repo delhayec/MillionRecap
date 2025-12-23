@@ -1,5 +1,12 @@
+// rankingChart.js
 import { getAthleteColor, generateAllDays } from './chartUtils.js';
 import { updateStats } from './statsDisplay.js';
+
+// Fonction pour obtenir le suffixe ordinal (1er, 2e, etc.)
+function getOrdinalSuffix(num) {
+  if (num === 1) return 'er';
+  return 'e';
+}
 
 // Afficher le classement (courbes cumulées par athlète)
 function showRankingChart(data, selectedSport, chartOptions) {
@@ -11,7 +18,10 @@ function showRankingChart(data, selectedSport, chartOptions) {
     : data;
 
   const athletes = [...new Set(filteredData.map(item => item.athlete_id))];
-  const datasets = athletes.map(athlete => {
+
+  // Calcule les données cumulées par athlète
+  const athleteDataMap = {};
+  athletes.forEach(athlete => {
     const athleteData = filteredData.filter(item => item.athlete_id === athlete);
     const allDaysWithData = allDays.map(day => {
       const dayData = athleteData.find(item => item.date.startsWith(day));
@@ -24,24 +34,46 @@ function showRankingChart(data, selectedSport, chartOptions) {
       return cumulativeElevation;
     });
 
-    return {
-      type: 'line',
-      label: `Athlète ${athlete}`,
-      data: cumulativeElevations,
-      borderColor: getAthleteColor(athlete),
-      backgroundColor: 'rgba(0, 0, 0, 0)',
-      borderWidth: 3,
-      yAxisID: 'y1',
-      fill: false,
-      pointRadius: 0,
-      tension: 0.3
-    };
+    athleteDataMap[athlete] = cumulativeElevations;
   });
+
+  // Crée les datasets
+  const datasets = athletes.map(athlete => ({
+    type: 'line',
+    label: `Athlète ${athlete}`,
+    data: athleteDataMap[athlete],
+    borderColor: getAthleteColor(athlete),
+    backgroundColor: 'rgba(0, 0, 0, 0)',
+    borderWidth: 3,
+    yAxisID: 'y1',
+    fill: false,
+    pointRadius: 0,
+    tension: 0.3
+  }));
 
   updateStats(filteredData);
 
   const ctx = document.getElementById('elevationChart').getContext('2d');
   if (window.deniveleChart) window.deniveleChart.destroy();
+
+  // Fonction pour calculer le classement à un jour donné
+  const getRankingForDay = (dayIndex) => {
+    const dayRanking = athletes.map(athlete => ({
+      athleteId: athlete,
+      elevation: athleteDataMap[athlete][dayIndex]
+    }));
+
+    // Trie par dénivelé cumulé (descendant)
+    dayRanking.sort((a, b) => b.elevation - a.elevation);
+
+    // Crée un mapping athlète -> classement
+    const rankingMap = {};
+    dayRanking.forEach((entry, index) => {
+      rankingMap[entry.athleteId] = index + 1; // 1 = premier
+    });
+
+    return rankingMap;
+  };
 
   const options = {
     ...chartOptions,
@@ -50,6 +82,22 @@ function showRankingChart(data, selectedSport, chartOptions) {
       title: {
         ...chartOptions.plugins.title,
         text: `Classement ${year} (Sport: ${selectedSport || 'Tous'})`
+      },
+      tooltip: {
+        ...chartOptions.plugins.tooltip,
+        callbacks: {
+          label: function(context) {
+            const dataset = context.dataset;
+            const dayIndex = context.dataIndex;
+            const athleteId = parseInt(dataset.label.replace('Athlète ', ''));
+            const ranking = getRankingForDay(dayIndex)[athleteId];
+
+            return [
+              `${dataset.label}: ${context.parsed.y.toFixed(0)} m`,
+              `Classement: ${ranking}${getOrdinalSuffix(ranking)}`
+            ];
+          }
+        }
       }
     },
     scales: {
