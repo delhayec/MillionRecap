@@ -292,35 +292,43 @@ body {
 
 /* Style pour la croix de fermeture */
 .close-fullscreen {
-    display: none; /* Cachée par défaut */
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
-    z-index: 1000;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    line-height: 40px;
+  display: none;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 40px;
 }
 
 /* Style pour le canvas en plein écran */
-#elevationChart:-webkit-full-screen {
-    width: 100vw;
-    height: 100vh;
+#elevationChart:fullscreen,
+#elevationChart:-webkit-full-screen,
+#elevationChart:-ms-fullscreen {
+  width: 100vw;
+  height: 100vh;
+  background-color: #0a0817;
 }
 
 /* Rotation en mode paysage pour mobile */
 @media (max-width: 768px) {
-    #elevationChart:-webkit-full-screen {
-        transform: rotate(90deg);
-        transform-origin: center;
-        width: 100vh;
-        height: 100vw;
-        margin-top: 100vh;
-    }
+  #elevationChart:fullscreen,
+  #elevationChart:-webkit-full-screen,
+  #elevationChart:-ms-fullscreen {
+    transform: rotate(90deg);
+    transform-origin: center;
+    width: 100vh;
+    height: 100vw;
+    margin-top: calc(100vh - 100vw);
+  }
 }
