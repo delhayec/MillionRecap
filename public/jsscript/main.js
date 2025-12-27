@@ -115,12 +115,57 @@ function updateChart() {
     showRankingTable(filteredData);
   } else {
     showCombinedChart(filteredData, selectedSport, chartOptions, customColors);
-    showMapChart(filteredData, customColors); // Passe customColors à showMapChart
+    showMapChart(filteredData, customColors);
   }
 
   updateStats(filteredData);
 }
 
+// Fonction pour activer le plein écran
+function launchFullscreen(element) {
+  if (element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if (element.webkitRequestFullscreen) {
+    element.webkitRequestFullscreen();
+  } else if (element.msRequestFullscreen) {
+    element.msRequestFullscreen();
+  }
+  document.getElementById('closeFullscreen').style.display = 'block';
+}
+
+// Fonction pour quitter le plein écran
+function exitFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) {
+    document.msExitFullscreen();
+  }
+  document.getElementById('closeFullscreen').style.display = 'none';
+}
+
+// Gestion du plein écran pour le graphique combiné
+function setupFullscreenForChart() {
+  const chartCanvas = document.getElementById('elevationChart');
+  const closeFullscreenBtn = document.getElementById('closeFullscreen');
+
+  if (chartCanvas) {
+    chartCanvas.addEventListener('dblclick', () => {
+      launchFullscreen(chartCanvas);
+    });
+  }
+
+  if (closeFullscreenBtn) {
+    closeFullscreenBtn.addEventListener('click', exitFullscreen);
+  }
+
+  document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement) {
+      closeFullscreenBtn.style.display = 'none';
+    }
+  });
+}
 
 function validateDataStructure(data) {
   data.forEach(activity => {
@@ -145,7 +190,7 @@ async function main() {
       return;
     }
 
-    validateDataStructure(allData); // Vérifie la structure des données
+    validateDataStructure(allData);
     fillAthleteSelect(allData);
 
     document.getElementById('athleteSelect').addEventListener('change', updateChart);
@@ -153,6 +198,7 @@ async function main() {
 
     initMap();
     updateChart();
+    setupFullscreenForChart(); // Initialise la gestion du plein écran
   } catch (error) {
     console.error("Erreur:", error);
   }
