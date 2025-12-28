@@ -876,33 +876,46 @@ export function showSankeyDiagram(data) {
         color: '#FFFFFF'
       },
       confine: true,
+      position: function(point, params, dom, rect, size) {
+        // Stocker la position pour l'utiliser dans le formatter
+        window.lastTooltipX = point[0];
+        return [point[0] + 10, point[1] - 10];
+      },
       formatter: function(params) {
         if (params.dataType === 'edge') {
           const value = params.value;
           const data = params.data;
 
-          // Récupérer les coordonnées du nœud source et target
-          const sourceNode = this.getModel().getGraph().getNodeByName(data.source);
-          const targetNode = this.getModel().getGraph().getNodeByName(data.target);
+          // Utiliser la position stockée ou essayer plusieurs méthodes
+          let mouseX = window.lastTooltipX ||
+                       params.event?.offsetX ||
+                       params.event?.event?.offsetX ||
+                       params.event?.event?.clientX || 0;
 
-          // Calculer la position X moyenne du lien
-          let isLeftSide = true;
-          if (sourceNode && targetNode) {
-            const linkCenterX = (sourceNode.getLayout().x + targetNode.getLayout().x) / 2;
-            const chartWidth = this.getWidth();
-            isLeftSide = linkCenterX < chartWidth / 2;
+          const chartDom = document.getElementById('sankeyChart');
+          const chartRect = chartDom.getBoundingClientRect();
+          const chartWidth = chartRect.width;
+          const chartCenterX = chartWidth / 2;
+
+          // Si on utilise clientX, il faut soustraire la position du graphique
+          if (params.event?.event?.clientX) {
+            mouseX = params.event.event.clientX - chartRect.left;
           }
+
+          const isLeftSide = mouseX < chartCenterX;
+
+          // Debug
+          console.log('MouseX:', mouseX, 'ChartCenterX:', chartCenterX, 'IsLeftSide:', isLeftSide);
 
           if (isLeftSide) {
-            // À gauche : % de l'athlète
             return `<b>${data.source} → ${data.target}</b><br/>Dénivelé: ${formatElevation(value)} m<br/>Part de l'athlète: ${data.percentageOfAthlete}%`;
           } else {
-            // À droite : % du sport
             return `<b>${data.source} → ${data.target}</b><br/>Dénivelé: ${formatElevation(value)} m<br/>Contribution au sport: ${data.percentageOfSport}%`;
           }
-        } else {
+        } else if (params.dataType === 'node') {
           return `<b>${params.name}</b>`;
         }
+        return '';
       }
     },
     series: [

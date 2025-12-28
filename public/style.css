@@ -39,6 +39,10 @@ body {
   margin-bottom: 15px;
 }
 
+.stats-row {
+  display: contents; /* Sur desktop, ignorer la row et tout mettre en ligne */
+}
+
 .stat-card {
   flex: 1 1 120px;
   min-width: 120px;
@@ -47,6 +51,11 @@ body {
   padding: 10px;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.stat-card-full {
+  flex: 1 1 120px; /* Sur desktop, même taille que les autres */
+  min-width: 120px;
 }
 
 .stat-card h3 {
@@ -273,9 +282,22 @@ body {
     margin-bottom: 10px;
   }
 
-  .stat-card {
+  /* Stats en 2 colonnes sur mobile */
+  .stats-row {
+    display: flex;
+    gap: 10px;
+    flex: 1 1 100%;
+  }
+
+  .stats-row .stat-card {
     flex: 1 1 calc(50% - 5px);
     min-width: calc(50% - 5px);
+  }
+
+  .stat-card-full {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 100%;
   }
 
   .stat-card h3 {

@@ -107,12 +107,19 @@ function setupFullscreen() {
 
   // Fonction pour entrer en plein écran
   const enterFullscreen = () => {
-    if (chartContainer.requestFullscreen) {
-      chartContainer.requestFullscreen();
-    } else if (chartContainer.webkitRequestFullscreen) {
-      chartContainer.webkitRequestFullscreen();
-    } else if (chartContainer.mozRequestFullScreen) {
-      chartContainer.mozRequestFullScreen();
+    console.log('Tentative de plein écran...');
+    const elem = chartContainer;
+
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen().catch(err => console.error('Erreur fullscreen:', err));
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+      elem.mozRequestFullScreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
+    } else {
+      console.error('API Fullscreen non supportée');
     }
   };
 
