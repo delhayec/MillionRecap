@@ -274,8 +274,8 @@ body {
   }
 
   .stat-card {
-    flex: 1 1 calc(50% - 10px);
-    min-width: 140px;
+    flex: 1 1 calc(50% - 5px);
+    min-width: calc(50% - 5px);
   }
 
   .stat-card h3 {
