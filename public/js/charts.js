@@ -25,7 +25,7 @@ const baseChartOptions = {
       }
     },
     tooltip: {
-      enabled: false // Désactivé car on utilise des tooltips personnalisés
+      enabled: false
     }
   },
   scales: {
@@ -67,7 +67,7 @@ const crosshairPlugin = {
 export function showAllAthletesChart(data, selectedSport) {
   const year = data.length > 0 ? new Date(data[0].date).getFullYear() : 2025;
   const allDays = generateAllDays(year);
-  const TARGET = 1000000; // Objectif 1 million de mètres
+  const TARGET = 1000000;
 
   const filteredData = selectedSport
     ? data.filter(item => item.sport === selectedSport)
@@ -75,9 +75,8 @@ export function showAllAthletesChart(data, selectedSport) {
 
   const athletes = [...new Set(filteredData.map(item => item.athlete_id))];
 
-  // Calcul du dénivelé par jour et par athlète + stockage des sports
   const athleteDailyData = {};
-  const dailySports = {}; // Stocke les sports par jour et athlète
+  const dailySports = {};
 
   athletes.forEach(athlete => {
     athleteDailyData[athlete] = allDays.map((day, index) => {
@@ -85,7 +84,6 @@ export function showAllAthletesChart(data, selectedSport) {
         item.athlete_id === athlete && item.date.startsWith(day)
       );
 
-      // Stocker les sports pratiqués ce jour-là (mappés)
       if (!dailySports[index]) dailySports[index] = {};
       const mappedSports = [...new Set(dayActivities.map(act => mapSportName(act.sport)))].join(', ');
       dailySports[index][athlete] = mappedSports || 'Aucun';
@@ -94,24 +92,20 @@ export function showAllAthletesChart(data, selectedSport) {
     });
   });
 
-  // Calcul du dénivelé total par jour (somme de tous les athlètes)
   const totalDailyElevation = allDays.map((day, index) => {
     return athletes.reduce((sum, athlete) => sum + athleteDailyData[athlete][index], 0);
   });
 
-  // Calcul du dénivelé cumulé total
   let cumulative = 0;
   const cumulativeElevation = totalDailyElevation.map(value => {
     cumulative += value;
     return cumulative;
   });
 
-  // Ligne d'objectif
   const targetLine = allDays.map((day, index) => {
     return (TARGET / 365) * (index + 1);
   });
 
-  // Datasets pour le bar plot empilé
   const barDatasets = athletes.map(athlete => ({
     type: 'bar',
     label: `Athlète ${athlete}`,
@@ -121,7 +115,6 @@ export function showAllAthletesChart(data, selectedSport) {
     yAxisID: 'y'
   }));
 
-  // Dataset pour la ligne cumulée
   const lineDataset = {
     type: 'line',
     label: 'Dénivelé cumulé total',
@@ -135,7 +128,6 @@ export function showAllAthletesChart(data, selectedSport) {
     yAxisID: 'y1'
   };
 
-  // Dataset pour l'objectif
   const targetDataset = {
     type: 'line',
     label: 'Objectif 1 Million',
@@ -253,7 +245,6 @@ export function showIndividualChart(data, athleteId, selectedSport) {
     filteredData = filteredData.filter(item => item.sport === selectedSport);
   }
 
-  // Calcul du dénivelé par jour avec les sports
   const dailyElevation = [];
   const dailySportColors = [];
   const dailySportNames = [];
@@ -263,7 +254,6 @@ export function showIndividualChart(data, athleteId, selectedSport) {
     const totalElevation = dayActivities.reduce((sum, act) => sum + (act.elevation_gain_m || 0), 0);
     dailyElevation.push(totalElevation);
 
-    // Déterminer le sport principal du jour (celui avec le plus de dénivelé)
     if (dayActivities.length > 0) {
       const sportElevation = {};
       dayActivities.forEach(act => {
@@ -275,7 +265,6 @@ export function showIndividualChart(data, athleteId, selectedSport) {
       );
       dailySportColors.push(getSportColor(mainSport));
 
-      // Liste des sports mappés
       const mappedSports = [...new Set(dayActivities.map(act => mapSportName(act.sport)))].join(', ');
       dailySportNames.push(mappedSports);
     } else {
@@ -284,14 +273,12 @@ export function showIndividualChart(data, athleteId, selectedSport) {
     }
   });
 
-  // Calcul du dénivelé cumulé
   let cumulative = 0;
   const cumulativeElevation = dailyElevation.map(value => {
     cumulative += value;
     return cumulative;
   });
 
-  // Objectif = dénivelé total de l'athlète
   const totalElevation = cumulativeElevation[cumulativeElevation.length - 1];
   const targetLine = allDays.map((day, index) => {
     return (totalElevation / 365) * (index + 1);
@@ -309,7 +296,7 @@ export function showIndividualChart(data, athleteId, selectedSport) {
           type: 'bar',
           label: 'Dénivelé journalier',
           data: dailyElevation,
-          backgroundColor: dailySportColors, // Couleur par sport
+          backgroundColor: dailySportColors,
           yAxisID: 'y'
         },
         {
@@ -326,7 +313,7 @@ export function showIndividualChart(data, athleteId, selectedSport) {
         },
         {
           type: 'line',
-          label: `Objectif ${totalElevation.toFixed(0)} m`,
+          label: `Objectif ${formatElevation(totalElevation)} m`,
           data: targetLine,
           borderColor: '#FF6B6B',
           borderWidth: 2,
@@ -432,7 +419,6 @@ export function showRankingChart(data, selectedSport) {
 
   const athletes = [...new Set(filteredData.map(item => item.athlete_id))];
 
-  // Calcul des données cumulées par athlète
   const athleteDataMap = {};
   athletes.forEach(athlete => {
     const athleteData = filteredData.filter(item => item.athlete_id === athlete);
@@ -450,7 +436,6 @@ export function showRankingChart(data, selectedSport) {
     athleteDataMap[athlete] = cumulativeElevations;
   });
 
-  // Création des datasets
   const datasets = athletes.map(athlete => ({
     type: 'line',
     label: `Athlète ${athlete}`,
@@ -466,7 +451,6 @@ export function showRankingChart(data, selectedSport) {
   const ctx = document.getElementById('elevationChart').getContext('2d');
   if (window.deniveleChart) window.deniveleChart.destroy();
 
-  // Fonction pour calculer le classement à un jour donné
   const getRankingForDay = (dayIndex) => {
     const dayRanking = athletes.map(athlete => ({
       athleteId: athlete,
@@ -578,7 +562,6 @@ function generateLegend(activities, colorMode = 'athlete') {
   legendContainer.innerHTML = '<h3 style="color: #fff; margin-top: 0;">Légende</h3>';
 
   if (colorMode === 'sport') {
-    // Mode sport : afficher les sports avec leurs couleurs
     const sports = [...new Set(activities.map(activity => mapSportName(activity.sport)))];
 
     sports.forEach(sport => {
@@ -599,7 +582,6 @@ function generateLegend(activities, colorMode = 'athlete') {
       legendContainer.appendChild(legendItem);
     });
   } else {
-    // Mode athlète : afficher les athlètes avec leurs couleurs
     const uniqueAthletes = [...new Set(activities.map(activity => activity.athlete_id))];
 
     uniqueAthletes.forEach(athleteId => {
@@ -645,7 +627,6 @@ export function showMapChart(filteredData, selectedAthleteId = null) {
     return;
   }
 
-  // Déterminer le mode de coloration
   const colorMode = selectedAthleteId ? 'sport' : 'athlete';
   generateLegend(activitiesWithPolylines, colorMode);
 
@@ -659,7 +640,6 @@ export function showMapChart(filteredData, selectedAthleteId = null) {
       );
       if (validPoints.length === 0) return;
 
-      // Choisir la couleur selon le mode
       let color;
       if (colorMode === 'sport') {
         const mappedSport = mapSportName(activity.sport);
@@ -795,5 +775,171 @@ function setupSorting(athletesArray) {
         });
       }
     });
+  });
+}
+
+// ==============================
+// DIAGRAMME DE SANKEY
+// ==============================
+export function showSankeyDiagram(data) {
+  const chartDom = document.getElementById('sankeyChart');
+  if (!chartDom) {
+    console.error("L'élément sankeyChart n'existe pas");
+    return;
+  }
+
+  // Détruire l'instance précédente si elle existe
+  if (window.sankeyChart && typeof window.sankeyChart.dispose === 'function') {
+    window.sankeyChart.dispose();
+  }
+
+  window.sankeyChart = echarts.init(chartDom);
+
+  const athleteSportElevation = {};
+  const athleteTotalElevation = {};
+  const sportTotalElevation = {};
+  const athletes = new Set();
+  const sports = new Set();
+
+  data.forEach(activity => {
+    const athleteId = activity.athlete_id;
+    const mappedSport = mapSportName(activity.sport);
+    const elevation = activity.elevation_gain_m || 0;
+
+    athletes.add(athleteId);
+    sports.add(mappedSport);
+
+    const key = `${athleteId}_${mappedSport}`;
+    athleteSportElevation[key] = (athleteSportElevation[key] || 0) + elevation;
+
+    // Total par athlète
+    athleteTotalElevation[athleteId] = (athleteTotalElevation[athleteId] || 0) + elevation;
+
+    // Total par sport
+    sportTotalElevation[mappedSport] = (sportTotalElevation[mappedSport] || 0) + elevation;
+  });
+
+  const nodes = [];
+
+  Array.from(athletes).sort((a, b) => a - b).forEach(athleteId => {
+    nodes.push({
+      name: `Athlète ${athleteId}`,
+      itemStyle: { color: getAthleteColor(athleteId) }
+    });
+  });
+
+  Array.from(sports).sort().forEach(sport => {
+    nodes.push({
+      name: sport,
+      itemStyle: { color: getSportColor(sport) }
+    });
+  });
+
+  const links = [];
+  const totalElevation = data.reduce((sum, act) => sum + (act.elevation_gain_m || 0), 0);
+
+  Object.keys(athleteSportElevation).forEach(key => {
+    const [athleteId, sport] = key.split('_');
+    const value = athleteSportElevation[key];
+    const percentageOfTotal = ((value / totalElevation) * 100).toFixed(1);
+    const percentageOfAthlete = ((value / athleteTotalElevation[athleteId]) * 100).toFixed(1);
+    const percentageOfSport = ((value / sportTotalElevation[sport]) * 100).toFixed(1);
+
+    links.push({
+      source: `Athlète ${athleteId}`,
+      target: sport,
+      value: value,
+      percentageOfTotal: percentageOfTotal,
+      percentageOfAthlete: percentageOfAthlete,
+      percentageOfSport: percentageOfSport
+    });
+  });
+
+  const option = {
+    backgroundColor: 'transparent',
+    title: {
+      text: 'Répartition du dénivelé par athlète et sport',
+      textStyle: {
+        color: '#FFFFFF',
+        fontSize: 16,
+        fontWeight: 'bold',
+        fontFamily: "'Times New Roman', serif"
+      },
+      left: 'center',
+      top: 10
+    },
+    tooltip: {
+      trigger: 'item',
+      backgroundColor: 'rgba(0, 0, 0, 0.9)',
+      borderColor: 'rgba(255, 255, 255, 0.2)',
+      textStyle: {
+        color: '#FFFFFF'
+      },
+      confine: true,
+      formatter: function(params) {
+        if (params.dataType === 'edge') {
+          const value = params.value;
+          const data = params.data;
+
+          // Récupérer les coordonnées du nœud source et target
+          const sourceNode = this.getModel().getGraph().getNodeByName(data.source);
+          const targetNode = this.getModel().getGraph().getNodeByName(data.target);
+
+          // Calculer la position X moyenne du lien
+          let isLeftSide = true;
+          if (sourceNode && targetNode) {
+            const linkCenterX = (sourceNode.getLayout().x + targetNode.getLayout().x) / 2;
+            const chartWidth = this.getWidth();
+            isLeftSide = linkCenterX < chartWidth / 2;
+          }
+
+          if (isLeftSide) {
+            // À gauche : % de l'athlète
+            return `<b>${data.source} → ${data.target}</b><br/>Dénivelé: ${formatElevation(value)} m<br/>Part de l'athlète: ${data.percentageOfAthlete}%`;
+          } else {
+            // À droite : % du sport
+            return `<b>${data.source} → ${data.target}</b><br/>Dénivelé: ${formatElevation(value)} m<br/>Contribution au sport: ${data.percentageOfSport}%`;
+          }
+        } else {
+          return `<b>${params.name}</b>`;
+        }
+      }
+    },
+    series: [
+      {
+        type: 'sankey',
+        layout: 'none',
+        emphasis: {
+          focus: 'adjacency',
+          lineStyle: {
+            opacity: 0.8
+          }
+        },
+        data: nodes,
+        links: links,
+        lineStyle: {
+          color: 'gradient',
+          curveness: 0.5,
+          opacity: 0.3
+        },
+        label: {
+          color: '#FFFFFF',
+          fontSize: 12,
+          fontFamily: "'Times New Roman', serif"
+        },
+        left: '10%',
+        right: '10%',
+        top: '15%',
+        bottom: '10%'
+      }
+    ]
+  };
+
+  window.sankeyChart.setOption(option);
+
+  window.addEventListener('resize', () => {
+    if (window.sankeyChart) {
+      window.sankeyChart.resize();
+    }
   });
 }

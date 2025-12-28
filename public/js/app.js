@@ -1,5 +1,5 @@
 import { loadData, updateStats } from './utils.js';
-import { showRankingChart, showIndividualChart, showMapChart, showRankingTable, showAllAthletesChart, initMap } from './charts.js';
+import { showRankingChart, showIndividualChart, showMapChart, showRankingTable, showAllAthletesChart, showSankeyDiagram, initMap } from './charts.js';
 
 // ==============================
 // VARIABLES GLOBALES
@@ -67,6 +67,9 @@ function updateChart() {
   // Mise à jour des statistiques
   updateStats(filteredData);
 
+  // Mise à jour du diagramme de Sankey (toujours visible, basé sur les données filtrées)
+  showSankeyDiagram(filteredData);
+
   // Gestion de l'affichage selon la sélection
   if (athleteValue === "classement") {
     // Mode Classement
@@ -126,7 +129,17 @@ function setupFullscreen() {
 
   // Clic sur le bouton plein écran
   fullscreenBtn.addEventListener('click', (e) => {
+    e.preventDefault();
     e.stopPropagation();
+    console.log('Bouton plein écran cliqué');
+    enterFullscreen();
+  });
+
+  // Support du touch sur mobile
+  fullscreenBtn.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('Bouton plein écran touché');
     enterFullscreen();
   });
 
