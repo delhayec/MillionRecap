@@ -1,17 +1,18 @@
-/* Styles par défaut (écrans larges) */
+/* === RESET & BASE === */
 body {
   background-color: #0a0817;
   color: white;
   font-family: 'Times New Roman', serif;
   margin: 0;
-  padding: 20px; /* Réduit le padding pour les mobiles */
+  padding: 20px;
 }
 
+/* === FILTERS === */
 .filters {
   margin-bottom: 20px;
   display: flex;
-  flex-wrap: wrap; /* Permet aux éléments de passer à la ligne */
-  gap: 10px; /* Réduit l'espacement */
+  flex-wrap: wrap;
+  gap: 10px;
   align-items: center;
 }
 
@@ -27,20 +28,19 @@ body {
   background-color: #181335;
   color: #fff;
   border: 1px solid #444;
-  min-width: 120px; /* Réduit la largeur minimale */
-  width: 100%; /* Prend toute la largeur disponible */
-  margin-bottom: 10px; /* Espacement entre les menus déroulants */
+  min-width: 120px;
 }
 
+/* === STATS CARDS === */
 .stats-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px; /* Réduit l'espacement */
+  gap: 10px;
   margin-bottom: 15px;
 }
 
 .stat-card {
-  flex: 1 1 120px; /* Permet aux cartes de s'ajuster */
+  flex: 1 1 120px;
   min-width: 120px;
   background-color: #181335;
   border-radius: 8px;
@@ -62,32 +62,52 @@ body {
   font-weight: bold;
 }
 
+/* === CHART === */
 .chart-container {
   margin-bottom: 15px;
   background-color: #181335;
   border-radius: 8px;
   padding: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
 }
 
 #elevationChart {
   width: 100%;
-  height: 300px; /* Réduit la hauteur pour les mobiles */
+  height: 400px;
 }
-/* Conteneur pour la carte et la légende */
+
+.close-fullscreen {
+  display: none;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1000;
+  line-height: 40px;
+  text-align: center;
+}
+
+/* === MAP & LEGEND === */
 #map-and-legend {
   display: flex;
   width: 100%;
+  margin-bottom: 15px;
 }
 
-/* Style pour la carte */
 #map {
   height: 500px;
   width: 75%;
   background-color: #181335;
+  border-radius: 8px 0 0 8px;
 }
 
-/* Style pour le conteneur de légende */
 .legend-container {
   width: 25%;
   height: 500px;
@@ -98,7 +118,6 @@ body {
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.2);
 }
 
-/* Style pour chaque élément de légende */
 .legend-item {
   display: flex;
   align-items: center;
@@ -126,23 +145,7 @@ body {
   font-size: 14px;
 }
 
-/* Adaptation pour mobile */
-@media (max-width: 768px) {
-  #map-and-legend {
-    flex-direction: column;
-  }
-
-  #map {
-    width: 100%;
-  }
-
-  .legend-container {
-    width: 100%;
-    max-height: 200px;
-  }
-}
-
-/* Style pour la carte en dark mode violet */
+/* === LEAFLET DARK MODE === */
 .leaflet-container {
   background-color: #1a122b;
 }
@@ -151,19 +154,19 @@ body {
   filter: invert(10%) hue-rotate(240deg) brightness(90%) contrast(90%);
 }
 
-.leaflet-container .leaflet-control-attribution,
-.leaflet-container .leaflet-control-zoom {
-  background-color: rgba(40, 20, 60, 0.7);
-  border: 1px solid #5a3d8a;
-  color: #e6d7ff;
+.leaflet-control-attribution,
+.leaflet-control-zoom {
+  background-color: rgba(40, 20, 60, 0.7) !important;
+  border: 1px solid #5a3d8a !important;
+  color: #e6d7ff !important;
 }
 
-.leaflet-container .leaflet-control-attribution a {
-  color: #c4b5fd;
+.leaflet-control-attribution a {
+  color: #c4b5fd !important;
 }
 
-.leaflet-container .leaflet-control-zoom a {
-  color: #e6d7ff;
+.leaflet-control-zoom a {
+  color: #e6d7ff !important;
 }
 
 .leaflet-popup-content-wrapper {
@@ -174,14 +177,14 @@ body {
 
 .leaflet-popup-content {
   margin: 8px 12px;
-  font-size: 12px; /* Réduit la taille de la police */
+  font-size: 12px;
 }
 
 .leaflet-popup-tip-container {
   filter: invert(10%) hue-rotate(240deg) brightness(90%) contrast(90%);
 }
 
-/* Style pour le conteneur du tableau */
+/* === TABLE === */
 .table-container {
   margin: 15px 0;
   background-color: #181335;
@@ -191,7 +194,6 @@ body {
   overflow-x: auto;
 }
 
-/* Style pour le tableau */
 #rankingTable {
   width: 100%;
   border-collapse: separate;
@@ -199,7 +201,7 @@ body {
   color: #fff;
   border-radius: 8px;
   overflow: hidden;
-  font-size: 12px; /* Réduit la taille de la police */
+  font-size: 12px;
 }
 
 #rankingTable th {
@@ -220,11 +222,6 @@ body {
   border-bottom: 1px solid #6f648e;
 }
 
-#rankingTable tr {
-  border-radius: 4px;
-  margin-bottom: 3px;
-}
-
 #rankingTable tr:nth-child(even) {
   background-color: #423960;
 }
@@ -233,24 +230,6 @@ body {
   background-color: #6f648e;
 }
 
-/* Coins arrondis pour le tableau */
-#rankingTable tr:first-child td:first-child {
-  border-top-left-radius: 8px;
-}
-
-#rankingTable tr:first-child td:last-child {
-  border-top-right-radius: 8px;
-}
-
-#rankingTable tr:last-child td:first-child {
-  border-bottom-left-radius: 8px;
-}
-
-#rankingTable tr:last-child td:last-child {
-  border-bottom-right-radius: 8px;
-}
-
-/* Style pour les en-têtes triés */
 #rankingTable th.sorted-asc::after {
   content: " ↑";
   font-size: 10px;
@@ -261,8 +240,7 @@ body {
   font-size: 10px;
 }
 
-
-/* Media Query pour les écrans mobiles (moins de 768px) */
+/* === RESPONSIVE === */
 @media (max-width: 768px) {
   body {
     padding: 10px;
@@ -275,6 +253,7 @@ body {
 
   .filters select {
     width: 100%;
+    margin-bottom: 10px;
   }
 
   #map-and-legend {
@@ -282,53 +261,18 @@ body {
   }
 
   #map {
+    width: 100%;
     height: 250px;
+    border-radius: 8px 8px 0 0;
   }
 
   .legend-container {
+    width: 100%;
     max-height: 150px;
+    border-radius: 0 0 8px 8px;
   }
-}
 
-/* Style pour la croix de fermeture */
-.close-fullscreen {
-  display: none;
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 20px;
-  cursor: pointer;
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  line-height: 40px;
-}
-
-/* Style pour le canvas en plein écran */
-#elevationChart:fullscreen,
-#elevationChart:-webkit-full-screen,
-#elevationChart:-ms-fullscreen {
-  width: 100vw;
-  height: 100vh;
-  background-color: #0a0817;
-}
-
-/* Rotation en mode paysage pour mobile */
-@media (max-width: 768px) {
-  #elevationChart:fullscreen,
-  #elevationChart:-webkit-full-screen,
-  #elevationChart:-ms-fullscreen {
-    transform: rotate(90deg);
-    transform-origin: center;
-    width: 100vh;
-    height: 100vw;
-    margin-top: calc(100vh - 100vw);
+  #elevationChart {
+    height: 250px;
   }
 }
