@@ -100,7 +100,7 @@ export function formatElevation(value) {
 // CHARGEMENT DES DONNÉES
 // ==============================
 export async function loadData() {
-  const response = await fetch('/public/data/activities_2025.json');
+  const response = await fetch('/data/activities_2025.json');
   const data = await response.json();
   console.log("Données chargées :", data);
   return data;
