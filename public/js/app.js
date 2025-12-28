@@ -79,13 +79,13 @@ function updateChart() {
     document.getElementById('rankingTableContainer').style.display = 'none';
     document.getElementById('map-and-legend').style.display = 'flex';
     showAllAthletesChart(allData, sportValue);
-    showMapChart(filteredData);
+    showMapChart(filteredData, null); // Mode athlète (couleurs par athlète)
   } else {
     // Mode athlète individuel
     document.getElementById('rankingTableContainer').style.display = 'none';
     document.getElementById('map-and-legend').style.display = 'flex';
     showIndividualChart(allData, athleteValue, sportValue);
-    showMapChart(filteredData);
+    showMapChart(filteredData, athleteValue); // Mode sport (couleurs par sport)
   }
 }
 
@@ -94,12 +94,16 @@ function updateChart() {
 // ==============================
 function setupFullscreen() {
   const chartContainer = document.querySelector('.chart-container');
+  const fullscreenBtn = document.getElementById('fullscreenBtn');
   const closeBtn = document.getElementById('closeFullscreen');
 
-  if (!chartContainer || !closeBtn) return;
+  if (!chartContainer || !fullscreenBtn || !closeBtn) {
+    console.error("Éléments de plein écran manquants");
+    return;
+  }
 
-  // Double-clic pour activer le plein écran
-  chartContainer.addEventListener('dblclick', () => {
+  // Fonction pour entrer en plein écran
+  const enterFullscreen = () => {
     if (chartContainer.requestFullscreen) {
       chartContainer.requestFullscreen();
     } else if (chartContainer.webkitRequestFullscreen) {
@@ -107,11 +111,10 @@ function setupFullscreen() {
     } else if (chartContainer.mozRequestFullScreen) {
       chartContainer.mozRequestFullScreen();
     }
-    closeBtn.style.display = 'block';
-  });
+  };
 
-  // Clic sur la croix pour quitter
-  closeBtn.addEventListener('click', () => {
+  // Fonction pour quitter le plein écran
+  const exitFullscreen = () => {
     if (document.exitFullscreen) {
       document.exitFullscreen();
     } else if (document.webkitExitFullscreen) {
@@ -119,20 +122,48 @@ function setupFullscreen() {
     } else if (document.mozCancelFullScreen) {
       document.mozCancelFullScreen();
     }
+  };
+
+  // Clic sur le bouton plein écran
+  fullscreenBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    enterFullscreen();
   });
 
-  // Détection de la sortie du plein écran
+  // Double-clic sur le conteneur (desktop)
+  chartContainer.addEventListener('dblclick', (e) => {
+    if (e.target !== fullscreenBtn && e.target !== closeBtn) {
+      enterFullscreen();
+    }
+  });
+
+  // Clic sur la croix pour quitter
+  closeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    exitFullscreen();
+  });
+
+  // Détection de changement d'état du plein écran
   const fullscreenChangeHandler = () => {
-    if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement) {
-      closeBtn.style.display = 'none';
-    } else {
+    const isFullscreen = document.fullscreenElement ||
+                        document.webkitFullscreenElement ||
+                        document.mozFullScreenElement;
+
+    if (isFullscreen) {
       closeBtn.style.display = 'block';
+      fullscreenBtn.style.display = 'none';
+    } else {
+      closeBtn.style.display = 'none';
+      fullscreenBtn.style.display = 'flex';
     }
   };
 
   document.addEventListener('fullscreenchange', fullscreenChangeHandler);
   document.addEventListener('webkitfullscreenchange', fullscreenChangeHandler);
   document.addEventListener('mozfullscreenchange', fullscreenChangeHandler);
+
+  // Initialisation : masquer la croix
+  closeBtn.style.display = 'none';
 }
 
 // ==============================

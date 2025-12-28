@@ -568,36 +568,61 @@ export function initMap() {
   }).addTo(map);
 }
 
-function generateLegend(activities) {
+function generateLegend(activities, colorMode = 'athlete') {
   const legendContainer = document.getElementById('legendContainer');
   if (!legendContainer) {
     console.error("Le conteneur de légende n'existe pas dans le DOM.");
     return;
   }
 
-  const uniqueAthletes = [...new Set(activities.map(activity => activity.athlete_id))];
   legendContainer.innerHTML = '<h3 style="color: #fff; margin-top: 0;">Légende</h3>';
 
-  uniqueAthletes.forEach(athleteId => {
-    const color = getAthleteColor(athleteId);
-    const legendItem = document.createElement('div');
-    legendItem.className = 'legend-item';
+  if (colorMode === 'sport') {
+    // Mode sport : afficher les sports avec leurs couleurs
+    const sports = [...new Set(activities.map(activity => mapSportName(activity.sport)))];
 
-    const colorBox = document.createElement('div');
-    colorBox.className = 'legend-color';
-    colorBox.style.backgroundColor = color;
+    sports.forEach(sport => {
+      const color = getSportColor(sport);
+      const legendItem = document.createElement('div');
+      legendItem.className = 'legend-item';
 
-    const text = document.createElement('div');
-    text.className = 'legend-text';
-    text.textContent = `Athlète ${athleteId}`;
+      const colorBox = document.createElement('div');
+      colorBox.className = 'legend-color';
+      colorBox.style.backgroundColor = color;
 
-    legendItem.appendChild(colorBox);
-    legendItem.appendChild(text);
-    legendContainer.appendChild(legendItem);
-  });
+      const text = document.createElement('div');
+      text.className = 'legend-text';
+      text.textContent = sport;
+
+      legendItem.appendChild(colorBox);
+      legendItem.appendChild(text);
+      legendContainer.appendChild(legendItem);
+    });
+  } else {
+    // Mode athlète : afficher les athlètes avec leurs couleurs
+    const uniqueAthletes = [...new Set(activities.map(activity => activity.athlete_id))];
+
+    uniqueAthletes.forEach(athleteId => {
+      const color = getAthleteColor(athleteId);
+      const legendItem = document.createElement('div');
+      legendItem.className = 'legend-item';
+
+      const colorBox = document.createElement('div');
+      colorBox.className = 'legend-color';
+      colorBox.style.backgroundColor = color;
+
+      const text = document.createElement('div');
+      text.className = 'legend-text';
+      text.textContent = `Athlète ${athleteId}`;
+
+      legendItem.appendChild(colorBox);
+      legendItem.appendChild(text);
+      legendContainer.appendChild(legendItem);
+    });
+  }
 }
 
-export function showMapChart(filteredData) {
+export function showMapChart(filteredData, selectedAthleteId = null) {
   if (!filteredData || filteredData.length === 0) {
     console.warn("Aucune donnée à afficher pour la carte.");
     return;
@@ -620,7 +645,9 @@ export function showMapChart(filteredData) {
     return;
   }
 
-  generateLegend(activitiesWithPolylines);
+  // Déterminer le mode de coloration
+  const colorMode = selectedAthleteId ? 'sport' : 'athlete';
+  generateLegend(activitiesWithPolylines, colorMode);
 
   activitiesWithPolylines.forEach(activity => {
     try {
@@ -632,17 +659,26 @@ export function showMapChart(filteredData) {
       );
       if (validPoints.length === 0) return;
 
-      const color = getAthleteColor(activity.athlete_id);
+      // Choisir la couleur selon le mode
+      let color;
+      if (colorMode === 'sport') {
+        const mappedSport = mapSportName(activity.sport);
+        color = getSportColor(mappedSport);
+      } else {
+        color = getAthleteColor(activity.athlete_id);
+      }
+
       const polyline = L.polyline(validPoints, {
         color: color,
         weight: 4,
         opacity: 0.9
       }).addTo(map);
 
+      const mappedSport = mapSportName(activity.sport);
       polyline.bindPopup(`
         <b>${activity.name || 'Activité'}</b><br>
         Athlète: ${activity.athlete_id}<br>
-        Sport: ${activity.sport || 'Inconnu'}
+        Sport: ${mappedSport}
       `);
       polylines.push(polyline);
     } catch (e) {

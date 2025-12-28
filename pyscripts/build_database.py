@@ -6,7 +6,6 @@ rows = []
 
 DATA_DIR = Path("../rawdata/All_metadata")
 
-
 files = list(DATA_DIR.glob("*.json"))
 print("Nombre de fichiers trouvés :", len(files))
 
@@ -34,10 +33,16 @@ for file in files:
 print("Nombre de lignes construites :", len(rows))
 
 df = pd.DataFrame(rows)
+
+# ========== DÉDUPLICATION ==========
+# Supprimer les doublons basés sur activity_id (garde la première occurrence)
+df = df.drop_duplicates(subset=['activity_id'], keep='first')
+print(f"Nombre de lignes après déduplication : {len(df)}")
+
 df["date"] = pd.to_datetime(df["date"])
 df["year"] = df["date"].dt.year
 df["month"] = df["date"].dt.to_period("M")
-df_2025= df[df["date"].dt.year == 2025]
+df_2025 = df[df["date"].dt.year == 2025]
 
 # ========== CORRECTION : Nettoyage avant export ==========
 
@@ -46,8 +51,8 @@ output_dir = Path("../public/data")
 output_dir.mkdir(parents=True, exist_ok=True)
 
 # Créer une copie sans la colonne 'month' problématique
-df_export = df_2025[['athlete_id', 'activity_id','name', 'date', 'sport', 'tracemap',
-                'distance_m', 'moving_time_s', 'elevation_gain_m', 'calories', 'year']].copy()
+df_export = df_2025[['athlete_id', 'activity_id', 'name', 'date', 'sport', 'tracemap',
+                      'distance_m', 'moving_time_s', 'elevation_gain_m', 'calories', 'year']].copy()
 
 # Remplacer les valeurs NaN par 0 pour les champs numériques
 df_export['distance_m'] = df_export['distance_m'].fillna(0).astype(float)
@@ -67,3 +72,4 @@ df_export['year'] = df_export['year'].astype(int)
 output_path = Path("../public/data/activities_2025.json")
 df_export.to_json(output_path, orient="records", indent=2)
 print(f"Fichier JSON généré : {output_path.absolute()}")
+print(f"Nombre d'activités 2025 exportées : {len(df_export)}")

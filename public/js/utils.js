@@ -18,8 +18,8 @@ const athleteColors = [
 ];
 
 const sportColors = {
-  'Run': '#FF6B6B',
-  'Bike': '#FFD54F',
+  'Run': '#B7705C',
+  'Bike': '#F4C430',
   'Hike': '#52B788',
   'Ski mountaineering': '#45B7D1'
 };
@@ -100,10 +100,31 @@ export function formatElevation(value) {
 // CHARGEMENT DES DONNÉES
 // ==============================
 export async function loadData() {
-  const response = await fetch('/data/activities_2025.json');
-  const data = await response.json();
-  console.log("Données chargées :", data);
-  return data;
+  // Liste des chemins possibles (ordre de priorité)
+  const possiblePaths = [
+    '/data/activities_2025.json',        // Git (production)
+    '/public/data/activities_2025.json', // PyCharm (local)
+    'data/activities_2025.json',         // Chemin relatif
+    './data/activities_2025.json'        // Chemin relatif avec ./
+  ];
+
+  // Essayer chaque chemin jusqu'à ce qu'un fonctionne
+  for (const path of possiblePaths) {
+    try {
+      const response = await fetch(path);
+      if (response.ok) {
+        const data = await response.json();
+        console.log(`Données chargées depuis: ${path}`, data);
+        return data;
+      }
+    } catch (error) {
+      // Continuer avec le prochain chemin
+      continue;
+    }
+  }
+
+  // Si aucun chemin ne fonctionne
+  throw new Error('Impossible de charger le fichier JSON. Chemins testés: ' + possiblePaths.join(', '));
 }
 
 // ==============================
