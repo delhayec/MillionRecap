@@ -40,7 +40,7 @@ body {
 }
 
 .stats-row {
-  display: contents; /* Sur desktop, ignorer la row et tout mettre en ligne */
+  display: contents;
 }
 
 .stat-card {
@@ -54,7 +54,7 @@ body {
 }
 
 .stat-card-full {
-  flex: 1 1 120px; /* Sur desktop, même taille que les autres */
+  flex: 1 1 120px;
   min-width: 120px;
 }
 
@@ -86,6 +86,34 @@ body {
   height: 500px;
 }
 
+/* === HEATMAP CALENDAR === */
+.heatmap-container {
+  margin-bottom: 15px;
+  background-color: #181335;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#calendarHeatmap {
+  width: 100%;
+  height: 200px;
+}
+
+/* === RIDGELINE CHART === */
+.ridgeline-container {
+  margin-bottom: 15px;
+  background-color: #181335;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#ridgelineChart {
+  width: 100%;
+  height: 400px;
+}
+
 /* === CHART === */
 .chart-container {
   margin-bottom: 15px;
@@ -94,7 +122,7 @@ body {
   padding: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   position: relative;
-  max-height: 820px; /* 800px + 20px de padding */
+  max-height: 820px;
 }
 
 #elevationChart {
@@ -211,6 +239,20 @@ body {
 }
 
 /* === TABLE === */
+#rankingTableContainer {
+  margin: 15px 0;
+  background-color: #181335;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  overflow-x: auto;
+}
+
+#rankingTableContainer[style*="display: none"],
+#rankingTableContainer:not([style*="display: block"]) {
+  display: none !important;
+}
+
 .table-container {
   margin: 15px 0;
   background-color: #181335;
@@ -282,7 +324,6 @@ body {
     margin-bottom: 10px;
   }
 
-  /* Stats en 2 colonnes sur mobile */
   .stats-row {
     display: flex;
     gap: 10px;
@@ -312,6 +353,18 @@ body {
     height: 400px;
   }
 
+  .heatmap-container {
+    padding: 15px;
+  }
+
+  #calendarHeatmap {
+    height: 150px;
+  }
+
+  #ridgelineChart {
+    height: 350px;
+  }
+
   #elevationChart {
     height: 350px;
   }
@@ -332,7 +385,6 @@ body {
     border-radius: 0 0 8px 8px;
   }
 
-  /* Plein écran mobile avec rotation */
   .chart-container:fullscreen,
   .chart-container:-webkit-full-screen {
     transform: rotate(90deg);

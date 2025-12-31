@@ -60,11 +60,16 @@ export function mapSportName(sport) {
 // ==============================
 export function generateAllDays(year) {
   const allDays = [];
-  const startDate = new Date(year, 0, 1);
-  const endDate = new Date(year, 11, 31);
-  for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-    allDays.push(new Date(d).toISOString().split('T')[0]);
+
+  for (let month = 0; month < 12; month++) {
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    for (let day = 1; day <= daysInMonth; day++) {
+      const monthStr = String(month + 1).padStart(2, '0');
+      const dayStr = String(day).padStart(2, '0');
+      allDays.push(`${year}-${monthStr}-${dayStr}`);
+    }
   }
+
   return allDays;
 }
 

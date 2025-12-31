@@ -1,5 +1,16 @@
 import { loadData, updateStats } from './utils.js';
-import { showRankingChart, showIndividualChart, showMapChart, showRankingTable, showAllAthletesChart, showSankeyDiagram, initMap } from './charts.js';
+import {
+  showRankingChart,
+  showIndividualChart,
+  showMapChart,
+  showRankingTable,
+  showAllAthletesChart,
+  showSankeyDiagram,
+  showCalendarHeatmap,
+  initMap,
+  showRidgelineBySport,
+  showRidgelineByAthlete
+} from './charts.js';
 
 // ==============================
 // VARIABLES GLOBALES
@@ -43,12 +54,10 @@ function getFilteredData() {
 
   let filteredData = allData;
 
-  // Filtre par sport
   if (sportValue) {
     filteredData = filteredData.filter(item => item.sport === sportValue);
   }
 
-  // Filtre par athlète (sauf si "classement" est sélectionné)
   if (athleteValue && athleteValue !== "classement") {
     filteredData = filteredData.filter(item => item.athlete_id == athleteValue);
   }
@@ -60,35 +69,59 @@ function getFilteredData() {
 // MISE À JOUR DU GRAPHIQUE
 // ==============================
 function updateChart() {
-  const athleteValue = document.getElementById('athleteSelect').value;
-  const sportValue = document.getElementById('sportSelect').value;
-  const filteredData = getFilteredData();
+  try {
+    const athleteValue = document.getElementById('athleteSelect').value;
+    const sportValue = document.getElementById('sportSelect').value;
+    const filteredData = getFilteredData();
 
-  // Mise à jour des statistiques
-  updateStats(filteredData);
+    const rankingTableContainer = document.getElementById('rankingTableContainer');
+    const mapAndLegend = document.getElementById('map-and-legend');
+    const sankeyContainer = document.querySelector('.sankey-container');
+    const heatmapContainer = document.querySelector('.heatmap-container');
+    const ridgelineContainer = document.querySelector('.ridgeline-container');
 
-  // Mise à jour du diagramme de Sankey (toujours visible, basé sur les données filtrées)
-  showSankeyDiagram(filteredData);
+    updateStats(filteredData);
 
-  // Gestion de l'affichage selon la sélection
-  if (athleteValue === "classement") {
-    // Mode Classement
-    document.getElementById('rankingTableContainer').style.display = 'block';
-    document.getElementById('map-and-legend').style.display = 'none';
-    showRankingChart(allData, sportValue);
-    showRankingTable(allData);
-  } else if (athleteValue === "") {
-    // Mode "Tous les athlètes"
-    document.getElementById('rankingTableContainer').style.display = 'none';
-    document.getElementById('map-and-legend').style.display = 'flex';
-    showAllAthletesChart(allData, sportValue);
-    showMapChart(filteredData, null); // Mode athlète (couleurs par athlète)
-  } else {
-    // Mode athlète individuel
-    document.getElementById('rankingTableContainer').style.display = 'none';
-    document.getElementById('map-and-legend').style.display = 'flex';
-    showIndividualChart(allData, athleteValue, sportValue);
-    showMapChart(filteredData, athleteValue); // Mode sport (couleurs par sport)
+    if (athleteValue === "classement") {
+      rankingTableContainer.style.display = 'block';
+      mapAndLegend.style.display = 'none';
+      if (sankeyContainer) sankeyContainer.style.display = 'none';
+      if (heatmapContainer) heatmapContainer.style.display = 'block';
+      if (ridgelineContainer) ridgelineContainer.style.display = 'block';
+
+      showRankingChart(allData, sportValue);
+      showRankingTable(allData);
+      showCalendarHeatmap(allData, "classement", sportValue);
+      showRidgelineByAthlete(allData, sportValue);
+
+    } else if (athleteValue === "") {
+      rankingTableContainer.style.display = 'none';
+      mapAndLegend.style.display = 'flex';
+      if (sankeyContainer) sankeyContainer.style.display = 'block';
+      if (heatmapContainer) heatmapContainer.style.display = 'block';
+      if (ridgelineContainer) ridgelineContainer.style.display = 'block';
+
+      showAllAthletesChart(allData, sportValue);
+      showMapChart(filteredData, null);
+      showSankeyDiagram(filteredData);
+      showCalendarHeatmap(allData, null, sportValue);
+      showRidgelineBySport(allData, null, sportValue);
+
+    } else {
+      rankingTableContainer.style.display = 'none';
+      mapAndLegend.style.display = 'flex';
+      if (sankeyContainer) sankeyContainer.style.display = 'block';
+      if (heatmapContainer) heatmapContainer.style.display = 'block';
+      if (ridgelineContainer) ridgelineContainer.style.display = 'block';
+
+      showIndividualChart(allData, athleteValue, sportValue);
+      showMapChart(filteredData, athleteValue);
+      showSankeyDiagram(filteredData);
+      showCalendarHeatmap(allData, athleteValue, sportValue);
+      showRidgelineBySport(allData, athleteValue, sportValue);
+    }
+  } catch (error) {
+    console.error('Erreur dans updateChart():', error);
   }
 }
 
@@ -105,25 +138,18 @@ function setupFullscreen() {
     return;
   }
 
-  // Fonction pour entrer en plein écran
   const enterFullscreen = () => {
-    console.log('Tentative de plein écran...');
-    const elem = chartContainer;
-
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen().catch(err => console.error('Erreur fullscreen:', err));
-    } else if (elem.webkitRequestFullscreen) {
-      elem.webkitRequestFullscreen();
-    } else if (elem.mozRequestFullScreen) {
-      elem.mozRequestFullScreen();
-    } else if (elem.msRequestFullscreen) {
-      elem.msRequestFullscreen();
-    } else {
-      console.error('API Fullscreen non supportée');
+    if (chartContainer.requestFullscreen) {
+      chartContainer.requestFullscreen().catch(err => console.error('Erreur fullscreen:', err));
+    } else if (chartContainer.webkitRequestFullscreen) {
+      chartContainer.webkitRequestFullscreen();
+    } else if (chartContainer.mozRequestFullScreen) {
+      chartContainer.mozRequestFullScreen();
+    } else if (chartContainer.msRequestFullscreen) {
+      chartContainer.msRequestFullscreen();
     }
   };
 
-  // Fonction pour quitter le plein écran
   const exitFullscreen = () => {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -134,36 +160,29 @@ function setupFullscreen() {
     }
   };
 
-  // Clic sur le bouton plein écran
   fullscreenBtn.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log('Bouton plein écran cliqué');
     enterFullscreen();
   });
 
-  // Support du touch sur mobile
   fullscreenBtn.addEventListener('touchend', (e) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log('Bouton plein écran touché');
     enterFullscreen();
   });
 
-  // Double-clic sur le conteneur (desktop)
   chartContainer.addEventListener('dblclick', (e) => {
     if (e.target !== fullscreenBtn && e.target !== closeBtn) {
       enterFullscreen();
     }
   });
 
-  // Clic sur la croix pour quitter
   closeBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     exitFullscreen();
   });
 
-  // Détection de changement d'état du plein écran
   const fullscreenChangeHandler = () => {
     const isFullscreen = document.fullscreenElement ||
                         document.webkitFullscreenElement ||
@@ -182,7 +201,6 @@ function setupFullscreen() {
   document.addEventListener('webkitfullscreenchange', fullscreenChangeHandler);
   document.addEventListener('mozfullscreenchange', fullscreenChangeHandler);
 
-  // Initialisation : masquer la croix
   closeBtn.style.display = 'none';
 }
 
@@ -203,16 +221,13 @@ async function init() {
     initMap();
     setupFullscreen();
 
-    // Écouteurs d'événements
     document.getElementById('athleteSelect').addEventListener('change', updateChart);
     document.getElementById('sportSelect').addEventListener('change', updateChart);
 
-    // Affichage initial
     updateChart();
   } catch (error) {
     console.error("Erreur lors de l'initialisation:", error);
   }
 }
 
-// Lancement de l'application
 init();
