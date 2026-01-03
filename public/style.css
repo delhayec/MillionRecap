@@ -95,6 +95,14 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+.heatmap-title,
+.ridgeline-title {
+  color: #e6d7ff;
+  font-size: 16px;
+  margin: 0 0 15px 0;
+  text-align: center;
+}
+
 #calendarHeatmap {
   width: 100%;
   height: 200px;
@@ -148,28 +156,124 @@ body {
   text-align: center;
 }
 
+
 /* === MAP & LEGEND === */
 #map-and-legend {
   display: flex;
+  gap: 10px;
   width: 100%;
+  height: 600px;
   margin-bottom: 15px;
 }
 
-#map {
-  height: 500px;
-  width: 75%;
+/* Classement des pays - 12.5% à gauche */
+.country-stats-container {
+  width: 12.5%;
   background-color: #181335;
-  border-radius: 8px 0 0 8px;
-}
-
-.legend-container {
-  width: 25%;
-  height: 500px;
-  background-color: #2a2a3a;
-  border-radius: 0 8px 8px 0;
+  border-radius: 8px;
   padding: 15px;
   overflow-y: auto;
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.country-stats-container h3 {
+  color: #e6d7ff;
+  font-size: 16px;
+  margin: 0 0 15px 0;
+  text-align: center;
+  border-bottom: 2px solid rgba(230, 215, 255, 0.2);
+  padding-bottom: 10px;
+}
+
+/* Items du classement des pays */
+.country-item {
+  background: rgba(66, 57, 96, 0.5);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.country-item:hover {
+  background: rgba(111, 100, 142, 0.7);
+  border-left-color: #c4b5fd;
+  transform: translateX(5px);
+}
+
+.country-item.active {
+  background: rgba(196, 181, 253, 0.3);
+  border-left-color: #c4b5fd;
+}
+
+.country-name {
+  color: #e6d7ff;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.country-flag {
+  width: 24px;
+  height: auto;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.country-stats-line {
+  color: rgba(230, 215, 255, 0.8);
+  font-size: 12px;
+  margin: 4px 0;
+}
+
+.country-badge {
+  background: rgba(196, 181, 253, 0.3);
+  color: #c4b5fd;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.country-summary {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 2px solid rgba(230, 215, 255, 0.2);
+  color: #e6d7ff;
+  text-align: center;
+}
+
+/* Carte - 75% au centre */
+#map {
+  width: 75%;
+  height: 100%;
+  background-color: #181335;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Légende - 12.5% à droite */
+.legend-container {
+  width: 12.5%;
+  height: 100%;
+  background-color: #181335;
+  border-radius: 8px;
+  padding: 15px;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.legend-container h3 {
+  color: #e6d7ff;
+  font-size: 16px;
+  margin: 0 0 15px 0;
+  text-align: center;
+  border-bottom: 2px solid rgba(230, 215, 255, 0.2);
+  padding-bottom: 10px;
 }
 
 .legend-item {
@@ -183,7 +287,7 @@ body {
 }
 
 .legend-item:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(111, 100, 142, 0.5);
 }
 
 .legend-color {
@@ -195,8 +299,31 @@ body {
 }
 
 .legend-text {
-  color: #fff;
+  color: #e6d7ff;
   font-size: 14px;
+}
+
+/* Scrollbar personnalisée */
+.country-stats-container::-webkit-scrollbar,
+.legend-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.country-stats-container::-webkit-scrollbar-track,
+.legend-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.country-stats-container::-webkit-scrollbar-thumb,
+.legend-container::-webkit-scrollbar-thumb {
+  background: rgba(230, 215, 255, 0.3);
+  border-radius: 10px;
+}
+
+.country-stats-container::-webkit-scrollbar-thumb:hover,
+.legend-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(230, 215, 255, 0.5);
 }
 
 /* === LEAFLET DARK MODE === */
@@ -371,18 +498,24 @@ body {
 
   #map-and-legend {
     flex-direction: column;
+    height: auto;
+  }
+
+  .country-stats-container,
+  #map,
+  .legend-container {
+    width: 100%;
   }
 
   #map {
-    width: 100%;
-    height: 300px;
-    border-radius: 8px 8px 0 0;
+    height: 400px;
+    border-radius: 8px;
   }
 
+  .country-stats-container,
   .legend-container {
-    width: 100%;
-    max-height: 200px;
-    border-radius: 0 0 8px 8px;
+    max-height: 300px;
+    border-radius: 8px;
   }
 
   .chart-container:fullscreen,

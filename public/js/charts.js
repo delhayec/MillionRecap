@@ -128,9 +128,9 @@ export function showAllAthletesChart(data, selectedSport) {
     type: 'line',
     label: 'Objectif 1 Million',
     data: targetLine,
-    borderColor: '#FF6B6B',
-    borderWidth: 2,
-    borderDash: [5, 5],
+    borderColor: '#5b5477',
+    borderWidth: 3,
+    borderDash: [6, 6],
     fill: false,
     pointRadius: 0,
     yAxisID: 'y1'
@@ -628,10 +628,16 @@ function showCountryRanking(activities) {
     const rank = index + 1;
     const rankEmoji = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `${rank}.`;
 
+    // Obtenir le code pays ISO pour le drapeau
+    const countryCode = getCountryCode(country.name);
+    const flagUrl = countryCode ? `https://flagcdn.com/w40/${countryCode.toLowerCase()}.png` : '';
+
     html += `
       <div class="country-item" data-country="${country.name}">
         <div class="country-name">
-          ${rankEmoji} ${country.name}
+          ${rankEmoji}
+          ${flagUrl ? `<img src="${flagUrl}" alt="${country.name}" class="country-flag" onerror="this.style.display='none'">` : ''}
+          ${country.name}
         </div>
         <div class="country-stats-line">
           <span class="country-badge">${country.count}</span>
@@ -678,6 +684,136 @@ function showCountryRanking(activities) {
       showMapChart(filteredActivities, null);
     });
   });
+}
+
+// Fonction pour obtenir le code ISO du pays
+function getCountryCode(countryName) {
+  if (!countryName) return null;
+
+  // Normaliser le nom du pays (enlever les accents, mettre en minuscules)
+  const normalize = (str) => {
+    return str
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim();
+  };
+
+  const countryCodes = {
+    // Français
+    'france': 'FR',
+    'espagne': 'ES',
+    'italie': 'IT',
+    'suisse': 'CH',
+    'allemagne': 'DE',
+    'belgique': 'BE',
+    'pays-bas': 'NL',
+    'pays bas': 'NL',
+    'portugal': 'PT',
+    'royaume-uni': 'GB',
+    'royaume uni': 'GB',
+    'angleterre': 'GB',
+    'autriche': 'AT',
+    'norvege': 'NO',
+    'norvège': 'NO',
+    'suede': 'SE',
+    'suède': 'SE',
+    'finlande': 'FI',
+    'danemark': 'DK',
+    'pologne': 'PL',
+    'republique tcheque': 'CZ',
+    'république tchèque': 'CZ',
+    'tcheque': 'CZ',
+    'tchequie': 'CZ',
+    'slovaquie': 'SK',
+    'hongrie': 'HU',
+    'roumanie': 'RO',
+    'bulgarie': 'BG',
+    'grece': 'GR',
+    'grèce': 'GR',
+    'croatie': 'HR',
+    'slovenie': 'SI',
+    'slovénie': 'SI',
+    'irlande': 'IE',
+    'luxembourg': 'LU',
+    'islande': 'IS',
+    'andorre': 'AD',
+    'monaco': 'MC',
+    'liechtenstein': 'LI',
+    'malte': 'MT',
+    'chypre': 'CY',
+
+    // Anglais
+    'spain': 'ES',
+    'italy': 'IT',
+    'switzerland': 'CH',
+    'germany': 'DE',
+    'belgium': 'BE',
+    'netherlands': 'NL',
+    'united kingdom': 'GB',
+    'austria': 'AT',
+    'norway': 'NO',
+    'sweden': 'SE',
+    'finland': 'FI',
+    'denmark': 'DK',
+    'poland': 'PL',
+    'czech republic': 'CZ',
+    'czechia': 'CZ',
+    'slovakia': 'SK',
+    'hungary': 'HU',
+    'romania': 'RO',
+    'bulgaria': 'BG',
+    'greece': 'GR',
+    'croatia': 'HR',
+    'slovenia': 'SI',
+    'ireland': 'IE',
+    'iceland': 'IS',
+
+    // Autres continents
+    'etats-unis': 'US',
+    'états-unis': 'US',
+    'usa': 'US',
+    'united states': 'US',
+    'canada': 'CA',
+    'mexique': 'MX',
+    'mexico': 'MX',
+    'bresil': 'BR',
+    'brésil': 'BR',
+    'brazil': 'BR',
+    'argentine': 'AR',
+    'argentina': 'AR',
+    'chili': 'CL',
+    'chile': 'CL',
+    'japon': 'JP',
+    'japan': 'JP',
+    'chine': 'CN',
+    'china': 'CN',
+    'australie': 'AU',
+    'australia': 'AU',
+    'nouvelle-zelande': 'NZ',
+    'nouvelle-zélande': 'NZ',
+    'new zealand': 'NZ',
+    'maroc': 'MA',
+    'morocco': 'MA',
+    'tunisie': 'TN',
+    'tunisia': 'TN',
+    'algerie': 'DZ',
+    'algérie': 'DZ',
+    'algeria': 'DZ',
+    'afrique du sud': 'ZA',
+    'south africa': 'ZA',
+    'emirats arabes unis': 'AE',
+    'émirats arabes unis': 'AE',
+    'uae': 'AE',
+    'thailande': 'TH',
+    'thaïlande': 'TH',
+    'thailand': 'TH',
+    'inde': 'IN',
+    'india': 'IN'
+  };
+
+  const normalizedName = normalize(countryName);
+  return countryCodes[normalizedName] || null;
 }
 
 export function showMapChart(filteredData, selectedAthleteId = null) {
@@ -887,23 +1023,33 @@ export function showSankeyDiagram(data) {
   });
 
   const nodes = [];
+  const totalElevation = data.reduce((sum, act) => sum + (act.elevation_gain_m || 0), 0);
 
   Array.from(athletes).sort((a, b) => a - b).forEach(athleteId => {
+    const athleteElevation = athleteTotalElevation[athleteId];
+    const percentageOfTotal = ((athleteElevation / totalElevation) * 100).toFixed(1);
+
     nodes.push({
       name: `Athlète ${athleteId}`,
-      itemStyle: { color: getAthleteColor(athleteId) }
+      itemStyle: { color: getAthleteColor(athleteId) },
+      elevation: athleteElevation,
+      percentageOfTotal: percentageOfTotal
     });
   });
 
   Array.from(sports).sort().forEach(sport => {
+    const sportElevation = sportTotalElevation[sport];
+    const percentageOfTotal = ((sportElevation / totalElevation) * 100).toFixed(1);
+
     nodes.push({
       name: sport,
-      itemStyle: { color: getSportColor(sport) }
+      itemStyle: { color: getSportColor(sport) },
+      elevation: sportElevation,
+      percentageOfTotal: percentageOfTotal
     });
   });
 
   const links = [];
-  const totalElevation = data.reduce((sum, act) => sum + (act.elevation_gain_m || 0), 0);
 
   Object.keys(athleteSportElevation).forEach(key => {
     const [athleteId, sport] = key.split('_');
@@ -972,7 +1118,11 @@ export function showSankeyDiagram(data) {
             return `<b>${data.source} → ${data.target}</b><br/>Dénivelé: ${formatElevation(value)} m<br/>Contribution au sport: ${data.percentageOfSport}%`;
           }
         } else if (params.dataType === 'node') {
-          return `<b>${params.name}</b>`;
+          const nodeData = params.data;
+          const elevation = nodeData.elevation;
+          const percentage = nodeData.percentageOfTotal;
+
+          return `<b>${params.name}</b><br/>Dénivelé total: ${formatElevation(elevation)} m<br/>Part du total: ${percentage}%`;
         }
         return '';
       }
@@ -1040,19 +1190,37 @@ export function showCalendarHeatmap(data, athleteId = null, selectedSport = null
   const allDays = generateAllDays(year);
   const dailyData = {};
   const dailyActivityCount = {};
+  const dailyTopContributor = {}; // Pour stocker le top contributeur par jour
 
   allDays.forEach(day => {
     dailyData[day] = 0;
     dailyActivityCount[day] = 0;
   });
 
+  // Calculer les données journalières et les top contributeurs
   filteredData.forEach(activity => {
     const date = activity.date.split('T')[0];
     if (dailyData.hasOwnProperty(date)) {
       dailyData[date] += (activity.elevation_gain_m || 0);
       dailyActivityCount[date] += 1;
+
+      // Calculer le top contributeur du jour
+      if (!dailyTopContributor[date]) {
+        dailyTopContributor[date] = {};
+      }
+      const athleteId = activity.athlete_id;
+      if (!dailyTopContributor[date][athleteId]) {
+        dailyTopContributor[date][athleteId] = 0;
+      }
+      dailyTopContributor[date][athleteId] += (activity.elevation_gain_m || 0);
     }
   });
+
+  // Calculer les statistiques hebdomadaires et mensuelles
+  const TARGET_WEEKLY = 1000000 / 52; // Objectif hebdomadaire (~19,230m)
+  const TARGET_MONTHLY = 1000000 / 12; // Objectif mensuel (~83,333m)
+  const weeklyStats = calculateWeeklyStats(allDays, dailyData, filteredData, TARGET_WEEKLY);
+  const monthlyStats = calculateMonthlyStats(allDays, dailyData, filteredData, TARGET_MONTHLY);
 
   const elevationValues = Object.values(dailyData).filter(val => val > 0);
   const maxElevation = elevationValues.length > 0 ? Math.max(...elevationValues) : 1000;
@@ -1062,10 +1230,14 @@ export function showCalendarHeatmap(data, athleteId = null, selectedSport = null
   let titleText = 'Activité de l\'année';
   if (athleteId && athleteId !== "classement") {
     titleText = `Activité de l'année - Athlète ${athleteId}`;
+  } else if (athleteId === "classement") {
+    titleText = 'Activité de l\'année - Tous les athlètes';
   }
   if (selectedSport) {
     titleText += ` (${selectedSport})`;
   }
+
+  const isClassementMode = athleteId === "classement";
 
   const option = {
     backgroundColor: 'transparent',
@@ -1087,8 +1259,9 @@ export function showCalendarHeatmap(data, athleteId = null, selectedSport = null
       textStyle: { color: '#FFFFFF' },
       formatter: function(params) {
         const date = new Date(params.value[0]);
+        const dateString = params.value[0];
         const elevation = params.value[1];
-        const activityCount = dailyActivityCount[params.value[0]];
+        const activityCount = dailyActivityCount[dateString];
 
         const formattedDate = date.toLocaleDateString('fr-FR', {
           day: 'numeric',
@@ -1096,13 +1269,25 @@ export function showCalendarHeatmap(data, athleteId = null, selectedSport = null
           year: 'numeric'
         });
 
+        let tooltip = `<b>${formattedDate}</b><br/>`;
+
         if (activityCount === 0) {
-          return `<b>${formattedDate}</b><br/>Aucune activité`;
-        } else if (activityCount === 1) {
-          return `<b>${formattedDate}</b><br/>Dénivelé: ${formatElevation(elevation)} m<br/>1 activité`;
+          tooltip += 'Aucune activité';
         } else {
-          return `<b>${formattedDate}</b><br/>Dénivelé: ${formatElevation(elevation)} m<br/>${activityCount} activités`;
+          tooltip += `Dénivelé: ${formatElevation(elevation)} m<br/>`;
+          tooltip += `${activityCount} activité${activityCount > 1 ? 's' : ''}`;
+
+          // Afficher le top contributeur en mode classement
+          if (isClassementMode && dailyTopContributor[dateString]) {
+            const contributors = dailyTopContributor[dateString];
+            const topAthlete = Object.entries(contributors).reduce((a, b) =>
+              contributors[a[0]] > contributors[b[0]] ? a : b
+            );
+            tooltip += `<br/><span style="color: ${getAthleteColor(topAthlete[0])};">★ Athlète ${topAthlete[0]}: ${formatElevation(topAthlete[1])} m</span>`;
+          }
         }
+
+        return tooltip;
       }
     },
     visualMap: {
@@ -1113,14 +1298,14 @@ export function showCalendarHeatmap(data, athleteId = null, selectedSport = null
       left: 'center',
       top: 25,
       pieces: [
-        { min: 0, max: 0, label: 'Aucun', color: '#1a1a28' },
-        { min: 1, max: 500, label: 'Faible', color: '#4a3d6a' },
-        { min: 500, max: 1500, label: 'Moyen', color: '#7860a8' },
-        { min: 1500, max: 3000, label: 'Bon', color: '#9A5FE0' },
-        { min: 3000, label: 'Excellent', color: '#c084fc' }
+         { min: 0, max: 0, label: 'Aucun', color: '#5B2D44' },
+         { min: 1, max: 500, label: 'Faible', color: '#B7705C' },
+         { min: 500, max: 1500, label: 'Moyen', color: '#59565D' },
+         { min: 1500, max: 3000, label: 'Bon', color: '#2B434D' },
+         { min: 3000, label: 'Excellent', color: '#52B788' }
       ],
       textStyle: {
-        color: '#FFFFFF',
+        color: ' #FFFFF',
         fontSize: 11
       }
     },
@@ -1136,7 +1321,8 @@ export function showCalendarHeatmap(data, athleteId = null, selectedSport = null
       },
       yearLabel: { show: false },
       dayLabel: {
-        nameMap: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+        firstDay: 1, // Commence par lundi (0 = dimanche, 1 = lundi)
+        nameMap: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
         color: '#FFFFFF',
         fontSize: 11
       },
@@ -1163,6 +1349,10 @@ export function showCalendarHeatmap(data, athleteId = null, selectedSport = null
   window.heatmapChart.setOption(option);
 
   setTimeout(() => {
+    // Ajouter les lignes hebdomadaire et mensuelle après le rendu
+    addWeeklyPerformanceLine(weeklyStats, TARGET_WEEKLY, isClassementMode);
+    addMonthlyPerformanceLine(monthlyStats, TARGET_MONTHLY, isClassementMode);
+
     if (window.heatmapChart) {
       window.heatmapChart.resize();
     }
@@ -1173,6 +1363,404 @@ export function showCalendarHeatmap(data, athleteId = null, selectedSport = null
       window.heatmapChart.resize();
     }
   });
+}
+
+// Fonction pour calculer les stats hebdomadaires (semaine ISO : lundi-dimanche)
+function calculateWeeklyStats(allDays, dailyData, filteredData, targetWeekly) {
+  const weeklyStats = {};
+
+  allDays.forEach(day => {
+    const date = new Date(day);
+    const weekNumber = getISOWeekNumber(date);
+    const year = getISOWeekYear(date);
+    const weekKey = `${year}-W${weekNumber}`;
+
+    if (!weeklyStats[weekKey]) {
+      weeklyStats[weekKey] = {
+        weekNumber: weekNumber,
+        year: year,
+        total: 0,
+        days: [],
+        startDate: null,
+        endDate: null,
+        contributors: {}
+      };
+    }
+
+    weeklyStats[weekKey].total += dailyData[day];
+    weeklyStats[weekKey].days.push(day);
+
+    if (!weeklyStats[weekKey].startDate || day < weeklyStats[weekKey].startDate) {
+      weeklyStats[weekKey].startDate = day;
+    }
+    if (!weeklyStats[weekKey].endDate || day > weeklyStats[weekKey].endDate) {
+      weeklyStats[weekKey].endDate = day;
+    }
+  });
+
+  // Calculer les contributeurs par semaine
+  filteredData.forEach(activity => {
+    const date = new Date(activity.date);
+    const weekNumber = getISOWeekNumber(date);
+    const year = getISOWeekYear(date);
+    const weekKey = `${year}-W${weekNumber}`;
+
+    if (weeklyStats[weekKey]) {
+      const athleteId = activity.athlete_id;
+      if (!weeklyStats[weekKey].contributors[athleteId]) {
+        weeklyStats[weekKey].contributors[athleteId] = 0;
+      }
+      weeklyStats[weekKey].contributors[athleteId] += (activity.elevation_gain_m || 0);
+    }
+  });
+
+  return weeklyStats;
+}
+
+// Fonction pour calculer les stats mensuelles
+function calculateMonthlyStats(allDays, dailyData, filteredData, targetMonthly) {
+  const monthlyStats = {};
+
+  allDays.forEach(day => {
+    const date = new Date(day);
+    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+
+    if (!monthlyStats[monthKey]) {
+      monthlyStats[monthKey] = {
+        month: date.getMonth() + 1,
+        year: date.getFullYear(),
+        total: 0,
+        days: [],
+        contributors: {}
+      };
+    }
+
+    monthlyStats[monthKey].total += dailyData[day];
+    monthlyStats[monthKey].days.push(day);
+  });
+
+  // Calculer les contributeurs par mois
+  filteredData.forEach(activity => {
+    const date = new Date(activity.date);
+    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+
+    if (monthlyStats[monthKey]) {
+      const athleteId = activity.athlete_id;
+      if (!monthlyStats[monthKey].contributors[athleteId]) {
+        monthlyStats[monthKey].contributors[athleteId] = 0;
+      }
+      monthlyStats[monthKey].contributors[athleteId] += (activity.elevation_gain_m || 0);
+    }
+  });
+
+  return monthlyStats;
+}
+
+// Fonction pour obtenir le numéro de semaine ISO (lundi = début de semaine)
+function getISOWeekNumber(date) {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = d.getUTCDay() || 7; // Dimanche = 7
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+}
+
+// Fonction pour obtenir l'année ISO de la semaine
+function getISOWeekYear(date) {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  return d.getUTCFullYear();
+}
+
+// Fonction pour obtenir les stats d'une semaine à partir d'une date
+function getWeekStats(dateString, weeklyStats) {
+  const date = new Date(dateString);
+  const weekNumber = getISOWeekNumber(date);
+  const year = getISOWeekYear(date);
+  const weekKey = `${year}-W${weekNumber}`;
+  return weeklyStats[weekKey] || null;
+}
+
+// Fonction pour obtenir la couleur en fonction du pourcentage d'objectif atteint
+function getWeekColor(total, target) {
+  const percentage = total / target;
+
+  if (percentage < 0.2) return '#5B2D44';      // Bordeaux - Aucun/Très faible
+  if (percentage < 0.4) return '#B7705C';      // Terracotta - Faible
+  if (percentage < 0.6) return '#59565D';      // Gris neutre - Moyen
+  if (percentage < 0.8) return '#2B434D';      // Bleu-gris - Bon
+  if (percentage < 1.0) return '#52B788';      // Vert - Excellent
+  return '#3E9469';                             // Vert plus foncé (100%+)                             // Vert foncé (100%+)
+}
+
+
+
+// Fonction pour créer un tooltip enrichi
+function createTooltip(content) {
+  // Supprimer l'ancien tooltip s'il existe
+  let existingTooltip = document.getElementById('customTooltip');
+  if (existingTooltip) {
+    existingTooltip.remove();
+  }
+
+  const tooltip = document.createElement('div');
+  tooltip.id = 'customTooltip';
+  tooltip.style.cssText = `
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: 'Times New Roman', serif;
+    z-index: 10000;
+    pointer-events: none;
+    white-space: nowrap;
+    display: none;
+  `;
+  tooltip.innerHTML = content;
+  document.body.appendChild(tooltip);
+  return tooltip;
+}
+
+// Fonction pour positionner le tooltip
+function positionTooltip(tooltip, event) {
+  const x = event.clientX + 10;
+  const y = event.clientY + 10;
+  tooltip.style.left = x + 'px';
+  tooltip.style.top = y + 'px';
+  tooltip.style.display = 'block';
+}
+
+// Fonction pour ajouter la ligne de performance hebdomadaire
+function addWeeklyPerformanceLine(weeklyStats, targetWeekly, isClassementMode) {
+  const chartDom = document.getElementById('calendarHeatmap');
+  if (!chartDom) return;
+
+  // Supprimer l'ancienne ligne si elle existe
+  let weeklyLine = document.getElementById('weeklyPerformanceLine');
+  if (weeklyLine) {
+    weeklyLine.remove();
+  }
+
+  // Créer le conteneur pour la ligne hebdomadaire
+  weeklyLine = document.createElement('div');
+  weeklyLine.id = 'weeklyPerformanceLine';
+  weeklyLine.style.cssText = `
+    display: flex;
+    gap: 2px;
+    margin-top: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
+    padding: 10px 0;
+  `;
+
+  // Trier les semaines par ordre chronologique
+  const sortedWeeks = Object.values(weeklyStats).sort((a, b) => {
+    if (a.year !== b.year) return a.year - b.year;
+    return a.weekNumber - b.weekNumber;
+  });
+
+  // Créer un carré pour chaque semaine
+  sortedWeeks.forEach(week => {
+    const weekBox = document.createElement('div');
+    const color = getWeekColor(week.total, targetWeekly);
+
+    weekBox.style.cssText = `
+      flex: 1;
+      height: 20px;
+      background-color: ${color};
+      border: 2px solid #0a0817;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    `;
+
+    // Créer le contenu du tooltip
+    const difference = week.total - targetWeekly;
+    const status = difference >= 0 ? 'Excédent' : 'Déficit';
+    const statusColor = difference >= 0 ? '#4ade80' : '#f87171';
+
+    let tooltipContent = `<b>Semaine ${week.weekNumber}</b><br/>`;
+    tooltipContent += `D+: ${formatElevation(week.total)} m<br/>`;
+    tooltipContent += `Objectif: ${formatElevation(targetWeekly)} m<br/>`;
+    tooltipContent += `<span style="color: ${statusColor};">${status}: ${formatElevation(Math.abs(difference))} m</span>`;
+
+    // Ajouter le top contributeur en mode classement
+    if (isClassementMode && Object.keys(week.contributors).length > 0) {
+      const topContributor = Object.entries(week.contributors).reduce((a, b) =>
+        a[1] > b[1] ? a : b
+      );
+      tooltipContent += `<br/><span style="color: ${getAthleteColor(topContributor[0])};">★ Athlète ${topContributor[0]}: ${formatElevation(topContributor[1])} m</span>`;
+    }
+
+    // Gestion du tooltip
+    weekBox.addEventListener('mouseenter', function(e) {
+      this.style.transform = 'scale(1.1)';
+      this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.5)';
+      this.style.zIndex = '10';
+
+      const tooltip = createTooltip(tooltipContent);
+      positionTooltip(tooltip, e);
+    });
+
+    weekBox.addEventListener('mousemove', function(e) {
+      const tooltip = document.getElementById('customTooltip');
+      if (tooltip) {
+        positionTooltip(tooltip, e);
+      }
+    });
+
+    weekBox.addEventListener('mouseleave', function() {
+      this.style.transform = 'scale(1)';
+      this.style.boxShadow = 'none';
+      this.style.zIndex = '1';
+
+      const tooltip = document.getElementById('customTooltip');
+      if (tooltip) {
+        tooltip.remove();
+      }
+    });
+
+    weeklyLine.appendChild(weekBox);
+  });
+
+  // Ajouter un label pour la ligne
+  const label = document.createElement('div');
+  label.style.cssText = `
+    color: #FFFFFF;
+    font-size: 11px;
+    margin-left: 30px;
+    margin-top: 5px;
+    font-family: 'Times New Roman', serif;
+  `;
+  label.textContent = 'Performance hebdomadaire';
+
+  // Insérer la ligne après le graphique
+  chartDom.parentNode.insertBefore(label, chartDom.nextSibling);
+  label.parentNode.insertBefore(weeklyLine, label.nextSibling);
+}
+
+// Fonction pour ajouter la ligne de performance mensuelle
+function addMonthlyPerformanceLine(monthlyStats, targetMonthly, isClassementMode) {
+  const chartDom = document.getElementById('calendarHeatmap');
+  if (!chartDom) return;
+
+  // Supprimer l'ancienne ligne si elle existe
+  let monthlyLine = document.getElementById('monthlyPerformanceLine');
+  if (monthlyLine) {
+    monthlyLine.remove();
+  }
+
+  // Créer le conteneur pour la ligne mensuelle
+  monthlyLine = document.createElement('div');
+  monthlyLine.id = 'monthlyPerformanceLine';
+  monthlyLine.style.cssText = `
+    display: flex;
+    gap: 2px;
+    margin-top: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
+    padding: 10px 0;
+  `;
+
+  // Trier les mois par ordre chronologique
+  const sortedMonths = Object.values(monthlyStats).sort((a, b) => {
+    if (a.year !== b.year) return a.year - b.year;
+    return a.month - b.month;
+  });
+
+  const monthNames = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
+
+  // Créer un carré pour chaque mois
+  sortedMonths.forEach(month => {
+    const monthBox = document.createElement('div');
+    const color = getWeekColor(month.total, targetMonthly);
+
+    monthBox.style.cssText = `
+      flex: 1;
+      height: 25px;
+      background-color: ${color};
+      border: 2px solid #0a0817;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: bold;
+      color: rgba(255, 255, 255, 0.7);
+    `;
+
+    monthBox.textContent = monthNames[month.month - 1];
+
+    // Créer le contenu du tooltip
+    const difference = month.total - targetMonthly;
+    const status = difference >= 0 ? 'Excédent' : 'Déficit';
+    const statusColor = difference >= 0 ? '#4ade80' : '#f87171';
+
+    let tooltipContent = `<b>${monthNames[month.month - 1]} ${month.year}</b><br/>`;
+    tooltipContent += `D+: ${formatElevation(month.total)} m<br/>`;
+    tooltipContent += `Objectif: ${formatElevation(targetMonthly)} m<br/>`;
+    tooltipContent += `<span style="color: ${statusColor};">${status}: ${formatElevation(Math.abs(difference))} m</span>`;
+
+    // Ajouter le top contributeur en mode classement
+    if (isClassementMode && Object.keys(month.contributors).length > 0) {
+      const topContributor = Object.entries(month.contributors).reduce((a, b) =>
+        a[1] > b[1] ? a : b
+      );
+      tooltipContent += `<br/><span style="color: ${getAthleteColor(topContributor[0])};">★ Athlète ${topContributor[0]}: ${formatElevation(topContributor[1])} m</span>`;
+    }
+
+    // Gestion du tooltip
+    monthBox.addEventListener('mouseenter', function(e) {
+      this.style.transform = 'scale(1.05)';
+      this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.5)';
+      this.style.zIndex = '10';
+
+      const tooltip = createTooltip(tooltipContent);
+      positionTooltip(tooltip, e);
+    });
+
+    monthBox.addEventListener('mousemove', function(e) {
+      const tooltip = document.getElementById('customTooltip');
+      if (tooltip) {
+        positionTooltip(tooltip, e);
+      }
+    });
+
+    monthBox.addEventListener('mouseleave', function() {
+      this.style.transform = 'scale(1)';
+      this.style.boxShadow = 'none';
+      this.style.zIndex = '1';
+
+      const tooltip = document.getElementById('customTooltip');
+      if (tooltip) {
+        tooltip.remove();
+      }
+    });
+
+    monthlyLine.appendChild(monthBox);
+  });
+
+  // Ajouter un label pour la ligne
+  const label = document.createElement('div');
+  label.style.cssText = `
+    color: #FFFFFF;
+    font-size: 11px;
+    margin-left: 30px;
+    margin-top: 5px;
+    font-family: 'Times New Roman', serif;
+  `;
+  label.textContent = 'Performance mensuelle';
+
+  // Insérer la ligne après la ligne hebdomadaire
+  const weeklyLine = document.getElementById('weeklyPerformanceLine');
+  if (weeklyLine && weeklyLine.nextSibling) {
+    weeklyLine.nextSibling.parentNode.insertBefore(label, weeklyLine.nextSibling.nextSibling);
+    label.parentNode.insertBefore(monthlyLine, label.nextSibling);
+  }
 }
 
 // ==============================
