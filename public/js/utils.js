@@ -1,27 +1,27 @@
 // ==============================
-// PALETTE DE COULEURS
+// PALETTE DE COULEURS — REFONTE 2025
 // ==============================
 const athleteColors = [
-  '#FF6B6B', // Rouge corail
-  '#4ECDC4', // Turquoise
-  '#45B7D1', // Bleu ciel
-  '#FFA07A', // Saumon
-  '#98D8C8', // Menthe
-  '#F7DC6F', // Jaune doré
-  '#BB8FCE', // Violet pastel
-  '#85C1E2', // Bleu clair
-  '#F8B88B', // Pêche
-  '#52B788', // Vert émeraude
-  '#F06292', // Rose
-  '#AED581', // Vert lime
-  '#FFD54F'  // Jaune ambre
+  '#f97316', // Orange vif (accent principal)
+  '#22d3ee', // Cyan électrique
+  '#a855f7', // Violet
+  '#10b981', // Émeraude
+  '#f43f5e', // Rose rouge
+  '#eab308', // Jaune doré
+  '#3b82f6', // Bleu vif
+  '#ec4899', // Magenta
+  '#14b8a6', // Teal
+  '#f59e0b', // Ambre
+  '#8b5cf6', // Indigo
+  '#06b6d4', // Cyan clair
+  '#84cc16'  // Lime
 ];
 
 const sportColors = {
-  'Run': '#B7705C',
-  'Bike': '#F4C430',
-  'Hike': '#52B788',
-  'Ski mountaineering': '#45B7D1'
+  'Run': '#f97316',           // Orange
+  'Bike': '#eab308',          // Jaune doré
+  'Hike': '#10b981',          // Émeraude
+  'Ski mountaineering': '#22d3ee' // Cyan
 };
 
 // Mapping des sports bruts vers les catégories simplifiées
@@ -48,7 +48,7 @@ export function getAthleteColor(athleteId) {
 
 export function getSportColor(sport) {
   const mappedSport = sportMapping[sport] || sport;
-  return sportColors[mappedSport] || '#888888'; // Gris par défaut
+  return sportColors[mappedSport] || '#888888';
 }
 
 export function mapSportName(sport) {
@@ -105,15 +105,13 @@ export function formatElevation(value) {
 // CHARGEMENT DES DONNÉES
 // ==============================
 export async function loadData() {
-  // Liste des chemins possibles (ordre de priorité)
   const possiblePaths = [
-    '/data/activities_2025.json',        // Git (production)
-    '/public/data/activities_2025.json', // PyCharm (local)
-    'data/activities_2025.json',         // Chemin relatif
-    './data/activities_2025.json'        // Chemin relatif avec ./
+    '/data/activities_2025.json',
+    '/public/data/activities_2025.json',
+    'data/activities_2025.json',
+    './data/activities_2025.json'
   ];
 
-  // Essayer chaque chemin jusqu'à ce qu'un fonctionne
   for (const path of possiblePaths) {
     try {
       const response = await fetch(path);
@@ -123,12 +121,10 @@ export async function loadData() {
         return data;
       }
     } catch (error) {
-      // Continuer avec le prochain chemin
       continue;
     }
   }
 
-  // Si aucun chemin ne fonctionne
   throw new Error('Impossible de charger le fichier JSON. Chemins testés: ' + possiblePaths.join(', '));
 }
 
@@ -178,34 +174,153 @@ export function decodePolyline(encoded) {
 // ==============================
 // STATISTIQUES
 // ==============================
+let statsAnimated = false;
+
 export function updateStats(filteredData) {
+  const TARGET = 1000000;
+  
   if (!filteredData || filteredData.length === 0) {
-    document.getElementById('totalElevation').textContent = '0 m';
+    document.getElementById('totalElevation').textContent = '0';
     document.getElementById('totalActivities').textContent = '0';
-    document.getElementById('totalDistance').textContent = '0 km';
-    document.getElementById('totalTime').textContent = '0 h';
+    document.getElementById('totalDistance').textContent = '0';
+    document.getElementById('totalTime').textContent = '0';
     document.getElementById('bestDay').textContent = '-';
     document.getElementById('bestWeek').textContent = '-';
+    updateProgressBar(0, TARGET);
     return;
   }
 
   const totalElevation = filteredData.reduce((sum, activity) => sum + (activity.elevation_gain_m || 0), 0);
   const totalActivities = filteredData.length;
-  const totalDistance = (filteredData.reduce((sum, activity) => sum + (activity.distance_m || 0), 0) / 1000).toFixed(2);
+  const totalDistance = Math.round(filteredData.reduce((sum, activity) => sum + (activity.distance_m || 0), 0) / 1000);
   const totalTime = Math.round(filteredData.reduce((sum, activity) => sum + (activity.moving_time_s || 0), 0) / 3600);
 
-  document.getElementById('totalElevation').textContent = `${totalElevation} m`;
-  document.getElementById('totalActivities').textContent = totalActivities;
-  document.getElementById('totalDistance').textContent = `${totalDistance} km`;
-  document.getElementById('totalTime').textContent = `${totalTime} h`;
+  // Stocker les valeurs pour l'animation
+  window.statsValues = { totalElevation, totalActivities, totalDistance, totalTime, TARGET };
 
   const bestDay = findBestDay(filteredData);
   document.getElementById('bestDay').textContent = bestDay ?
-    `${bestDay.date} (${bestDay.elevation} m)` : '-';
+    `${bestDay.date} (${bestDay.elevation.toLocaleString('fr-FR')} m)` : '-';
 
   const bestWeek = findBestWeek(filteredData);
   document.getElementById('bestWeek').textContent = bestWeek ?
-    `${bestWeek.period} (${bestWeek.elevation} m)` : '-';
+    `${bestWeek.period} (${bestWeek.elevation.toLocaleString('fr-FR')} m)` : '-';
+
+  // Observer pour déclencher l'animation quand visible
+  const statsSection = document.getElementById('statsSection');
+  if (statsSection && !statsAnimated) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !statsAnimated) {
+          statsAnimated = true;
+          triggerStatsAnimation();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    
+    observer.observe(statsSection);
+  } else if (statsAnimated) {
+    // Si déjà animé une fois, mettre à jour directement
+    document.getElementById('totalElevation').textContent = totalElevation.toLocaleString('fr-FR');
+    document.getElementById('totalActivities').textContent = totalActivities.toLocaleString('fr-FR');
+    document.getElementById('totalDistance').textContent = totalDistance.toLocaleString('fr-FR');
+    document.getElementById('totalTime').textContent = totalTime.toLocaleString('fr-FR');
+    updateProgressBar(totalElevation, TARGET);
+  }
+}
+
+function triggerStatsAnimation() {
+  const { totalElevation, totalActivities, totalDistance, totalTime, TARGET } = window.statsValues;
+  
+  animateValue('totalElevation', totalElevation);
+  animateValue('totalActivities', totalActivities);
+  animateValue('totalDistance', totalDistance);
+  animateValue('totalTime', totalTime);
+  updateProgressBar(totalElevation, TARGET);
+}
+
+function animateValue(elementId, endValue) {
+  const element = document.getElementById(elementId);
+  if (!element) return;
+  
+  const duration = 2000;
+  const startTime = performance.now();
+  const startValue = 0;
+  
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    
+    // Easing function (ease-out-expo)
+    const easeOutExpo = 1 - Math.pow(2, -10 * progress);
+    const current = Math.floor(startValue + (endValue - startValue) * easeOutExpo);
+    
+    element.textContent = current.toLocaleString('fr-FR');
+    
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
+  }
+  
+  requestAnimationFrame(update);
+}
+
+function updateProgressBar(current, target) {
+  const progressBar = document.getElementById('progressBar');
+  if (!progressBar) return;
+  
+  const percentage = Math.min((current / target) * 100, 100);
+  
+  // Reset pour animation
+  progressBar.style.transition = 'none';
+  progressBar.style.width = '0%';
+  
+  // Déclencher l'animation après un court délai
+  setTimeout(() => {
+    progressBar.style.transition = 'width 2.5s cubic-bezier(0.16, 1, 0.3, 1)';
+    progressBar.style.width = percentage + '%';
+    
+    // Célébration si objectif atteint !
+    if (current >= target) {
+      setTimeout(() => {
+        progressBar.classList.add('goal-reached');
+        createConfetti();
+      }, 2500);
+    }
+  }, 100);
+}
+
+function createConfetti() {
+  const container = document.getElementById('statsSection');
+  if (!container) return;
+  
+  const colors = ['#f97316', '#22d3ee', '#a855f7', '#10b981', '#eab308'];
+  
+  for (let i = 0; i < 50; i++) {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti';
+    confetti.style.cssText = `
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      left: ${Math.random() * 100}%;
+      top: 0;
+      opacity: 1;
+      border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+      animation: confetti-fall ${2 + Math.random() * 2}s ease-out forwards;
+      animation-delay: ${Math.random() * 0.5}s;
+    `;
+    container.appendChild(confetti);
+    
+    setTimeout(() => confetti.remove(), 4000);
+  }
+}
+
+// Reset l'état d'animation quand on change de filtre
+export function resetStatsAnimation() {
+  statsAnimated = false;
 }
 
 function findBestDay(data) {

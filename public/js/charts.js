@@ -1,8 +1,18 @@
 import { getAthleteColor, getSportColor, mapSportName, generateAllDays, getOrdinalSuffix, decodePolyline, formatElevation } from './utils.js';
 
 // ==============================
-// CONFIGURATION CHART.JS
+// CONFIGURATION CHART.JS — REFONTE 2025
 // ==============================
+const chartColors = {
+  background: '#1a1a24',
+  text: '#ffffff',
+  textSecondary: 'rgba(255, 255, 255, 0.6)',
+  textMuted: 'rgba(255, 255, 255, 0.3)',
+  grid: 'rgba(255, 255, 255, 0.06)',
+  accent: '#f97316',
+  accentSecondary: '#22d3ee'
+};
+
 const baseChartOptions = {
   responsive: true,
   maintainAspectRatio: false,
@@ -13,15 +23,21 @@ const baseChartOptions = {
   plugins: {
     title: {
       display: true,
-      color: '#FFFFFF',
-      font: { size: 16, weight: 'bold', family: "'Times New Roman', serif" }
+      color: chartColors.text,
+      font: { 
+        size: 16, 
+        weight: '600', 
+        family: "'Syne', sans-serif" 
+      },
+      padding: { bottom: 24 }
     },
     legend: {
       labels: {
-        color: '#FFFFFF',
-        font: { size: 12 },
+        color: chartColors.textSecondary,
+        font: { size: 12, family: "'Inter', sans-serif" },
         usePointStyle: true,
-        pointStyle: 'circle'
+        pointStyle: 'circle',
+        padding: 16
       }
     },
     tooltip: {
@@ -30,8 +46,11 @@ const baseChartOptions = {
   },
   scales: {
     x: {
-      grid: { color: 'rgba(255, 255, 255, 0.08)' },
-      ticks: { color: '#FFFFFF', font: { size: 10 } }
+      grid: { color: chartColors.grid },
+      ticks: { 
+        color: chartColors.textSecondary, 
+        font: { size: 10, family: "'Space Mono', monospace" } 
+      }
     }
   }
 };
@@ -51,7 +70,7 @@ const crosshairPlugin = {
       ctx.moveTo(x, topY);
       ctx.lineTo(x, bottomY);
       ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+      ctx.strokeStyle = 'rgba(249, 115, 22, 0.5)';
       ctx.stroke();
       ctx.restore();
     }
@@ -107,6 +126,7 @@ export function showAllAthletesChart(data, selectedSport) {
     label: `Athlète ${athlete}`,
     data: athleteDailyData[athlete],
     backgroundColor: getAthleteColor(athlete),
+    borderRadius: 2,
     stack: 'stack0',
     yAxisID: 'y'
   }));
@@ -115,12 +135,12 @@ export function showAllAthletesChart(data, selectedSport) {
     type: 'line',
     label: 'Dénivelé cumulé total',
     data: cumulativeElevation,
-    borderColor: '#FFFFFF',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderColor: chartColors.text,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     borderWidth: 3,
-    fill: false,
+    fill: true,
     pointRadius: 0,
-    tension: 0.3,
+    tension: 0.4,
     yAxisID: 'y1'
   };
 
@@ -128,9 +148,9 @@ export function showAllAthletesChart(data, selectedSport) {
     type: 'line',
     label: 'Objectif 1 Million',
     data: targetLine,
-    borderColor: '#5b5477',
-    borderWidth: 3,
-    borderDash: [6, 6],
+    borderColor: chartColors.textMuted,
+    borderWidth: 2,
+    borderDash: [8, 4],
     fill: false,
     pointRadius: 0,
     yAxisID: 'y1'
@@ -151,15 +171,20 @@ export function showAllAthletesChart(data, selectedSport) {
         ...baseChartOptions.plugins,
         title: {
           ...baseChartOptions.plugins.title,
-          text: `Dénivelé ${year} - Tous les athlètes (Sport: ${selectedSport || 'Tous'})`
+          text: `Progression ${year} — ${selectedSport || 'Tous sports'}`
         },
         tooltip: {
           enabled: true,
-          backgroundColor: 'rgba(0, 0, 0, 0.9)',
-          titleColor: '#FFFFFF',
-          bodyColor: '#FFFFFF',
-          padding: 12,
+          backgroundColor: 'rgba(10, 10, 15, 0.95)',
+          titleColor: chartColors.text,
+          bodyColor: chartColors.textSecondary,
+          borderColor: chartColors.grid,
+          borderWidth: 1,
+          padding: 16,
+          cornerRadius: 12,
           displayColors: true,
+          titleFont: { family: "'Syne', sans-serif", weight: '600', size: 14 },
+          bodyFont: { family: "'Inter', sans-serif", size: 12 },
           callbacks: {
             title: function(tooltipItems) {
               const date = tooltipItems[0].label;
@@ -171,8 +196,8 @@ export function showAllAthletesChart(data, selectedSport) {
               const cumul = cumulativeElevation[index];
               const objectif = targetLine[index];
               const difference = cumul - objectif;
-              const status = difference >= 0 ? 'Avance' : 'Retard';
-              return `\nDénivelé cumulé: ${formatElevation(cumul)} m\n${status}: ${formatElevation(Math.abs(difference))} m`;
+              const status = difference >= 0 ? '↑ Avance' : '↓ Retard';
+              return `\nCumulé: ${formatElevation(cumul)} m\n${status}: ${formatElevation(Math.abs(difference))} m`;
             },
             label: function(context) {
               if (context.dataset.type === 'bar') {
@@ -190,7 +215,15 @@ export function showAllAthletesChart(data, selectedSport) {
         }
       },
       scales: {
-        x: baseChartOptions.scales.x,
+        x: {
+          ...baseChartOptions.scales.x,
+          ticks: {
+            ...baseChartOptions.scales.x.ticks,
+            maxRotation: 0,
+            autoSkip: true,
+            maxTicksLimit: 12
+          }
+        },
         y: {
           type: 'linear',
           position: 'right',
@@ -198,10 +231,14 @@ export function showAllAthletesChart(data, selectedSport) {
           title: {
             display: true,
             text: 'Dénivelé journalier (m)',
-            color: '#FFFFFF'
+            color: chartColors.textSecondary,
+            font: { family: "'Space Mono', monospace", size: 11 }
           },
-          grid: { color: 'rgba(255, 255, 255, 0.08)' },
-          ticks: { color: '#FFFFFF' }
+          grid: { color: chartColors.grid },
+          ticks: { 
+            color: chartColors.textSecondary,
+            font: { family: "'Space Mono', monospace", size: 10 }
+          }
         },
         y1: {
           type: 'linear',
@@ -209,13 +246,17 @@ export function showAllAthletesChart(data, selectedSport) {
           title: {
             display: true,
             text: 'Dénivelé cumulé (m)',
-            color: '#FFFFFF'
+            color: chartColors.textSecondary,
+            font: { family: "'Space Mono', monospace", size: 11 }
           },
           grid: {
-            color: 'rgba(255, 255, 255, 0.08)',
+            color: chartColors.grid,
             drawOnChartArea: false
           },
-          ticks: { color: '#FFFFFF' }
+          ticks: { 
+            color: chartColors.textSecondary,
+            font: { family: "'Space Mono', monospace", size: 10 }
+          }
         }
       }
     },
@@ -269,7 +310,7 @@ export function showIndividualChart(data, athleteId, selectedSport) {
     return cumulative;
   });
 
-  const totalElevation = cumulativeElevation[cumulativeElevation.length - 1];
+  const totalElevation = cumulativeElevation[cumulativeElevation.length - 1] || 0;
   const targetLine = allDays.map((day, index) => {
     return (totalElevation / 365) * (index + 1);
   });
@@ -287,27 +328,28 @@ export function showIndividualChart(data, athleteId, selectedSport) {
           label: 'Dénivelé journalier',
           data: dailyElevation,
           backgroundColor: dailySportColors,
+          borderRadius: 2,
           yAxisID: 'y'
         },
         {
           type: 'line',
           label: 'Dénivelé cumulé',
           data: cumulativeElevation,
-          borderColor: '#FFFFFF',
-          backgroundColor: 'rgba(255, 255, 255, 0.1)',
+          borderColor: chartColors.text,
+          backgroundColor: 'rgba(255, 255, 255, 0.05)',
           borderWidth: 3,
-          fill: false,
+          fill: true,
           pointRadius: 0,
-          tension: 0.3,
+          tension: 0.4,
           yAxisID: 'y1'
         },
         {
           type: 'line',
           label: `Objectif ${formatElevation(totalElevation)} m`,
           data: targetLine,
-          borderColor: '#FF6B6B',
+          borderColor: chartColors.accent,
           borderWidth: 2,
-          borderDash: [5, 5],
+          borderDash: [8, 4],
           fill: false,
           pointRadius: 0,
           yAxisID: 'y1'
@@ -320,14 +362,17 @@ export function showIndividualChart(data, athleteId, selectedSport) {
         ...baseChartOptions.plugins,
         title: {
           ...baseChartOptions.plugins.title,
-          text: `Dénivelé ${year} - Athlète ${athleteId} (Sport: ${selectedSport || 'Tous'})`
+          text: `Athlète ${athleteId} — ${selectedSport || 'Tous sports'}`
         },
         tooltip: {
           enabled: true,
-          backgroundColor: 'rgba(0, 0, 0, 0.9)',
-          titleColor: '#FFFFFF',
-          bodyColor: '#FFFFFF',
-          padding: 12,
+          backgroundColor: 'rgba(10, 10, 15, 0.95)',
+          titleColor: chartColors.text,
+          bodyColor: chartColors.textSecondary,
+          borderColor: chartColors.grid,
+          borderWidth: 1,
+          padding: 16,
+          cornerRadius: 12,
           displayColors: true,
           callbacks: {
             title: function(tooltipItems) {
@@ -340,8 +385,8 @@ export function showIndividualChart(data, athleteId, selectedSport) {
               const cumul = cumulativeElevation[index];
               const objectif = targetLine[index];
               const difference = cumul - objectif;
-              const status = difference >= 0 ? 'Avance' : 'Retard';
-              return `\nDénivelé cumulé: ${formatElevation(cumul)} m\n${status}: ${formatElevation(Math.abs(difference))} m`;
+              const status = difference >= 0 ? '↑ Avance' : '↓ Retard';
+              return `\nCumulé: ${formatElevation(cumul)} m\n${status}: ${formatElevation(Math.abs(difference))} m`;
             },
             label: function(context) {
               if (context.dataset.type === 'bar') {
@@ -358,17 +403,29 @@ export function showIndividualChart(data, athleteId, selectedSport) {
         }
       },
       scales: {
-        x: baseChartOptions.scales.x,
+        x: {
+          ...baseChartOptions.scales.x,
+          ticks: {
+            ...baseChartOptions.scales.x.ticks,
+            maxRotation: 0,
+            autoSkip: true,
+            maxTicksLimit: 12
+          }
+        },
         y: {
           type: 'linear',
           position: 'right',
           title: {
             display: true,
             text: 'Dénivelé journalier (m)',
-            color: '#FFFFFF'
+            color: chartColors.textSecondary,
+            font: { family: "'Space Mono', monospace", size: 11 }
           },
-          grid: { color: 'rgba(255, 255, 255, 0.08)' },
-          ticks: { color: '#FFFFFF' }
+          grid: { color: chartColors.grid },
+          ticks: { 
+            color: chartColors.textSecondary,
+            font: { family: "'Space Mono', monospace", size: 10 }
+          }
         },
         y1: {
           type: 'linear',
@@ -376,13 +433,17 @@ export function showIndividualChart(data, athleteId, selectedSport) {
           title: {
             display: true,
             text: 'Dénivelé cumulé (m)',
-            color: '#FFFFFF'
+            color: chartColors.textSecondary,
+            font: { family: "'Space Mono', monospace", size: 11 }
           },
           grid: {
-            color: 'rgba(255, 255, 255, 0.08)',
+            color: chartColors.grid,
             drawOnChartArea: false
           },
-          ticks: { color: '#FFFFFF' }
+          ticks: { 
+            color: chartColors.textSecondary,
+            font: { family: "'Space Mono', monospace", size: 10 }
+          }
         }
       }
     },
@@ -407,8 +468,8 @@ export function showRankingChart(data, selectedSport) {
   athletes.forEach(athlete => {
     const athleteData = filteredData.filter(item => item.athlete_id === athlete);
     const allDaysWithData = allDays.map(day => {
-      const dayData = athleteData.find(item => item.date.startsWith(day));
-      return dayData ? dayData.elevation_gain_m : 0;
+      const dayActivities = athleteData.filter(item => item.date.startsWith(day));
+      return dayActivities.reduce((sum, act) => sum + (act.elevation_gain_m || 0), 0);
     });
 
     let cumulativeElevation = 0;
@@ -429,7 +490,7 @@ export function showRankingChart(data, selectedSport) {
     borderWidth: 3,
     fill: false,
     pointRadius: 0,
-    tension: 0.3
+    tension: 0.4
   }));
 
   const ctx = document.getElementById('elevationChart').getContext('2d');
@@ -460,14 +521,17 @@ export function showRankingChart(data, selectedSport) {
         ...baseChartOptions.plugins,
         title: {
           ...baseChartOptions.plugins.title,
-          text: `Classement ${year} (Sport: ${selectedSport || 'Tous'})`
+          text: `Classement ${year} — ${selectedSport || 'Tous sports'}`
         },
         tooltip: {
           enabled: true,
-          backgroundColor: 'rgba(0, 0, 0, 0.9)',
-          titleColor: '#FFFFFF',
-          bodyColor: '#FFFFFF',
-          padding: 12,
+          backgroundColor: 'rgba(10, 10, 15, 0.95)',
+          titleColor: chartColors.text,
+          bodyColor: chartColors.textSecondary,
+          borderColor: chartColors.grid,
+          borderWidth: 1,
+          padding: 16,
+          cornerRadius: 12,
           displayColors: true,
           callbacks: {
             title: function(tooltipItems) {
@@ -490,7 +554,15 @@ export function showRankingChart(data, selectedSport) {
         }
       },
       scales: {
-        x: baseChartOptions.scales.x,
+        x: {
+          ...baseChartOptions.scales.x,
+          ticks: {
+            ...baseChartOptions.scales.x.ticks,
+            maxRotation: 0,
+            autoSkip: true,
+            maxTicksLimit: 12
+          }
+        },
         y: {
           type: 'linear',
           display: true,
@@ -498,10 +570,14 @@ export function showRankingChart(data, selectedSport) {
           title: {
             display: true,
             text: 'Dénivelé cumulé (m)',
-            color: '#FFFFFF'
+            color: chartColors.textSecondary,
+            font: { family: "'Space Mono', monospace", size: 11 }
           },
-          grid: { color: 'rgba(255, 255, 255, 0.08)' },
-          ticks: { color: '#FFFFFF' }
+          grid: { color: chartColors.grid },
+          ticks: { 
+            color: chartColors.textSecondary,
+            font: { family: "'Space Mono', monospace", size: 10 }
+          }
         }
       }
     },
@@ -516,17 +592,31 @@ let map;
 let polylines = [];
 
 export function initMap() {
-  if (map) return;
+  if (map) {
+    // Si la carte existe déjà, forcer le recalcul de taille
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 100);
+    return;
+  }
 
   const mapElement = document.getElementById('map');
   if (!mapElement) return;
 
-  map = L.map('map').setView([46.2276, 2.2137], 6);
+  map = L.map('map', {
+    center: [46.2276, 2.2137],
+    zoom: 6
+  });
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    attribution: '&copy; OpenStreetMap &copy; CARTO',
     maxZoom: 19
   }).addTo(map);
+
+  // Forcer le recalcul de la taille après initialisation
+  setTimeout(() => {
+    map.invalidateSize();
+  }, 200);
 }
 
 function generateLegend(activities, colorMode = 'athlete') {
@@ -607,279 +697,90 @@ function calculateCountryStats(activities) {
     countryStats[country].athletes.add(activity.athlete_id);
   });
 
-  Object.values(countryStats).forEach(stat => {
-    stat.athleteCount = stat.athletes.size;
-    delete stat.athletes;
-  });
-
-  return countryStats;
+  return Object.values(countryStats).sort((a, b) => b.elevation - a.elevation);
 }
 
-function showCountryRanking(activities) {
-  const statsContainer = document.getElementById('countryStatsContainer');
-  if (!statsContainer) return;
+function generateCountryStats(activities) {
+  const container = document.getElementById('countryStatsContainer');
+  if (!container) return;
 
   const stats = calculateCountryStats(activities);
-  const countries = Object.values(stats).sort((a, b) => b.count - a.count);
+  
+  container.innerHTML = '<h3>Pays</h3>';
 
-  let html = '';
-
-  countries.forEach((country, index) => {
-    const rank = index + 1;
-    const rankEmoji = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `${rank}.`;
-
-    // Obtenir le code pays ISO pour le drapeau
-    const countryCode = getCountryCode(country.name);
-    const flagUrl = countryCode ? `https://flagcdn.com/w40/${countryCode.toLowerCase()}.png` : '';
-
-    html += `
-      <div class="country-item" data-country="${country.name}">
-        <div class="country-name">
-          ${rankEmoji}
-          ${flagUrl ? `<img src="${flagUrl}" alt="${country.name}" class="country-flag" onerror="this.style.display='none'">` : ''}
-          ${country.name}
-        </div>
-        <div class="country-stats-line">
-          <span class="country-badge">${country.count}</span>
-          activité${country.count > 1 ? 's' : ''}
-        </div>
-        <div class="country-stats-line">
-          👥 ${country.athleteCount} athlète${country.athleteCount > 1 ? 's' : ''}
-        </div>
-        <div class="country-stats-line">
-          ⛰️ ${formatElevation(country.elevation)} m
-        </div>
-        <div class="country-stats-line">
-          📏 ${(country.distance / 1000).toFixed(0)} km
-        </div>
+  stats.forEach((country, index) => {
+    const item = document.createElement('div');
+    item.className = 'country-item';
+    
+    item.innerHTML = `
+      <div class="country-name">
+        <span class="country-badge">${index + 1}</span>
+        ${country.name}
       </div>
+      <div class="country-stats-line">↑ ${formatElevation(country.elevation)} m</div>
+      <div class="country-stats-line">→ ${(country.distance / 1000).toFixed(0)} km</div>
+      <div class="country-stats-line">◉ ${country.count} activités</div>
     `;
+    
+    container.appendChild(item);
   });
 
-  const totalCountries = countries.length;
-  const totalWithCountry = activities.filter(a => a.country).length;
-  const totalActivities = activities.length;
-
-  html += `
-    <div class="country-summary">
-      <div style="margin-bottom: 8px;">
-        <strong>${totalCountries}</strong> pays visité${totalCountries > 1 ? 's' : ''}
-      </div>
-      <div style="font-size: 11px; color: rgba(255, 255, 255, 0.6);">
-        ${totalWithCountry} / ${totalActivities} activités localisées
-      </div>
-    </div>
-  `;
-
-  statsContainer.innerHTML = html;
-
-  document.querySelectorAll('.country-item').forEach(item => {
-    item.addEventListener('click', function() {
-      const countryName = this.getAttribute('data-country');
-
-      document.querySelectorAll('.country-item').forEach(i => i.classList.remove('active'));
-      this.classList.add('active');
-
-      const filteredActivities = activities.filter(a => a.country === countryName);
-      showMapChart(filteredActivities, null);
-    });
-  });
+  const summary = document.createElement('div');
+  summary.className = 'country-summary';
+  summary.textContent = `${stats.length} pays visités`;
+  container.appendChild(summary);
 }
 
-// Fonction pour obtenir le code ISO du pays
-function getCountryCode(countryName) {
-  if (!countryName) return null;
-
-  // Normaliser le nom du pays (enlever les accents, mettre en minuscules)
-  const normalize = (str) => {
-    return str
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .trim();
-  };
-
-  const countryCodes = {
-    // Français
-    'france': 'FR',
-    'espagne': 'ES',
-    'italie': 'IT',
-    'suisse': 'CH',
-    'allemagne': 'DE',
-    'belgique': 'BE',
-    'pays-bas': 'NL',
-    'pays bas': 'NL',
-    'portugal': 'PT',
-    'royaume-uni': 'GB',
-    'royaume uni': 'GB',
-    'angleterre': 'GB',
-    'autriche': 'AT',
-    'norvege': 'NO',
-    'norvège': 'NO',
-    'suede': 'SE',
-    'suède': 'SE',
-    'finlande': 'FI',
-    'danemark': 'DK',
-    'pologne': 'PL',
-    'republique tcheque': 'CZ',
-    'république tchèque': 'CZ',
-    'tcheque': 'CZ',
-    'tchequie': 'CZ',
-    'slovaquie': 'SK',
-    'hongrie': 'HU',
-    'roumanie': 'RO',
-    'bulgarie': 'BG',
-    'grece': 'GR',
-    'grèce': 'GR',
-    'croatie': 'HR',
-    'slovenie': 'SI',
-    'slovénie': 'SI',
-    'irlande': 'IE',
-    'luxembourg': 'LU',
-    'islande': 'IS',
-    'andorre': 'AD',
-    'monaco': 'MC',
-    'liechtenstein': 'LI',
-    'malte': 'MT',
-    'chypre': 'CY',
-
-    // Anglais
-    'spain': 'ES',
-    'italy': 'IT',
-    'switzerland': 'CH',
-    'germany': 'DE',
-    'belgium': 'BE',
-    'netherlands': 'NL',
-    'united kingdom': 'GB',
-    'austria': 'AT',
-    'norway': 'NO',
-    'sweden': 'SE',
-    'finland': 'FI',
-    'denmark': 'DK',
-    'poland': 'PL',
-    'czech republic': 'CZ',
-    'czechia': 'CZ',
-    'slovakia': 'SK',
-    'hungary': 'HU',
-    'romania': 'RO',
-    'bulgaria': 'BG',
-    'greece': 'GR',
-    'croatia': 'HR',
-    'slovenia': 'SI',
-    'ireland': 'IE',
-    'iceland': 'IS',
-
-    // Autres continents
-    'etats-unis': 'US',
-    'états-unis': 'US',
-    'usa': 'US',
-    'united states': 'US',
-    'canada': 'CA',
-    'mexique': 'MX',
-    'mexico': 'MX',
-    'bresil': 'BR',
-    'brésil': 'BR',
-    'brazil': 'BR',
-    'argentine': 'AR',
-    'argentina': 'AR',
-    'chili': 'CL',
-    'chile': 'CL',
-    'japon': 'JP',
-    'japan': 'JP',
-    'chine': 'CN',
-    'china': 'CN',
-    'australie': 'AU',
-    'australia': 'AU',
-    'nouvelle-zelande': 'NZ',
-    'nouvelle-zélande': 'NZ',
-    'new zealand': 'NZ',
-    'maroc': 'MA',
-    'morocco': 'MA',
-    'tunisie': 'TN',
-    'tunisia': 'TN',
-    'algerie': 'DZ',
-    'algérie': 'DZ',
-    'algeria': 'DZ',
-    'afrique du sud': 'ZA',
-    'south africa': 'ZA',
-    'emirats arabes unis': 'AE',
-    'émirats arabes unis': 'AE',
-    'uae': 'AE',
-    'thailande': 'TH',
-    'thaïlande': 'TH',
-    'thailand': 'TH',
-    'inde': 'IN',
-    'india': 'IN'
-  };
-
-  const normalizedName = normalize(countryName);
-  return countryCodes[normalizedName] || null;
-}
-
-export function showMapChart(filteredData, selectedAthleteId = null) {
-  if (!filteredData || filteredData.length === 0) return;
-
+export function showMapChart(data, athleteId) {
   if (!map) initMap();
 
-  polylines.forEach(polyline => map.removeLayer(polyline));
+  // Forcer le recalcul de taille
+  setTimeout(() => {
+    if (map) map.invalidateSize();
+  }, 100);
+
+  polylines.forEach(p => map.removeLayer(p));
   polylines = [];
 
-  const activitiesWithPolylines = filteredData.filter(activity =>
-    activity.tracemap &&
-    activity.tracemap.polyline &&
-    typeof activity.tracemap.polyline === 'string' &&
-    activity.tracemap.polyline.trim() !== ""
-  );
+  const colorMode = athleteId ? 'sport' : 'athlete';
+  generateLegend(data, colorMode);
+  generateCountryStats(data);
 
-  if (activitiesWithPolylines.length === 0) return;
+  data.forEach(activity => {
+    if (!activity.tracemap || !activity.tracemap.summary_polyline) return;
 
-  const colorMode = selectedAthleteId ? 'sport' : 'athlete';
+    const points = decodePolyline(activity.tracemap.summary_polyline);
+    if (points.length === 0) return;
 
-  generateLegend(activitiesWithPolylines, colorMode);
-  showCountryRanking(filteredData);
+    const color = athleteId 
+      ? getSportColor(mapSportName(activity.sport))
+      : getAthleteColor(activity.athlete_id);
 
-  activitiesWithPolylines.forEach(activity => {
-    try {
-      const decodedPoints = decodePolyline(activity.tracemap.polyline);
-      if (!decodedPoints || decodedPoints.length === 0) return;
+    const polyline = L.polyline(points, {
+      color: color,
+      weight: 2.5,
+      opacity: 0.8
+    }).addTo(map);
 
-      const validPoints = decodedPoints.filter(point =>
-        !isNaN(point[0]) && !isNaN(point[1])
-      );
-      if (validPoints.length === 0) return;
-
-      let color;
-      if (colorMode === 'sport') {
-        const mappedSport = mapSportName(activity.sport);
-        color = getSportColor(mappedSport);
-      } else {
-        color = getAthleteColor(activity.athlete_id);
-      }
-
-      const polyline = L.polyline(validPoints, {
-        color: color,
-        weight: 4,
-        opacity: 0.9
-      }).addTo(map);
-
-      const mappedSport = mapSportName(activity.sport);
-      const countryInfo = activity.country ? `<br>Pays: ${activity.country}` : '';
-
-      polyline.bindPopup(`
-        <b>${activity.name || 'Activité'}</b><br>
-        Athlète: ${activity.athlete_id}<br>
-        Sport: ${mappedSport}${countryInfo}
-      `);
-
-      polylines.push(polyline);
-    } catch (e) {
-      console.error(`Erreur activité ${activity.activity_id}:`, e);
-    }
+    const date = new Date(activity.date).toLocaleDateString('fr-FR');
+    const popup = `
+      <strong>${activity.name}</strong><br>
+      ${date}<br>
+      ${mapSportName(activity.sport)}<br>
+      ↑ ${activity.elevation_gain_m} m
+    `;
+    polyline.bindPopup(popup);
+    polylines.push(polyline);
   });
 
   if (polylines.length > 0) {
-    const group = new L.FeatureGroup(polylines);
-    map.fitBounds(group.getBounds().pad(0.5));
+    const group = L.featureGroup(polylines);
+    map.fitBounds(group.getBounds(), { padding: [30, 30] });
+    
+    // Recalculer après fitBounds
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 300);
   }
 }
 
@@ -887,110 +788,88 @@ export function showMapChart(filteredData, selectedAthleteId = null) {
 // TABLEAU DE CLASSEMENT
 // ==============================
 export function showRankingTable(data) {
-  document.getElementById('rankingTableContainer').style.display = 'block';
+  const tbody = document.getElementById('rankingTableBody');
+  if (!tbody) return;
 
-  const athletesStats = {};
+  const athleteStats = {};
+
   data.forEach(activity => {
-    const athleteId = activity.athlete_id;
-    if (!athletesStats[athleteId]) {
-      athletesStats[athleteId] = {
-        athlete_id: athleteId,
+    const id = activity.athlete_id;
+    if (!athleteStats[id]) {
+      athleteStats[id] = {
+        athlete_id: id,
         total_elevation: 0,
         activity_count: 0,
         total_distance: 0,
-        total_time: 0,
-        name: `Athlète ${athleteId}`
+        total_time: 0
       };
     }
-    athletesStats[athleteId].total_elevation += activity.elevation_gain_m || 0;
-    athletesStats[athleteId].activity_count += 1;
-    athletesStats[athleteId].total_distance += activity.distance_m || 0;
-    athletesStats[athleteId].total_time += activity.moving_time_s || 0;
+
+    athleteStats[id].total_elevation += activity.elevation_gain_m || 0;
+    athleteStats[id].activity_count++;
+    athleteStats[id].total_distance += activity.distance_m || 0;
+    athleteStats[id].total_time += activity.moving_time_s || 0;
   });
 
-  const athletesArray = Object.values(athletesStats).map(stat => ({
-    ...stat,
-    total_distance_km: (stat.total_distance / 1000).toFixed(2),
-    total_time_h: (stat.total_time / 3600).toFixed(2),
-    elevation_per_distance: stat.total_distance > 0 ? (stat.total_elevation / (stat.total_distance / 1000)).toFixed(2) : 0,
-    elevation_per_time: stat.total_time > 0 ? (stat.total_elevation / (stat.total_time / 3600)).toFixed(2) : 0,
-    elevation_per_activity: (stat.total_elevation / stat.activity_count).toFixed(2)
+  const stats = Object.values(athleteStats).map(s => ({
+    ...s,
+    elevation_per_distance: s.total_distance > 0 ? (s.total_elevation / (s.total_distance / 1000)).toFixed(1) : 0,
+    elevation_per_time: s.total_time > 0 ? (s.total_elevation / (s.total_time / 3600)).toFixed(1) : 0,
+    elevation_per_activity: s.activity_count > 0 ? (s.total_elevation / s.activity_count).toFixed(0) : 0
   }));
 
-  athletesArray.sort((a, b) => b.total_elevation - a.total_elevation);
+  stats.sort((a, b) => b.total_elevation - a.total_elevation);
 
-  const tableBody = document.getElementById('rankingTableBody');
-  tableBody.innerHTML = '';
-  athletesArray.forEach(athlete => {
+  tbody.innerHTML = '';
+
+  stats.forEach(s => {
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td>${athlete.name}</td>
-      <td>${athlete.total_elevation.toFixed(0)}</td>
-      <td>${athlete.activity_count}</td>
-      <td>${athlete.total_distance_km}</td>
-      <td>${athlete.total_time_h}</td>
-      <td>${athlete.elevation_per_distance}</td>
-      <td>${athlete.elevation_per_time}</td>
-      <td>${athlete.elevation_per_activity}</td>
+      <td style="color: ${getAthleteColor(s.athlete_id)}">Athlète ${s.athlete_id}</td>
+      <td>${s.total_elevation.toLocaleString('fr-FR')}</td>
+      <td>${s.activity_count}</td>
+      <td>${(s.total_distance / 1000).toFixed(0)}</td>
+      <td>${Math.round(s.total_time / 3600)}</td>
+      <td>${s.elevation_per_distance}</td>
+      <td>${s.elevation_per_time}</td>
+      <td>${s.elevation_per_activity}</td>
     `;
-    tableBody.appendChild(row);
+    tbody.appendChild(row);
   });
 
-  setupSorting(athletesArray);
-}
-
-function setupSorting(athletesArray) {
-  const headers = document.querySelectorAll('#rankingTable th[data-sort]');
-  headers.forEach(header => {
-    header.addEventListener('click', () => {
-      const sortKey = header.getAttribute('data-sort');
-      const currentSort = header.getAttribute('data-order') || 'none';
-
-      headers.forEach(h => {
-        h.removeAttribute('data-order');
+  document.querySelectorAll('#rankingTable th').forEach(th => {
+    th.addEventListener('click', () => {
+      const key = th.dataset.sort;
+      const isAsc = th.classList.contains('sorted-asc');
+      
+      document.querySelectorAll('#rankingTable th').forEach(h => {
         h.classList.remove('sorted-asc', 'sorted-desc');
       });
-
-      let newOrder = 'asc';
-      if (currentSort === 'asc') newOrder = 'desc';
-      else if (currentSort === 'desc') newOrder = 'none';
-
-      if (newOrder !== 'none') {
-        header.setAttribute('data-order', newOrder);
-        header.classList.add(`sorted-${newOrder}`);
-
-        athletesArray.sort((a, b) => {
-          if (sortKey.startsWith('elevation_per')) {
-            const valA = parseFloat(a[sortKey]);
-            const valB = parseFloat(b[sortKey]);
-            return newOrder === 'asc' ? valA - valB : valB - valA;
-          }
-          return newOrder === 'asc' ? a[sortKey] - b[sortKey] : b[sortKey] - a[sortKey];
-        });
-
-        const tableBody = document.getElementById('rankingTableBody');
-        tableBody.innerHTML = '';
-        athletesArray.forEach(athlete => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${athlete.name}</td>
-            <td>${athlete.total_elevation.toFixed(0)}</td>
-            <td>${athlete.activity_count}</td>
-            <td>${athlete.total_distance_km}</td>
-            <td>${athlete.total_time_h}</td>
-            <td>${athlete.elevation_per_distance}</td>
-            <td>${athlete.elevation_per_time}</td>
-            <td>${athlete.elevation_per_activity}</td>
-          `;
-          tableBody.appendChild(row);
-        });
-      }
+      
+      stats.sort((a, b) => isAsc ? a[key] - b[key] : b[key] - a[key]);
+      th.classList.add(isAsc ? 'sorted-desc' : 'sorted-asc');
+      
+      tbody.innerHTML = '';
+      stats.forEach(s => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td style="color: ${getAthleteColor(s.athlete_id)}">Athlète ${s.athlete_id}</td>
+          <td>${s.total_elevation.toLocaleString('fr-FR')}</td>
+          <td>${s.activity_count}</td>
+          <td>${(s.total_distance / 1000).toFixed(0)}</td>
+          <td>${Math.round(s.total_time / 3600)}</td>
+          <td>${s.elevation_per_distance}</td>
+          <td>${s.elevation_per_time}</td>
+          <td>${s.elevation_per_activity}</td>
+        `;
+        tbody.appendChild(row);
+      });
     });
   });
 }
 
 // ==============================
-// DIAGRAMME DE SANKEY
+// DIAGRAMME SANKEY
 // ==============================
 export function showSankeyDiagram(data) {
   const chartDom = document.getElementById('sankeyChart');
@@ -1002,798 +881,358 @@ export function showSankeyDiagram(data) {
 
   window.sankeyChart = echarts.init(chartDom);
 
-  const athleteSportElevation = {};
-  const athleteTotalElevation = {};
-  const sportTotalElevation = {};
-  const athletes = new Set();
-  const sports = new Set();
-
-  data.forEach(activity => {
-    const athleteId = activity.athlete_id;
-    const mappedSport = mapSportName(activity.sport);
-    const elevation = activity.elevation_gain_m || 0;
-
-    athletes.add(athleteId);
-    sports.add(mappedSport);
-
-    const key = `${athleteId}_${mappedSport}`;
-    athleteSportElevation[key] = (athleteSportElevation[key] || 0) + elevation;
-    athleteTotalElevation[athleteId] = (athleteTotalElevation[athleteId] || 0) + elevation;
-    sportTotalElevation[mappedSport] = (sportTotalElevation[mappedSport] || 0) + elevation;
-  });
-
   const nodes = [];
-  const totalElevation = data.reduce((sum, act) => sum + (act.elevation_gain_m || 0), 0);
-
-  Array.from(athletes).sort((a, b) => a - b).forEach(athleteId => {
-    const athleteElevation = athleteTotalElevation[athleteId];
-    const percentageOfTotal = ((athleteElevation / totalElevation) * 100).toFixed(1);
-
-    nodes.push({
-      name: `Athlète ${athleteId}`,
-      itemStyle: { color: getAthleteColor(athleteId) },
-      elevation: athleteElevation,
-      percentageOfTotal: percentageOfTotal
-    });
-  });
-
-  Array.from(sports).sort().forEach(sport => {
-    const sportElevation = sportTotalElevation[sport];
-    const percentageOfTotal = ((sportElevation / totalElevation) * 100).toFixed(1);
-
-    nodes.push({
-      name: sport,
-      itemStyle: { color: getSportColor(sport) },
-      elevation: sportElevation,
-      percentageOfTotal: percentageOfTotal
-    });
-  });
-
   const links = [];
+  const nodeSet = new Set();
 
-  Object.keys(athleteSportElevation).forEach(key => {
-    const [athleteId, sport] = key.split('_');
-    const value = athleteSportElevation[key];
-    const percentageOfTotal = ((value / totalElevation) * 100).toFixed(1);
-    const percentageOfAthlete = ((value / athleteTotalElevation[athleteId]) * 100).toFixed(1);
-    const percentageOfSport = ((value / sportTotalElevation[sport]) * 100).toFixed(1);
+  const athletes = [...new Set(data.map(d => d.athlete_id))];
+  const sports = [...new Set(data.map(d => mapSportName(d.sport)))];
 
-    links.push({
-      source: `Athlète ${athleteId}`,
-      target: sport,
-      value: value,
-      percentageOfTotal: percentageOfTotal,
-      percentageOfAthlete: percentageOfAthlete,
-      percentageOfSport: percentageOfSport
-    });
+  athletes.forEach(a => {
+    const name = `Athlète ${a}`;
+    if (!nodeSet.has(name)) {
+      nodes.push({ name, itemStyle: { color: getAthleteColor(a) } });
+      nodeSet.add(name);
+    }
   });
+
+  sports.forEach(s => {
+    if (!nodeSet.has(s)) {
+      nodes.push({ name: s, itemStyle: { color: getSportColor(s) } });
+      nodeSet.add(s);
+    }
+  });
+
+  const linkMap = {};
+  data.forEach(activity => {
+    const source = `Athlète ${activity.athlete_id}`;
+    const target = mapSportName(activity.sport);
+    const key = `${source}->${target}`;
+
+    if (!linkMap[key]) {
+      linkMap[key] = { source, target, value: 0 };
+    }
+    linkMap[key].value += activity.elevation_gain_m || 0;
+  });
+
+  Object.values(linkMap).forEach(link => links.push(link));
 
   const option = {
     backgroundColor: 'transparent',
-    title: {
-      text: 'Répartition du dénivelé par athlète et sport',
-      textStyle: {
-        color: '#FFFFFF',
-        fontSize: 16,
-        fontWeight: 'bold',
-        fontFamily: "'Times New Roman', serif"
-      },
-      left: 'center',
-      top: 10
-    },
     tooltip: {
       trigger: 'item',
-      backgroundColor: 'rgba(0, 0, 0, 0.9)',
-      borderColor: 'rgba(255, 255, 255, 0.2)',
-      textStyle: { color: '#FFFFFF' },
-      confine: true,
-      position: function(point, params, dom, rect, size) {
-        window.lastTooltipX = point[0];
-        return [point[0] + 10, point[1] - 10];
-      },
-      formatter: function(params) {
+      backgroundColor: 'rgba(10, 10, 15, 0.95)',
+      borderColor: 'rgba(255, 255, 255, 0.08)',
+      textStyle: { color: '#ffffff', fontFamily: "'Inter', sans-serif" },
+      formatter: params => {
         if (params.dataType === 'edge') {
-          const value = params.value;
-          const data = params.data;
-
-          let mouseX = window.lastTooltipX ||
-                       params.event?.offsetX ||
-                       params.event?.event?.offsetX ||
-                       params.event?.event?.clientX || 0;
-
-          const chartDom = document.getElementById('sankeyChart');
-          const chartRect = chartDom.getBoundingClientRect();
-          const chartWidth = chartRect.width;
-          const chartCenterX = chartWidth / 2;
-
-          if (params.event?.event?.clientX) {
-            mouseX = params.event.event.clientX - chartRect.left;
-          }
-
-          const isLeftSide = mouseX < chartCenterX;
-
-          if (isLeftSide) {
-            return `<b>${data.source} → ${data.target}</b><br/>Dénivelé: ${formatElevation(value)} m<br/>Part de l'athlète: ${data.percentageOfAthlete}%`;
-          } else {
-            return `<b>${data.source} → ${data.target}</b><br/>Dénivelé: ${formatElevation(value)} m<br/>Contribution au sport: ${data.percentageOfSport}%`;
-          }
-        } else if (params.dataType === 'node') {
-          const nodeData = params.data;
-          const elevation = nodeData.elevation;
-          const percentage = nodeData.percentageOfTotal;
-
-          return `<b>${params.name}</b><br/>Dénivelé total: ${formatElevation(elevation)} m<br/>Part du total: ${percentage}%`;
+          return `${params.data.source} → ${params.data.target}<br/>↑ ${formatElevation(params.data.value)} m`;
         }
-        return '';
+        return params.name;
       }
     },
     series: [{
       type: 'sankey',
       layout: 'none',
-      emphasis: {
-        focus: 'adjacency',
-        lineStyle: { opacity: 0.8 }
-      },
+      emphasis: { focus: 'adjacency' },
+      nodeAlign: 'left',
       data: nodes,
       links: links,
+      label: {
+        color: '#ffffff',
+        fontFamily: "'Inter', sans-serif",
+        fontSize: 12
+      },
       lineStyle: {
         color: 'gradient',
         curveness: 0.5,
-        opacity: 0.3
+        opacity: 0.4
       },
-      label: {
-        color: '#FFFFFF',
-        fontSize: 12,
-        fontFamily: "'Times New Roman', serif"
-      },
-      left: '10%',
-      right: '10%',
-      top: '15%',
-      bottom: '10%'
+      itemStyle: {
+        borderWidth: 0
+      }
     }]
   };
 
   window.sankeyChart.setOption(option);
 
   window.addEventListener('resize', () => {
-    if (window.sankeyChart) {
-      window.sankeyChart.resize();
-    }
+    if (window.sankeyChart) window.sankeyChart.resize();
   });
 }
 
 // ==============================
-// CALENDRIER HEATMAP
+// HEATMAP CALENDRIER
 // ==============================
-export function showCalendarHeatmap(data, athleteId = null, selectedSport = null) {
+export function showCalendarHeatmap(data, athleteId, selectedSport) {
   const chartDom = document.getElementById('calendarHeatmap');
   if (!chartDom) return;
 
-  if (window.heatmapChart) {
-    window.heatmapChart.dispose();
+  if (window.calendarChart && typeof window.calendarChart.dispose === 'function') {
+    window.calendarChart.dispose();
   }
 
-  window.heatmapChart = echarts.init(chartDom);
+  window.calendarChart = echarts.init(chartDom);
 
   let filteredData = data;
-
   if (athleteId && athleteId !== "classement") {
-    filteredData = filteredData.filter(activity => activity.athlete_id == athleteId);
+    filteredData = filteredData.filter(d => d.athlete_id == athleteId);
   }
-
   if (selectedSport) {
-    filteredData = filteredData.filter(activity => activity.sport === selectedSport);
+    filteredData = filteredData.filter(d => d.sport === selectedSport);
   }
 
   const year = filteredData.length > 0 ? new Date(filteredData[0].date).getFullYear() : 2025;
 
-  const allDays = generateAllDays(year);
-  const dailyData = {};
-  const dailyActivityCount = {};
-  const dailyTopContributor = {}; // Pour stocker le top contributeur par jour
-
-  allDays.forEach(day => {
-    dailyData[day] = 0;
-    dailyActivityCount[day] = 0;
-  });
-
-  // Calculer les données journalières et les top contributeurs
+  const dailyElevation = {};
   filteredData.forEach(activity => {
     const date = activity.date.split('T')[0];
-    if (dailyData.hasOwnProperty(date)) {
-      dailyData[date] += (activity.elevation_gain_m || 0);
-      dailyActivityCount[date] += 1;
-
-      // Calculer le top contributeur du jour
-      if (!dailyTopContributor[date]) {
-        dailyTopContributor[date] = {};
-      }
-      const athleteId = activity.athlete_id;
-      if (!dailyTopContributor[date][athleteId]) {
-        dailyTopContributor[date][athleteId] = 0;
-      }
-      dailyTopContributor[date][athleteId] += (activity.elevation_gain_m || 0);
-    }
+    dailyElevation[date] = (dailyElevation[date] || 0) + (activity.elevation_gain_m || 0);
   });
 
-  // Calculer les statistiques hebdomadaires et mensuelles
-  const TARGET_WEEKLY = 1000000 / 52; // Objectif hebdomadaire (~19,230m)
-  const TARGET_MONTHLY = 1000000 / 12; // Objectif mensuel (~83,333m)
-  const weeklyStats = calculateWeeklyStats(allDays, dailyData, filteredData, TARGET_WEEKLY);
-  const monthlyStats = calculateMonthlyStats(allDays, dailyData, filteredData, TARGET_MONTHLY);
+  const calendarData = Object.entries(dailyElevation).map(([date, value]) => [date, value]);
 
-  const elevationValues = Object.values(dailyData).filter(val => val > 0);
-  const maxElevation = elevationValues.length > 0 ? Math.max(...elevationValues) : 1000;
-
-  const heatmapDataForChart = allDays.map(day => [day, dailyData[day]]);
-
-  let titleText = 'Activité de l\'année';
-  if (athleteId && athleteId !== "classement") {
-    titleText = `Activité de l'année - Athlète ${athleteId}`;
-  } else if (athleteId === "classement") {
-    titleText = 'Activité de l\'année - Tous les athlètes';
-  }
-  if (selectedSport) {
-    titleText += ` (${selectedSport})`;
-  }
-
-  const isClassementMode = athleteId === "classement";
+  const maxValue = Math.max(...calendarData.map(d => d[1]), 1);
 
   const option = {
     backgroundColor: 'transparent',
-    title: {
-      text: titleText,
-      textStyle: {
-        color: '#FFFFFF',
-        fontSize: 16,
-        fontWeight: 'bold',
-        fontFamily: "'Times New Roman', serif"
-      },
-      left: 'center',
-      top: 0
-    },
     tooltip: {
-      trigger: 'item',
-      backgroundColor: 'rgba(0, 0, 0, 0.9)',
-      borderColor: 'rgba(255, 255, 255, 0.2)',
-      textStyle: { color: '#FFFFFF' },
-      formatter: function(params) {
-        const date = new Date(params.value[0]);
-        const dateString = params.value[0];
-        const elevation = params.value[1];
-        const activityCount = dailyActivityCount[dateString];
-
-        const formattedDate = date.toLocaleDateString('fr-FR', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric'
+      backgroundColor: 'rgba(10, 10, 15, 0.95)',
+      borderColor: 'rgba(255, 255, 255, 0.08)',
+      textStyle: { color: '#ffffff', fontFamily: "'Inter', sans-serif" },
+      formatter: params => {
+        const date = new Date(params.data[0]).toLocaleDateString('fr-FR', { 
+          weekday: 'long', day: 'numeric', month: 'long' 
         });
-
-        let tooltip = `<b>${formattedDate}</b><br/>`;
-
-        if (activityCount === 0) {
-          tooltip += 'Aucune activité';
-        } else {
-          tooltip += `Dénivelé: ${formatElevation(elevation)} m<br/>`;
-          tooltip += `${activityCount} activité${activityCount > 1 ? 's' : ''}`;
-
-          // Afficher le top contributeur en mode classement
-          if (isClassementMode && dailyTopContributor[dateString]) {
-            const contributors = dailyTopContributor[dateString];
-            const topAthlete = Object.entries(contributors).reduce((a, b) =>
-              contributors[a[0]] > contributors[b[0]] ? a : b
-            );
-            tooltip += `<br/><span style="color: ${getAthleteColor(topAthlete[0])};">★ Athlète ${topAthlete[0]}: ${formatElevation(topAthlete[1])} m</span>`;
-          }
-        }
-
-        return tooltip;
+        return `${date}<br/>↑ ${formatElevation(params.data[1])} m`;
       }
     },
     visualMap: {
+      show: false,
       min: 0,
-      max: maxElevation,
-      type: 'piecewise',
-      orient: 'horizontal',
-      left: 'center',
-      top: 25,
-      pieces: [
-         { min: 0, max: 0, label: 'Aucun', color: '#5B2D44' },
-         { min: 1, max: 500, label: 'Faible', color: '#B7705C' },
-         { min: 500, max: 1500, label: 'Moyen', color: '#59565D' },
-         { min: 1500, max: 3000, label: 'Bon', color: '#2B434D' },
-         { min: 3000, label: 'Excellent', color: '#52B788' }
-      ],
-      textStyle: {
-        color: ' #FFFFF',
-        fontSize: 11
+      max: maxValue,
+      inRange: {
+        color: ['#1a1a24', '#f97316']
       }
     },
     calendar: {
-      top: 80,
-      left: 30,
-      right: 30,
-      cellSize: ['auto', 13],
-      range: `${year}`,
+      top: 20,
+      left: 50,
+      right: 20,
+      bottom: 10,
+      cellSize: ['auto', 15],
+      range: year,
       itemStyle: {
         borderWidth: 2,
-        borderColor: '#0a0817'
+        borderColor: '#0a0a0f'
       },
       yearLabel: { show: false },
-      dayLabel: {
-        firstDay: 1, // Commence par lundi (0 = dimanche, 1 = lundi)
-        nameMap: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
-        color: '#FFFFFF',
-        fontSize: 11
-      },
       monthLabel: {
-        nameMap: 'fr',
-        color: '#FFFFFF',
-        fontSize: 12
+        color: 'rgba(255, 255, 255, 0.5)',
+        fontFamily: "'Space Mono', monospace",
+        fontSize: 10
       },
-      splitLine: {
-        show: true,
-        lineStyle: {
-          color: '#0a0817',
-          width: 2
-        }
-      }
+      dayLabel: {
+        firstDay: 1,
+        color: 'rgba(255, 255, 255, 0.3)',
+        fontFamily: "'Space Mono', monospace",
+        fontSize: 9,
+        nameMap: ['D', 'L', 'M', 'M', 'J', 'V', 'S']
+      },
+      splitLine: { show: false }
     },
     series: [{
       type: 'heatmap',
       coordinateSystem: 'calendar',
-      data: heatmapDataForChart
+      data: calendarData
     }]
   };
 
-  window.heatmapChart.setOption(option);
+  window.calendarChart.setOption(option);
 
-  setTimeout(() => {
-    // Ajouter les lignes hebdomadaire et mensuelle après le rendu
-    addWeeklyPerformanceLine(weeklyStats, TARGET_WEEKLY, isClassementMode);
-    addMonthlyPerformanceLine(monthlyStats, TARGET_MONTHLY, isClassementMode);
-
-    if (window.heatmapChart) {
-      window.heatmapChart.resize();
-    }
-  }, 100);
+  // Générer les barres de performance avec animation au scroll
+  setupPerformanceBarsAnimation(filteredData, year);
 
   window.addEventListener('resize', () => {
-    if (window.heatmapChart) {
-      window.heatmapChart.resize();
-    }
+    if (window.calendarChart) window.calendarChart.resize();
   });
 }
 
-// Fonction pour calculer les stats hebdomadaires (semaine ISO : lundi-dimanche)
-function calculateWeeklyStats(allDays, dailyData, filteredData, targetWeekly) {
-  const weeklyStats = {};
+function setupPerformanceBarsAnimation(data, year) {
+  const performanceBars = document.querySelector('.performance-bars');
+  if (!performanceBars) return;
 
-  allDays.forEach(day => {
-    const date = new Date(day);
-    const weekNumber = getISOWeekNumber(date);
-    const year = getISOWeekYear(date);
-    const weekKey = `${year}-W${weekNumber}`;
+  // Stocker les données pour l'animation
+  window.perfBarsData = { data, year };
 
-    if (!weeklyStats[weekKey]) {
-      weeklyStats[weekKey] = {
-        weekNumber: weekNumber,
-        year: year,
-        total: 0,
-        days: [],
-        startDate: null,
-        endDate: null,
-        contributors: {}
-      };
-    }
-
-    weeklyStats[weekKey].total += dailyData[day];
-    weeklyStats[weekKey].days.push(day);
-
-    if (!weeklyStats[weekKey].startDate || day < weeklyStats[weekKey].startDate) {
-      weeklyStats[weekKey].startDate = day;
-    }
-    if (!weeklyStats[weekKey].endDate || day > weeklyStats[weekKey].endDate) {
-      weeklyStats[weekKey].endDate = day;
-    }
-  });
-
-  // Calculer les contributeurs par semaine
-  filteredData.forEach(activity => {
-    const date = new Date(activity.date);
-    const weekNumber = getISOWeekNumber(date);
-    const year = getISOWeekYear(date);
-    const weekKey = `${year}-W${weekNumber}`;
-
-    if (weeklyStats[weekKey]) {
-      const athleteId = activity.athlete_id;
-      if (!weeklyStats[weekKey].contributors[athleteId]) {
-        weeklyStats[weekKey].contributors[athleteId] = 0;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Déclencher l'animation des barres
+        setTimeout(() => {
+          generateWeeklyBars(data, year, true);
+          generateMonthlyBars(data, year, true);
+        }, 100);
+        observer.unobserve(entry.target);
       }
-      weeklyStats[weekKey].contributors[athleteId] += (activity.elevation_gain_m || 0);
-    }
-  });
+    });
+  }, { threshold: 0.2 });
 
-  return weeklyStats;
+  observer.observe(performanceBars);
+  
+  // Générer les barres sans animation d'abord (hauteur 0)
+  generateWeeklyBars(data, year, false);
+  generateMonthlyBars(data, year, false);
 }
 
-// Fonction pour calculer les stats mensuelles
-function calculateMonthlyStats(allDays, dailyData, filteredData, targetMonthly) {
-  const monthlyStats = {};
+function generateWeeklyBars(data, year, animate = true) {
+  const container = document.getElementById('weeklyBars');
+  if (!container) return;
 
-  allDays.forEach(day => {
-    const date = new Date(day);
-    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+  const TARGET = 1000000;
+  const weeklyTarget = TARGET / 52; // ~19 231 m par semaine
 
-    if (!monthlyStats[monthKey]) {
-      monthlyStats[monthKey] = {
-        month: date.getMonth() + 1,
-        year: date.getFullYear(),
-        total: 0,
-        days: [],
-        contributors: {}
-      };
-    }
-
-    monthlyStats[monthKey].total += dailyData[day];
-    monthlyStats[monthKey].days.push(day);
-  });
-
-  // Calculer les contributeurs par mois
-  filteredData.forEach(activity => {
+  // Calculer le dénivelé par semaine
+  const weeklyData = {};
+  data.forEach(activity => {
     const date = new Date(activity.date);
-    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-
-    if (monthlyStats[monthKey]) {
-      const athleteId = activity.athlete_id;
-      if (!monthlyStats[monthKey].contributors[athleteId]) {
-        monthlyStats[monthKey].contributors[athleteId] = 0;
-      }
-      monthlyStats[monthKey].contributors[athleteId] += (activity.elevation_gain_m || 0);
-    }
+    if (date.getFullYear() !== year) return;
+    
+    const weekNum = getWeekNumber(date);
+    const weekKey = `S${weekNum}`;
+    weeklyData[weekKey] = (weeklyData[weekKey] || 0) + (activity.elevation_gain_m || 0);
   });
 
-  return monthlyStats;
-}
-
-// Fonction pour obtenir le numéro de semaine ISO (lundi = début de semaine)
-function getISOWeekNumber(date) {
-  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-  const dayNum = d.getUTCDay() || 7; // Dimanche = 7
-  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-}
-
-// Fonction pour obtenir l'année ISO de la semaine
-function getISOWeekYear(date) {
-  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-  const dayNum = d.getUTCDay() || 7;
-  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-  return d.getUTCFullYear();
-}
-
-// Fonction pour obtenir les stats d'une semaine à partir d'une date
-function getWeekStats(dateString, weeklyStats) {
-  const date = new Date(dateString);
-  const weekNumber = getISOWeekNumber(date);
-  const year = getISOWeekYear(date);
-  const weekKey = `${year}-W${weekNumber}`;
-  return weeklyStats[weekKey] || null;
-}
-
-// Fonction pour obtenir la couleur en fonction du pourcentage d'objectif atteint
-function getWeekColor(total, target) {
-  const percentage = total / target;
-
-  if (percentage < 0.2) return '#5B2D44';      // Bordeaux - Aucun/Très faible
-  if (percentage < 0.4) return '#B7705C';      // Terracotta - Faible
-  if (percentage < 0.6) return '#59565D';      // Gris neutre - Moyen
-  if (percentage < 0.8) return '#2B434D';      // Bleu-gris - Bon
-  if (percentage < 1.0) return '#52B788';      // Vert - Excellent
-  return '#3E9469';                             // Vert plus foncé (100%+)                             // Vert foncé (100%+)
-}
-
-
-
-// Fonction pour créer un tooltip enrichi
-function createTooltip(content) {
-  // Supprimer l'ancien tooltip s'il existe
-  let existingTooltip = document.getElementById('customTooltip');
-  if (existingTooltip) {
-    existingTooltip.remove();
+  // Créer toutes les semaines de l'année
+  const allWeeks = [];
+  for (let i = 1; i <= 52; i++) {
+    allWeeks.push({ week: `S${i}`, value: weeklyData[`S${i}`] || 0 });
   }
 
-  const tooltip = document.createElement('div');
-  tooltip.id = 'customTooltip';
-  tooltip.style.cssText = `
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #FFFFFF;
-    padding: 12px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-family: 'Times New Roman', serif;
-    z-index: 10000;
-    pointer-events: none;
-    white-space: nowrap;
-    display: none;
-  `;
-  tooltip.innerHTML = content;
-  document.body.appendChild(tooltip);
-  return tooltip;
-}
+  const maxValue = Math.max(...allWeeks.map(w => w.value), weeklyTarget * 1.2);
+  const objectiveHeight = (weeklyTarget / maxValue) * 100;
 
-// Fonction pour positionner le tooltip
-function positionTooltip(tooltip, event) {
-  const x = event.clientX + 10;
-  const y = event.clientY + 10;
-  tooltip.style.left = x + 'px';
-  tooltip.style.top = y + 'px';
-  tooltip.style.display = 'block';
-}
-
-// Fonction pour ajouter la ligne de performance hebdomadaire
-function addWeeklyPerformanceLine(weeklyStats, targetWeekly, isClassementMode) {
-  const chartDom = document.getElementById('calendarHeatmap');
-  if (!chartDom) return;
-
-  // Supprimer l'ancienne ligne si elle existe
-  let weeklyLine = document.getElementById('weeklyPerformanceLine');
-  if (weeklyLine) {
-    weeklyLine.remove();
-  }
-
-  // Créer le conteneur pour la ligne hebdomadaire
-  weeklyLine = document.createElement('div');
-  weeklyLine.id = 'weeklyPerformanceLine';
-  weeklyLine.style.cssText = `
-    display: flex;
-    gap: 2px;
-    margin-top: 20px;
-    margin-left: 30px;
-    margin-right: 30px;
-    padding: 10px 0;
-  `;
-
-  // Trier les semaines par ordre chronologique
-  const sortedWeeks = Object.values(weeklyStats).sort((a, b) => {
-    if (a.year !== b.year) return a.year - b.year;
-    return a.weekNumber - b.weekNumber;
-  });
-
-  // Créer un carré pour chaque semaine
-  sortedWeeks.forEach(week => {
-    const weekBox = document.createElement('div');
-    const color = getWeekColor(week.total, targetWeekly);
-
-    weekBox.style.cssText = `
-      flex: 1;
-      height: 20px;
-      background-color: ${color};
-      border: 2px solid #0a0817;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+  // Générer les barres
+  let barsHTML = allWeeks.map((w, index) => {
+    const height = (w.value / maxValue) * 100;
+    const displayLabel = w.week.replace('S', '');
+    const showLabel = parseInt(displayLabel) % 4 === 1;
+    const diff = w.value - weeklyTarget;
+    const diffSign = diff >= 0 ? '+' : '';
+    const diffClass = diff >= 0 ? 'positive' : 'negative';
+    const initialHeight = animate ? Math.max(height, 2) : 0;
+    const delay = animate ? index * 15 : 0;
+    
+    return `
+      <div class="perf-bar" style="height: ${initialHeight}%; transition: height 0.5s ease-out ${delay}ms;">
+        <div class="perf-bar-tooltip">
+          <strong>${w.week}</strong><br>
+          ↑ ${formatElevation(w.value)} m<br>
+          <span class="diff-${diffClass}">${diffSign}${formatElevation(diff)} m</span>
+        </div>
+        ${showLabel ? `<span class="perf-bar-label">${displayLabel}</span>` : ''}
+      </div>
     `;
+  }).join('');
 
-    // Créer le contenu du tooltip
-    const difference = week.total - targetWeekly;
-    const status = difference >= 0 ? 'Excédent' : 'Déficit';
-    const statusColor = difference >= 0 ? '#4ade80' : '#f87171';
-
-    let tooltipContent = `<b>Semaine ${week.weekNumber}</b><br/>`;
-    tooltipContent += `D+: ${formatElevation(week.total)} m<br/>`;
-    tooltipContent += `Objectif: ${formatElevation(targetWeekly)} m<br/>`;
-    tooltipContent += `<span style="color: ${statusColor};">${status}: ${formatElevation(Math.abs(difference))} m</span>`;
-
-    // Ajouter le top contributeur en mode classement
-    if (isClassementMode && Object.keys(week.contributors).length > 0) {
-      const topContributor = Object.entries(week.contributors).reduce((a, b) =>
-        a[1] > b[1] ? a : b
-      );
-      tooltipContent += `<br/><span style="color: ${getAthleteColor(topContributor[0])};">★ Athlète ${topContributor[0]}: ${formatElevation(topContributor[1])} m</span>`;
-    }
-
-    // Gestion du tooltip
-    weekBox.addEventListener('mouseenter', function(e) {
-      this.style.transform = 'scale(1.1)';
-      this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.5)';
-      this.style.zIndex = '10';
-
-      const tooltip = createTooltip(tooltipContent);
-      positionTooltip(tooltip, e);
-    });
-
-    weekBox.addEventListener('mousemove', function(e) {
-      const tooltip = document.getElementById('customTooltip');
-      if (tooltip) {
-        positionTooltip(tooltip, e);
-      }
-    });
-
-    weekBox.addEventListener('mouseleave', function() {
-      this.style.transform = 'scale(1)';
-      this.style.boxShadow = 'none';
-      this.style.zIndex = '1';
-
-      const tooltip = document.getElementById('customTooltip');
-      if (tooltip) {
-        tooltip.remove();
-      }
-    });
-
-    weeklyLine.appendChild(weekBox);
-  });
-
-  // Ajouter un label pour la ligne
-  const label = document.createElement('div');
-  label.style.cssText = `
-    color: #FFFFFF;
-    font-size: 11px;
-    margin-left: 30px;
-    margin-top: 5px;
-    font-family: 'Times New Roman', serif;
+  // Ajouter la ligne d'objectif
+  const objectiveLine = `
+    <div class="objective-line" style="bottom: ${objectiveHeight}%">
+      <span class="objective-label">Obj. ${formatElevation(weeklyTarget)} m/sem</span>
+    </div>
   `;
-  label.textContent = 'Performance hebdomadaire';
 
-  // Insérer la ligne après le graphique
-  chartDom.parentNode.insertBefore(label, chartDom.nextSibling);
-  label.parentNode.insertBefore(weeklyLine, label.nextSibling);
+  container.innerHTML = barsHTML + objectiveLine;
 }
 
-// Fonction pour ajouter la ligne de performance mensuelle
-function addMonthlyPerformanceLine(monthlyStats, targetMonthly, isClassementMode) {
-  const chartDom = document.getElementById('calendarHeatmap');
-  if (!chartDom) return;
+function generateMonthlyBars(data, year, animate = true) {
+  const container = document.getElementById('monthlyBars');
+  if (!container) return;
 
-  // Supprimer l'ancienne ligne si elle existe
-  let monthlyLine = document.getElementById('monthlyPerformanceLine');
-  if (monthlyLine) {
-    monthlyLine.remove();
-  }
-
-  // Créer le conteneur pour la ligne mensuelle
-  monthlyLine = document.createElement('div');
-  monthlyLine.id = 'monthlyPerformanceLine';
-  monthlyLine.style.cssText = `
-    display: flex;
-    gap: 2px;
-    margin-top: 20px;
-    margin-left: 30px;
-    margin-right: 30px;
-    padding: 10px 0;
-  `;
-
-  // Trier les mois par ordre chronologique
-  const sortedMonths = Object.values(monthlyStats).sort((a, b) => {
-    if (a.year !== b.year) return a.year - b.year;
-    return a.month - b.month;
-  });
-
+  const TARGET = 1000000;
+  const monthlyTarget = TARGET / 12; // ~83 333 m par mois
   const monthNames = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
-
-  // Créer un carré pour chaque mois
-  sortedMonths.forEach(month => {
-    const monthBox = document.createElement('div');
-    const color = getWeekColor(month.total, targetMonthly);
-
-    monthBox.style.cssText = `
-      flex: 1;
-      height: 25px;
-      background-color: ${color};
-      border: 2px solid #0a0817;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      font-weight: bold;
-      color: rgba(255, 255, 255, 0.7);
-    `;
-
-    monthBox.textContent = monthNames[month.month - 1];
-
-    // Créer le contenu du tooltip
-    const difference = month.total - targetMonthly;
-    const status = difference >= 0 ? 'Excédent' : 'Déficit';
-    const statusColor = difference >= 0 ? '#4ade80' : '#f87171';
-
-    let tooltipContent = `<b>${monthNames[month.month - 1]} ${month.year}</b><br/>`;
-    tooltipContent += `D+: ${formatElevation(month.total)} m<br/>`;
-    tooltipContent += `Objectif: ${formatElevation(targetMonthly)} m<br/>`;
-    tooltipContent += `<span style="color: ${statusColor};">${status}: ${formatElevation(Math.abs(difference))} m</span>`;
-
-    // Ajouter le top contributeur en mode classement
-    if (isClassementMode && Object.keys(month.contributors).length > 0) {
-      const topContributor = Object.entries(month.contributors).reduce((a, b) =>
-        a[1] > b[1] ? a : b
-      );
-      tooltipContent += `<br/><span style="color: ${getAthleteColor(topContributor[0])};">★ Athlète ${topContributor[0]}: ${formatElevation(topContributor[1])} m</span>`;
-    }
-
-    // Gestion du tooltip
-    monthBox.addEventListener('mouseenter', function(e) {
-      this.style.transform = 'scale(1.05)';
-      this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.5)';
-      this.style.zIndex = '10';
-
-      const tooltip = createTooltip(tooltipContent);
-      positionTooltip(tooltip, e);
-    });
-
-    monthBox.addEventListener('mousemove', function(e) {
-      const tooltip = document.getElementById('customTooltip');
-      if (tooltip) {
-        positionTooltip(tooltip, e);
-      }
-    });
-
-    monthBox.addEventListener('mouseleave', function() {
-      this.style.transform = 'scale(1)';
-      this.style.boxShadow = 'none';
-      this.style.zIndex = '1';
-
-      const tooltip = document.getElementById('customTooltip');
-      if (tooltip) {
-        tooltip.remove();
-      }
-    });
-
-    monthlyLine.appendChild(monthBox);
+  
+  // Calculer le dénivelé par mois
+  const monthlyData = new Array(12).fill(0);
+  data.forEach(activity => {
+    const date = new Date(activity.date);
+    if (date.getFullYear() !== year) return;
+    monthlyData[date.getMonth()] += (activity.elevation_gain_m || 0);
   });
 
-  // Ajouter un label pour la ligne
-  const label = document.createElement('div');
-  label.style.cssText = `
-    color: #FFFFFF;
-    font-size: 11px;
-    margin-left: 30px;
-    margin-top: 5px;
-    font-family: 'Times New Roman', serif;
-  `;
-  label.textContent = 'Performance mensuelle';
+  const maxValue = Math.max(...monthlyData, monthlyTarget * 1.2);
+  const objectiveHeight = (monthlyTarget / maxValue) * 100;
 
-  // Insérer la ligne après la ligne hebdomadaire
-  const weeklyLine = document.getElementById('weeklyPerformanceLine');
-  if (weeklyLine && weeklyLine.nextSibling) {
-    weeklyLine.nextSibling.parentNode.insertBefore(label, weeklyLine.nextSibling.nextSibling);
-    label.parentNode.insertBefore(monthlyLine, label.nextSibling);
-  }
+  // Générer les barres
+  let barsHTML = monthlyData.map((value, index) => {
+    const height = (value / maxValue) * 100;
+    const diff = value - monthlyTarget;
+    const diffSign = diff >= 0 ? '+' : '';
+    const diffClass = diff >= 0 ? 'positive' : 'negative';
+    const initialHeight = animate ? Math.max(height, 2) : 0;
+    const delay = animate ? index * 50 : 0;
+    
+    return `
+      <div class="perf-bar" style="height: ${initialHeight}%; transition: height 0.6s ease-out ${delay}ms;">
+        <div class="perf-bar-tooltip">
+          <strong>${monthNames[index]}</strong><br>
+          ↑ ${formatElevation(value)} m<br>
+          <span class="diff-${diffClass}">${diffSign}${formatElevation(diff)} m</span>
+        </div>
+        <span class="perf-bar-label">${monthNames[index]}</span>
+      </div>
+    `;
+  }).join('');
+
+  // Ajouter la ligne d'objectif
+  const objectiveLine = `
+    <div class="objective-line" style="bottom: ${objectiveHeight}%">
+      <span class="objective-label">Obj. ${formatElevation(monthlyTarget)} m/mois</span>
+    </div>
+  `;
+
+  container.innerHTML = barsHTML + objectiveLine;
+}
+
+function getWeekNumber(date) {
+  const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+  const pastDaysOfYear = (date - firstDayOfYear) / 86400000;
+  return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
 }
 
 // ==============================
-// GRAPHIQUE RIDGELINE
+// RIDGELINE CHART
 // ==============================
-
-function calculateHourlyDistribution(activities, groupBy = 'sport') {
+function calculateHourlyDistribution(data, groupBy = 'sport') {
   const distributions = {};
 
-  activities.forEach(activity => {
-    const startDate = new Date(activity.date);
-    const startHour = startDate.getHours() + startDate.getMinutes() / 60;
-    const durationHours = (activity.moving_time_s || 0) / 3600;
+  data.forEach(activity => {
+    const date = new Date(activity.date);
+    const hour = date.getHours() + date.getMinutes() / 60;
+    const duration = (activity.moving_time_s || 0) / 3600;
 
-    const groupKey = groupBy === 'sport'
-      ? mapSportName(activity.sport)
-      : `Athlète ${activity.athlete_id}`;
-
-    if (!distributions[groupKey]) {
-      distributions[groupKey] = [];
+    let key;
+    if (groupBy === 'athlete') {
+      key = `Athlète ${activity.athlete_id}`;
+    } else {
+      key = mapSportName(activity.sport);
     }
 
-    const samples = Math.max(1, Math.ceil(durationHours * 4));
-    for (let i = 0; i < samples; i++) {
-      const hour = (startHour + (i / samples) * durationHours) % 24;
-      distributions[groupKey].push(hour);
+    if (!distributions[key]) {
+      distributions[key] = [];
+    }
+
+    for (let i = 0; i < duration; i += 0.25) {
+      const currentHour = (hour + i) % 24;
+      distributions[key].push(currentHour);
     }
   });
 
   return distributions;
 }
 
-export function showRidgelineBySport(data, athleteId = null, selectedSport = null) {
+export function showRidgelineBySport(data, athleteId, selectedSport = null) {
   const chartDom = document.getElementById('ridgelineChart');
   if (!chartDom) return;
 
@@ -1812,14 +1251,13 @@ export function showRidgelineBySport(data, athleteId = null, selectedSport = nul
   }
 
   const distributions = calculateHourlyDistribution(filteredData, 'sport');
-  const sports = Object.keys(distributions).sort();
+  const sports = Object.keys(distributions);
 
   if (sports.length === 0) return;
 
   const sportVolumes = {};
   sports.forEach(sport => {
-    const totalHours = distributions[sport].length * 0.25;
-    sportVolumes[sport] = totalHours;
+    sportVolumes[sport] = distributions[sport].length * 0.25;
   });
 
   const sortedSports = sports.sort((a, b) => sportVolumes[a] - sportVolumes[b]);
@@ -1849,7 +1287,7 @@ export function showRidgelineBySport(data, athleteId = null, selectedSport = nul
     if (sportMax > maxHours) maxHours = sportMax;
   });
 
-  const GAP_FACTOR = 0.1;
+  const GAP_FACTOR = 0.15;
 
   sortedSports.forEach((sport, index) => {
     const hoursData = allHoursData[sport];
@@ -1869,13 +1307,10 @@ export function showRidgelineBySport(data, athleteId = null, selectedSport = nul
         origin: index * (maxHours * GAP_FACTOR),
         color: {
           type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
+          x: 0, y: 0, x2: 0, y2: 1,
           colorStops: [
-            { offset: 0, color: getSportColor(sport) + 'AA' },
-            { offset: 1, color: getSportColor(sport) + '40' }
+            { offset: 0, color: getSportColor(sport) + 'CC' },
+            { offset: 1, color: getSportColor(sport) + '20' }
           ]
         }
       },
@@ -1887,85 +1322,57 @@ export function showRidgelineBySport(data, athleteId = null, selectedSport = nul
   const option = {
     backgroundColor: 'transparent',
     title: {
-      text: athleteId
-        ? `Répartition horaire - Athlète ${athleteId}${selectedSport ? ' (' + selectedSport + ')' : ''}`
-        : `Répartition horaire par sport${selectedSport ? ' (' + selectedSport + ')' : ''}`,
+      text: athleteId ? `Rythmes — Athlète ${athleteId}` : 'Rythmes par sport',
       textStyle: {
-        color: '#FFFFFF',
+        color: '#ffffff',
         fontSize: 16,
-        fontWeight: 'bold',
-        fontFamily: "'Times New Roman', serif"
+        fontWeight: '600',
+        fontFamily: "'Syne', sans-serif"
       },
       left: 'center',
       top: 10
     },
     tooltip: {
       trigger: 'axis',
-      backgroundColor: 'rgba(0, 0, 0, 0.9)',
-      borderColor: 'rgba(255, 255, 255, 0.2)',
-      textStyle: { color: '#FFFFFF' },
+      backgroundColor: 'rgba(10, 10, 15, 0.95)',
+      borderColor: 'rgba(255, 255, 255, 0.08)',
+      textStyle: { color: '#ffffff', fontFamily: "'Inter', sans-serif" },
       axisPointer: {
         type: 'line',
-        lineStyle: {
-          color: 'rgba(255, 255, 255, 0.5)',
-          width: 1
-        }
+        lineStyle: { color: 'rgba(249, 115, 22, 0.5)', width: 1 }
       },
       formatter: function(params) {
         const hour = params[0].axisValue;
         const hourInt = Math.floor(hour);
         const minutes = Math.round((hour - hourInt) * 60);
         const timeStr = `${hourInt.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-        const endMinutes = (minutes + 15) % 60;
-        const endHour = minutes + 15 >= 60 ? (hourInt + 1) % 24 : hourInt;
-        const endTimeStr = `${endHour.toString().padStart(2, '0')}:${endMinutes.toString().padStart(2, '0')}`;
 
-        let result = `<b>${timeStr} - ${endTimeStr}</b><br/>`;
-
+        let result = `<strong>${timeStr}</strong><br/>`;
         const dataIndex = params[0].dataIndex;
-        let totalHours = 0;
 
         params.forEach(param => {
           const sportName = param.seriesName;
           const hours = rawDataBySport[sportName][dataIndex];
-          totalHours += hours;
-
           if (hours > 0) {
-            const hoursInt = Math.floor(hours);
-            const minutesInt = Math.round((hours - hoursInt) * 60);
-            const timeDisplay = hoursInt > 0
-              ? `${hoursInt}h${minutesInt.toString().padStart(2, '0')}`
-              : `${minutesInt}min`;
-            result += `${param.marker}${sportName}: ${timeDisplay}<br/>`;
+            const minutesInt = Math.round(hours * 60);
+            result += `${param.marker}${sportName}: ${minutesInt}min<br/>`;
           }
         });
-
-        if (totalHours > 0) {
-          const totalHoursInt = Math.floor(totalHours);
-          const totalMinutesInt = Math.round((totalHours - totalHoursInt) * 60);
-          const totalDisplay = totalHoursInt > 0
-            ? `${totalHoursInt}h${totalMinutesInt.toString().padStart(2, '0')}`
-            : `${totalMinutesInt}min`;
-          result += `<br/><b>Total: ${totalDisplay}</b>`;
-        }
 
         return result;
       }
     },
     legend: {
       data: sortedSports,
-      textStyle: {
-        color: '#FFFFFF',
-        fontSize: 12
-      },
+      textStyle: { color: 'rgba(255, 255, 255, 0.6)', fontSize: 11, fontFamily: "'Inter', sans-serif" },
       top: 40,
       left: 'center'
     },
     grid: {
       left: '3%',
-      right: '12%',
-      top: sortedSports.length > 1 ? 80 : 60,
-      bottom: '8%',
+      right: '4%',
+      top: 90,
+      bottom: '10%',
       containLabel: true
     },
     xAxis: {
@@ -1973,52 +1380,17 @@ export function showRidgelineBySport(data, athleteId = null, selectedSport = nul
       data: xAxisData,
       boundaryGap: false,
       axisLabel: {
-        color: '#FFFFFF',
-        fontSize: 11,
-        formatter: function(value) {
-          const hour = Math.floor(value);
-          if (value % 1 === 0) {
-            return hour + 'h';
-          }
-          return '';
-        }
+        color: 'rgba(255, 255, 255, 0.5)',
+        fontSize: 10,
+        fontFamily: "'Space Mono', monospace",
+        formatter: value => Math.floor(value) % 2 === 0 && value % 1 === 0 ? Math.floor(value) + 'h' : ''
       },
-      axisLine: {
-        lineStyle: { color: 'rgba(255, 255, 255, 0.3)' }
-      },
-      splitLine: {
-        show: true,
-        lineStyle: { color: 'rgba(255, 255, 255, 0.08)' }
-      }
+      axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
+      splitLine: { show: true, lineStyle: { color: 'rgba(255, 255, 255, 0.04)' } }
     },
     yAxis: {
       type: 'value',
-      show: true,
-      position: 'right',
-      min: 0,
-      max: maxHours + (sortedSports.length - 1) * (maxHours * 0.25),
-      axisLabel: {
-        color: '#FFFFFF',
-        fontSize: 11,
-        formatter: function(value) {
-          for (let i = 0; i < sortedSports.length; i++) {
-            const baseline = i * (maxHours * 0.25);
-            if (Math.abs(value - baseline) < (maxHours * 0.05)) {
-              return sortedSports[i];
-            }
-          }
-          return '';
-        }
-      },
-      axisLine: { show: false },
-      axisTick: { show: false },
-      splitLine: {
-        show: true,
-        lineStyle: {
-          color: 'rgba(255, 255, 255, 0.05)',
-          type: 'dashed'
-        }
-      }
+      show: false
     },
     series: series
   };
@@ -2026,9 +1398,7 @@ export function showRidgelineBySport(data, athleteId = null, selectedSport = nul
   window.ridgelineChart.setOption(option);
 
   window.addEventListener('resize', () => {
-    if (window.ridgelineChart) {
-      window.ridgelineChart.resize();
-    }
+    if (window.ridgelineChart) window.ridgelineChart.resize();
   });
 }
 
@@ -2058,8 +1428,7 @@ export function showRidgelineByAthlete(data, selectedSport = null) {
 
   const athleteVolumes = {};
   athletes.forEach(athlete => {
-    const totalHours = distributions[athlete].length * 0.25;
-    athleteVolumes[athlete] = totalHours;
+    athleteVolumes[athlete] = distributions[athlete].length * 0.25;
   });
 
   const sortedAthletes = athletes.sort((a, b) => athleteVolumes[a] - athleteVolumes[b]);
@@ -2089,7 +1458,7 @@ export function showRidgelineByAthlete(data, selectedSport = null) {
     if (athleteMax > maxHours) maxHours = athleteMax;
   });
 
-  const GAP_FACTOR = 0.1;
+  const GAP_FACTOR = 0.15;
 
   sortedAthletes.forEach((athlete, index) => {
     const athleteId = parseInt(athlete.replace('Athlète ', ''));
@@ -2110,13 +1479,10 @@ export function showRidgelineByAthlete(data, selectedSport = null) {
         origin: index * (maxHours * GAP_FACTOR),
         color: {
           type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
+          x: 0, y: 0, x2: 0, y2: 1,
           colorStops: [
-            { offset: 0, color: getAthleteColor(athleteId) + 'AA' },
-            { offset: 1, color: getAthleteColor(athleteId) + '40' }
+            { offset: 0, color: getAthleteColor(athleteId) + 'CC' },
+            { offset: 1, color: getAthleteColor(athleteId) + '20' }
           ]
         }
       },
@@ -2128,84 +1494,58 @@ export function showRidgelineByAthlete(data, selectedSport = null) {
   const option = {
     backgroundColor: 'transparent',
     title: {
-      text: `Répartition horaire par athlète${selectedSport ? ' (' + selectedSport + ')' : ''}`,
+      text: `Rythmes par athlète${selectedSport ? ' — ' + selectedSport : ''}`,
       textStyle: {
-        color: '#FFFFFF',
+        color: '#ffffff',
         fontSize: 16,
-        fontWeight: 'bold',
-        fontFamily: "'Times New Roman', serif"
+        fontWeight: '600',
+        fontFamily: "'Syne', sans-serif"
       },
       left: 'center',
       top: 10
     },
     tooltip: {
       trigger: 'axis',
-      backgroundColor: 'rgba(0, 0, 0, 0.9)',
-      borderColor: 'rgba(255, 255, 255, 0.2)',
-      textStyle: { color: '#FFFFFF' },
+      backgroundColor: 'rgba(10, 10, 15, 0.95)',
+      borderColor: 'rgba(255, 255, 255, 0.08)',
+      textStyle: { color: '#ffffff', fontFamily: "'Inter', sans-serif" },
       axisPointer: {
         type: 'line',
-        lineStyle: {
-          color: 'rgba(255, 255, 255, 0.5)',
-          width: 1
-        }
+        lineStyle: { color: 'rgba(249, 115, 22, 0.5)', width: 1 }
       },
       formatter: function(params) {
         const hour = params[0].axisValue;
         const hourInt = Math.floor(hour);
         const minutes = Math.round((hour - hourInt) * 60);
         const timeStr = `${hourInt.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-        const endMinutes = (minutes + 15) % 60;
-        const endHour = minutes + 15 >= 60 ? (hourInt + 1) % 24 : hourInt;
-        const endTimeStr = `${endHour.toString().padStart(2, '0')}:${endMinutes.toString().padStart(2, '0')}`;
 
-        let result = `<b>${timeStr} - ${endTimeStr}</b><br/>`;
-
+        let result = `<strong>${timeStr}</strong><br/>`;
         const dataIndex = params[0].dataIndex;
-        let totalHours = 0;
 
         params.forEach(param => {
           const athleteName = param.seriesName;
           const hours = rawDataByAthlete[athleteName][dataIndex];
-          totalHours += hours;
-
           if (hours > 0) {
-            const hoursInt = Math.floor(hours);
-            const minutesInt = Math.round((hours - hoursInt) * 60);
-            const timeDisplay = hoursInt > 0
-              ? `${hoursInt}h${minutesInt.toString().padStart(2, '0')}`
-              : `${minutesInt}min`;
-            result += `${param.marker}${athleteName}: ${timeDisplay}<br/>`;
+            const minutesInt = Math.round(hours * 60);
+            result += `${param.marker}${athleteName}: ${minutesInt}min<br/>`;
           }
         });
-
-        if (totalHours > 0) {
-          const totalHoursInt = Math.floor(totalHours);
-          const totalMinutesInt = Math.round((totalHours - totalHoursInt) * 60);
-          const totalDisplay = totalHoursInt > 0
-            ? `${totalHoursInt}h${totalMinutesInt.toString().padStart(2, '0')}`
-            : `${totalMinutesInt}min`;
-          result += `<br/><b>Total: ${totalDisplay}</b>`;
-        }
 
         return result;
       }
     },
     legend: {
       data: sortedAthletes,
-      textStyle: {
-        color: '#FFFFFF',
-        fontSize: 12
-      },
+      textStyle: { color: 'rgba(255, 255, 255, 0.6)', fontSize: 11, fontFamily: "'Inter', sans-serif" },
       top: 40,
       left: 'center',
       type: 'scroll'
     },
     grid: {
       left: '3%',
-      right: '12%',
-      top: sortedAthletes.length > 5 ? 100 : 80,
-      bottom: '8%',
+      right: '4%',
+      top: sortedAthletes.length > 5 ? 100 : 90,
+      bottom: '10%',
       containLabel: true
     },
     xAxis: {
@@ -2213,52 +1553,17 @@ export function showRidgelineByAthlete(data, selectedSport = null) {
       data: xAxisData,
       boundaryGap: false,
       axisLabel: {
-        color: '#FFFFFF',
-        fontSize: 11,
-        formatter: function(value) {
-          const hour = Math.floor(value);
-          if (value % 1 === 0) {
-            return hour + 'h';
-          }
-          return '';
-        }
+        color: 'rgba(255, 255, 255, 0.5)',
+        fontSize: 10,
+        fontFamily: "'Space Mono', monospace",
+        formatter: value => Math.floor(value) % 2 === 0 && value % 1 === 0 ? Math.floor(value) + 'h' : ''
       },
-      axisLine: {
-        lineStyle: { color: 'rgba(255, 255, 255, 0.3)' }
-      },
-      splitLine: {
-        show: true,
-        lineStyle: { color: 'rgba(255, 255, 255, 0.08)' }
-      }
+      axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
+      splitLine: { show: true, lineStyle: { color: 'rgba(255, 255, 255, 0.04)' } }
     },
     yAxis: {
       type: 'value',
-      show: true,
-      position: 'right',
-      min: 0,
-      max: maxHours + (sortedAthletes.length - 1) * (maxHours * 0.25),
-      axisLabel: {
-        color: '#FFFFFF',
-        fontSize: 11,
-        formatter: function(value) {
-          for (let i = 0; i < sortedAthletes.length; i++) {
-            const baseline = i * (maxHours * 0.25);
-            if (Math.abs(value - baseline) < (maxHours * 0.05)) {
-              return sortedAthletes[i];
-            }
-          }
-          return '';
-        }
-      },
-      axisLine: { show: false },
-      axisTick: { show: false },
-      splitLine: {
-        show: true,
-        lineStyle: {
-          color: 'rgba(255, 255, 255, 0.05)',
-          type: 'dashed'
-        }
-      }
+      show: false
     },
     series: series
   };
@@ -2266,8 +1571,87 @@ export function showRidgelineByAthlete(data, selectedSport = null) {
   window.ridgelineChart.setOption(option);
 
   window.addEventListener('resize', () => {
-    if (window.ridgelineChart) {
-      window.ridgelineChart.resize();
-    }
+    if (window.ridgelineChart) window.ridgelineChart.resize();
+  });
+}
+
+// ==============================
+// PIE CHART SPORTS
+// ==============================
+export function showSportPieChart(data) {
+  const chartDom = document.getElementById('sportPieChart');
+  if (!chartDom) return;
+
+  if (window.sportPieChart && typeof window.sportPieChart.dispose === 'function') {
+    window.sportPieChart.dispose();
+  }
+
+  window.sportPieChart = echarts.init(chartDom);
+
+  const sportData = {};
+  data.forEach(activity => {
+    const sport = mapSportName(activity.sport);
+    sportData[sport] = (sportData[sport] || 0) + (activity.elevation_gain_m || 0);
+  });
+
+  const pieData = Object.entries(sportData)
+    .map(([name, value]) => ({
+      name,
+      value,
+      itemStyle: { color: getSportColor(name) }
+    }))
+    .sort((a, b) => b.value - a.value);
+
+  const option = {
+    backgroundColor: 'transparent',
+    tooltip: {
+      trigger: 'item',
+      backgroundColor: 'rgba(10, 10, 15, 0.95)',
+      borderColor: 'rgba(255, 255, 255, 0.08)',
+      textStyle: { color: '#ffffff', fontFamily: "'Inter', sans-serif", fontSize: 12 },
+      formatter: params => `${params.name}<br/>↑ ${formatElevation(params.value)} m (${params.percent.toFixed(1)}%)`
+    },
+    series: [{
+      type: 'pie',
+      radius: ['45%', '75%'],
+      center: ['50%', '50%'],
+      avoidLabelOverlap: true,
+      itemStyle: {
+        borderRadius: 6,
+        borderColor: '#1a1a24',
+        borderWidth: 2
+      },
+      label: {
+        show: true,
+        position: 'outside',
+        formatter: '{b}',
+        color: 'rgba(255, 255, 255, 0.7)',
+        fontSize: 10,
+        fontFamily: "'Inter', sans-serif"
+      },
+      labelLine: {
+        show: true,
+        length: 10,
+        length2: 10,
+        lineStyle: { color: 'rgba(255, 255, 255, 0.3)' }
+      },
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 20,
+          shadowColor: 'rgba(249, 115, 22, 0.5)'
+        },
+        label: { fontWeight: 'bold' }
+      },
+      data: pieData,
+      animationType: 'expansion',
+      animationDuration: 1500,
+      animationEasing: 'cubicOut'
+    }]
+  };
+
+  window.sportPieChart.setOption(option);
+
+  window.addEventListener('resize', () => {
+    if (window.sportPieChart) window.sportPieChart.resize();
   });
 }

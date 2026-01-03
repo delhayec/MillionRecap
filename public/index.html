@@ -3,99 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Récap du Million</title>
+    <title>Récap du Million — Le Défi Vertical</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Récap du Million</h1>
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <p class="hero-eyebrow">Challenge 2025</p>
+            <h1 class="hero-title">
+                <span class="title-line">Récap</span>
+                <span class="title-line accent">du Million</span>
+            </h1>
+            <p class="hero-subtitle">1 000 000 mètres de dénivelé positif</p>
+        </div>
+        <div class="scroll-indicator">
+            <span>Défiler</span>
+            <div class="scroll-line"></div>
+        </div>
+    </header>
 
-    <div class="filters">
-        <label for="athleteSelect">Athlète :</label>
-        <select id="athleteSelect">
-            <option value="">-- Tous --</option>
-        </select>
-
-        <label for="sportSelect">Sport :</label>
-        <select id="sportSelect">
-            <option value="">-- Tous --</option>
-        </select>
-    </div>
-
-    <div id="statsContainer" class="stats-container">
-        <div class="stats-row">
-            <div class="stat-card">
-                <h3>Dénivelé cumulé</h3>
-                <p id="totalElevation">0 m</p>
+    <!-- NAVIGATION STICKY -->
+    <nav class="nav-sticky" id="navSticky">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-icon">▲</span>
+                <span class="brand-text">Million</span>
             </div>
-            <div class="stat-card">
-                <h3>Nombre d'activités</h3>
-                <p id="totalActivities">0</p>
+            <div class="nav-filters">
+                <div class="filter-group">
+                    <label for="athleteSelect">Athlète</label>
+                    <select id="athleteSelect">
+                        <option value="">Tous</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="sportSelect">Sport</label>
+                    <select id="sportSelect">
+                        <option value="">Tous</option>
+                    </select>
+                </div>
             </div>
         </div>
-        <div class="stats-row">
-            <div class="stat-card">
-                <h3>Distance cumulée</h3>
-                <p id="totalDistance">0 km</p>
+    </nav>
+
+    <!-- STATS SECTION -->
+    <section class="stats-section" id="statsSection">
+        <div class="section-header">
+            <span class="section-number">01</span>
+            <h2 class="section-title">Vue d'ensemble</h2>
+        </div>
+        
+        <div id="statsContainer" class="stats-grid">
+            <div class="stat-card stat-primary">
+                <div class="stat-icon">↑</div>
+                <div class="stat-content">
+                    <span class="stat-value" id="totalElevation">0</span>
+                    <span class="stat-unit">m</span>
+                </div>
+                <span class="stat-label">Dénivelé cumulé</span>
+                <div class="stat-progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
             </div>
+            
             <div class="stat-card">
-                <h3>Temps cumulé</h3>
-                <p id="totalTime">0 h</p>
+                <div class="stat-icon">◉</div>
+                <div class="stat-content">
+                    <span class="stat-value" id="totalActivities">0</span>
+                </div>
+                <span class="stat-label">Activités</span>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">→</div>
+                <div class="stat-content">
+                    <span class="stat-value" id="totalDistance">0</span>
+                    <span class="stat-unit">km</span>
+                </div>
+                <span class="stat-label">Distance</span>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">◷</div>
+                <div class="stat-content">
+                    <span class="stat-value" id="totalTime">0</span>
+                    <span class="stat-unit">h</span>
+                </div>
+                <span class="stat-label">Temps total</span>
+            </div>
+            
+            <div class="stat-card stat-highlight">
+                <div class="stat-icon">★</div>
+                <div class="stat-content">
+                    <span class="stat-value-small" id="bestDay">-</span>
+                </div>
+                <span class="stat-label">Meilleur jour</span>
+            </div>
+            
+            <div class="stat-card stat-highlight">
+                <div class="stat-icon">◆</div>
+                <div class="stat-content">
+                    <span class="stat-value-small" id="bestWeek">-</span>
+                </div>
+                <span class="stat-label">Meilleure semaine</span>
+            </div>
+            
+            <div class="stat-card stat-chart">
+                <div class="stat-label" style="margin-bottom: 12px;">Répartition par sport</div>
+                <div id="sportPieChart"></div>
             </div>
         </div>
-        <div class="stat-card stat-card-full">
-            <h3>Meilleur jour de l'année</h3>
-            <p id="bestDay">-</p>
+    </section>
+
+    <!-- CHART SECTION -->
+    <section class="chart-section">
+        <div class="section-header">
+            <span class="section-number">02</span>
+            <h2 class="section-title">Progression</h2>
         </div>
-        <div class="stat-card stat-card-full">
-            <h3>Meilleure semaine de l'année</h3>
-            <p id="bestWeek">-</p>
+        
+        <div class="chart-container">
+            <button id="fullscreenBtn" class="fullscreen-btn" title="Plein écran">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                </svg>
+            </button>
+            <canvas id="elevationChart"></canvas>
+            <div class="close-fullscreen" id="closeFullscreen">✕</div>
         </div>
-    </div>
+    </section>
 
-    <div class="chart-container">
-        <button id="fullscreenBtn" class="fullscreen-btn" title="Plein écran">⛶</button>
-        <canvas id="elevationChart"></canvas>
-        <div class="close-fullscreen" id="closeFullscreen">✕</div>
-    </div>
+    <!-- MAP SECTION -->
+    <section class="map-section">
+        <div class="section-header">
+            <span class="section-number">03</span>
+            <h2 class="section-title">Explorations</h2>
+        </div>
+        
+        <div id="map-and-legend" class="map-layout">
+            <aside id="countryStatsContainer" class="country-panel"></aside>
+            <div id="map" class="map-container"></div>
+            <aside id="legendContainer" class="legend-panel"></aside>
+        </div>
+    </section>
 
-    <div id="map-and-legend">
-        <div id="countryStatsContainer" class="country-stats-container"></div>
-        <div id="map"></div>
-        <div id="legendContainer" class="legend-container"></div>
-    </div>
+    <!-- SANKEY SECTION -->
+    <section class="sankey-section">
+        <div class="section-header">
+            <span class="section-number">04</span>
+            <h2 class="section-title">Flux d'activités</h2>
+        </div>
+        
+        <div class="sankey-container">
+            <div id="sankeyChart"></div>
+        </div>
+    </section>
 
-    <div class="sankey-container">
-        <div id="sankeyChart"></div>
-    </div>
+    <!-- HEATMAP SECTION -->
+    <section class="heatmap-section">
+        <div class="section-header">
+            <span class="section-number">05</span>
+            <h2 class="section-title">Calendrier</h2>
+        </div>
+        
+        <div class="heatmap-container">
+            <div class="heatmap-layout">
+                <div class="heatmap-legend">
+                    <div class="legend-title">Dénivelé quotidien</div>
+                    <div class="legend-scale">
+                        <div class="legend-gradient"></div>
+                        <div class="legend-labels">
+                            <span>0 m</span>
+                            <span>Max</span>
+                        </div>
+                    </div>
+                    <div class="legend-note">Jours sans activité en gris foncé</div>
+                </div>
+                <div class="heatmap-main">
+                    <div id="calendarHeatmap"></div>
+                </div>
+            </div>
+            
+            <div class="performance-bars">
+                <div class="performance-section">
+                    <h4>Performance hebdomadaire</h4>
+                    <div class="bars-wrapper">
+                        <div id="weeklyBars" class="bars-container"></div>
+                    </div>
+                </div>
+                <div class="performance-section">
+                    <h4>Performance mensuelle</h4>
+                    <div class="bars-wrapper">
+                        <div id="monthlyBars" class="bars-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <div class="heatmap-container">
-        <h2 class="heatmap-title">Activité de l'année</h2>
-        <div id="calendarHeatmap"></div>
-    </div>
+    <!-- RIDGELINE SECTION -->
+    <section class="ridgeline-section">
+        <div class="section-header">
+            <span class="section-number">06</span>
+            <h2 class="section-title">Rythmes</h2>
+            <p class="section-desc">Répartition horaire des activités</p>
+        </div>
+        
+        <div class="ridgeline-container">
+            <div id="ridgelineChart"></div>
+        </div>
+    </section>
 
-    <div class="ridgeline-container">
-        <h2 class="ridgeline-title">Répartition horaire des activités</h2>
-        <div id="ridgelineChart"></div>
-    </div>
+    <!-- RANKING TABLE -->
+    <section id="rankingTableContainer" class="ranking-section" style="display: none;">
+        <div class="section-header">
+            <span class="section-number">07</span>
+            <h2 class="section-title">Classement</h2>
+        </div>
+        
+        <div class="table-wrapper">
+            <table id="rankingTable">
+                <thead>
+                    <tr>
+                        <th data-sort="athlete_id">Athlète</th>
+                        <th data-sort="total_elevation">Dénivelé (m)</th>
+                        <th data-sort="activity_count">Activités</th>
+                        <th data-sort="total_distance">Distance (km)</th>
+                        <th data-sort="total_time">Temps (h)</th>
+                        <th data-sort="elevation_per_distance">D+/km</th>
+                        <th data-sort="elevation_per_time">D+/h</th>
+                        <th data-sort="elevation_per_activity">D+/Activité</th>
+                    </tr>
+                </thead>
+                <tbody id="rankingTableBody"></tbody>
+            </table>
+        </div>
+    </section>
 
-    <div id="rankingTableContainer" class="table-container" style="display: none;">
-        <table id="rankingTable">
-            <thead>
-                <tr>
-                    <th data-sort="athlete_id">Athlète</th>
-                    <th data-sort="total_elevation">Dénivelé (m)</th>
-                    <th data-sort="activity_count">Nombre d'activités</th>
-                    <th data-sort="total_distance">Distance (km)</th>
-                    <th data-sort="total_time">Temps (h)</th>
-                    <th data-sort="elevation_per_distance">D+/Distance (m/km)</th>
-                    <th data-sort="elevation_per_time">D+/Temps (m/h)</th>
-                    <th data-sort="elevation_per_activity">D+/Activité (m)</th>
-                </tr>
-            </thead>
-            <tbody id="rankingTableBody"></tbody>
-        </table>
-    </div>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="brand-icon">▲</span>
+                <span>Récap du Million</span>
+            </div>
+            <p class="footer-text">Challenge 2025 — 1 000 000 m D+</p>
+        </div>
+    </footer>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

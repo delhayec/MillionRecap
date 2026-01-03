@@ -9,7 +9,8 @@ import {
   showCalendarHeatmap,
   initMap,
   showRidgelineBySport,
-  showRidgelineByAthlete
+  showRidgelineByAthlete,
+  showSportPieChart
 } from './charts.js';
 
 // ==============================
@@ -79,19 +80,31 @@ function updateChart() {
     const sankeyContainer = document.querySelector('.sankey-container');
     const heatmapContainer = document.querySelector('.heatmap-container');
     const ridgelineContainer = document.querySelector('.ridgeline-container');
+    const chartSection = document.querySelector('.chart-section');
 
     updateStats(filteredData);
+    showSportPieChart(filteredData);
 
     if (athleteValue === "classement") {
+      // Mode classement : tableau d'abord, masquer les sections inutiles
       rankingTableContainer.style.display = 'block';
       mapAndLegend.style.display = 'none';
       if (sankeyContainer) sankeyContainer.style.display = 'none';
-      if (heatmapContainer) heatmapContainer.style.display = 'block';
+      if (heatmapContainer) heatmapContainer.style.display = 'none';
       if (ridgelineContainer) ridgelineContainer.style.display = 'block';
+      
+      // Masquer les headers des sections cachées
+      document.querySelector('.map-section .section-header')?.style.setProperty('display', 'none');
+      document.querySelector('.sankey-section .section-header')?.style.setProperty('display', 'none');
+      document.querySelector('.heatmap-section .section-header')?.style.setProperty('display', 'none');
+      
+      // Réorganiser : tableau avant le graphique
+      if (chartSection && rankingTableContainer) {
+        chartSection.parentNode.insertBefore(rankingTableContainer, chartSection);
+      }
 
       showRankingChart(allData, sportValue);
       showRankingTable(allData);
-      showCalendarHeatmap(allData, "classement", sportValue);
       showRidgelineByAthlete(allData, sportValue);
 
     } else if (athleteValue === "") {
@@ -100,6 +113,11 @@ function updateChart() {
       if (sankeyContainer) sankeyContainer.style.display = 'block';
       if (heatmapContainer) heatmapContainer.style.display = 'block';
       if (ridgelineContainer) ridgelineContainer.style.display = 'block';
+      
+      // Réafficher les headers
+      document.querySelector('.map-section .section-header')?.style.setProperty('display', 'block');
+      document.querySelector('.sankey-section .section-header')?.style.setProperty('display', 'block');
+      document.querySelector('.heatmap-section .section-header')?.style.setProperty('display', 'block');
 
       showAllAthletesChart(allData, sportValue);
       showMapChart(filteredData, null);
@@ -113,6 +131,11 @@ function updateChart() {
       if (sankeyContainer) sankeyContainer.style.display = 'block';
       if (heatmapContainer) heatmapContainer.style.display = 'block';
       if (ridgelineContainer) ridgelineContainer.style.display = 'block';
+      
+      // Réafficher les headers
+      document.querySelector('.map-section .section-header')?.style.setProperty('display', 'block');
+      document.querySelector('.sankey-section .section-header')?.style.setProperty('display', 'block');
+      document.querySelector('.heatmap-section .section-header')?.style.setProperty('display', 'block');
 
       showIndividualChart(allData, athleteValue, sportValue);
       showMapChart(filteredData, athleteValue);
