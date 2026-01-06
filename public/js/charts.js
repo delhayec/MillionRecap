@@ -1,4 +1,4 @@
-import { getAthleteColor, getSportColor, mapSportName, generateAllDays, getOrdinalSuffix, decodePolyline, formatElevation } from './utils.js';
+import { getAthleteColor, getSportColor, mapSportName, generateAllDays, getOrdinalSuffix, decodePolyline, formatElevation, getAthleteName, getAthleteIdFromName } from './utils.js';
 
 // ==============================
 // CONFIGURATION CHART.JS — REFONTE 2025
@@ -123,7 +123,7 @@ export function showAllAthletesChart(data, selectedSport) {
 
   const barDatasets = athletes.map(athlete => ({
     type: 'bar',
-    label: `Athlète ${athlete}`,
+    label: `${getAthleteName(athlete)}`,
     data: athleteDailyData[athlete],
     backgroundColor: getAthleteColor(athlete),
     borderRadius: 2,
@@ -201,7 +201,7 @@ export function showAllAthletesChart(data, selectedSport) {
             },
             label: function(context) {
               if (context.dataset.type === 'bar') {
-                const athleteId = parseInt(context.dataset.label.replace('Athlète ', ''));
+                const athleteId = getAthleteIdFromName(context.dataset.label);
                 const dayIndex = context.dataIndex;
                 const sport = dailySports[dayIndex]?.[athleteId] || 'Aucun';
                 return [
@@ -362,7 +362,7 @@ export function showIndividualChart(data, athleteId, selectedSport) {
         ...baseChartOptions.plugins,
         title: {
           ...baseChartOptions.plugins.title,
-          text: `Athlète ${athleteId} — ${selectedSport || 'Tous sports'}`
+          text: `${getAthleteName(athleteId)} — ${selectedSport || 'Tous sports'}`
         },
         tooltip: {
           enabled: true,
@@ -483,7 +483,7 @@ export function showRankingChart(data, selectedSport) {
 
   const datasets = athletes.map(athlete => ({
     type: 'line',
-    label: `Athlète ${athlete}`,
+    label: `${getAthleteName(athlete)}`,
     data: athleteDataMap[athlete],
     borderColor: getAthleteColor(athlete),
     backgroundColor: 'rgba(0, 0, 0, 0)',
@@ -542,7 +542,7 @@ export function showRankingChart(data, selectedSport) {
             label: function(context) {
               const dataset = context.dataset;
               const dayIndex = context.dataIndex;
-              const athleteId = parseInt(dataset.label.replace('Athlète ', ''));
+              const athleteId = getAthleteIdFromName(dataset.label);
               const ranking = getRankingForDay(dayIndex)[athleteId];
 
               return [
@@ -665,7 +665,7 @@ function generateLegend(activities, colorMode = 'athlete') {
 
       const text = document.createElement('div');
       text.className = 'legend-text';
-      text.textContent = `Athlète ${athleteId} (${count})`;
+      text.textContent = `${getAthleteName(athleteId)} (${count})`;
 
       legendItem.appendChild(colorBox);
       legendItem.appendChild(text);
@@ -801,7 +801,11 @@ export function showRankingTable(data) {
         total_elevation: 0,
         activity_count: 0,
         total_distance: 0,
-        total_time: 0
+        total_time: 0,
+        active_days: new Set(),
+        best_activity: null,
+        elevation_by_sport: {},
+        activities_without_elevation: 0
       };
     }
 
@@ -809,10 +813,34 @@ export function showRankingTable(data) {
     athleteStats[id].activity_count++;
     athleteStats[id].total_distance += activity.distance_m || 0;
     athleteStats[id].total_time += activity.moving_time_s || 0;
+    
+    // Jours actifs
+    const day = activity.date.split('T')[0];
+    athleteStats[id].active_days.add(day);
+    
+    // Meilleure activité
+    if (!athleteStats[id].best_activity || (activity.elevation_gain_m || 0) > athleteStats[id].best_activity.elevation) {
+      athleteStats[id].best_activity = {
+        id: activity.id,
+        elevation: activity.elevation_gain_m || 0,
+        date: activity.date,
+        name: activity.name
+      };
+    }
+    
+    // Elevation par sport
+    const sport = mapSportName(activity.sport);
+    athleteStats[id].elevation_by_sport[sport] = (athleteStats[id].elevation_by_sport[sport] || 0) + (activity.elevation_gain_m || 0);
+    
+    // Activités sans dénivelé
+    if (!activity.elevation_gain_m || activity.elevation_gain_m === 0) {
+      athleteStats[id].activities_without_elevation++;
+    }
   });
 
   const stats = Object.values(athleteStats).map(s => ({
     ...s,
+    active_days_count: s.active_days.size,
     elevation_per_distance: s.total_distance > 0 ? (s.total_elevation / (s.total_distance / 1000)).toFixed(1) : 0,
     elevation_per_time: s.total_time > 0 ? (s.total_elevation / (s.total_time / 3600)).toFixed(1) : 0,
     elevation_per_activity: s.activity_count > 0 ? (s.total_elevation / s.activity_count).toFixed(0) : 0
@@ -824,8 +852,11 @@ export function showRankingTable(data) {
 
   stats.forEach(s => {
     const row = document.createElement('tr');
+    const recordDate = s.best_activity ? new Date(s.best_activity.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : '-';
+    const stravaLink = s.best_activity ? `https://www.strava.com/activities/${s.best_activity.id}` : '#';
+    
     row.innerHTML = `
-      <td style="color: ${getAthleteColor(s.athlete_id)}">Athlète ${s.athlete_id}</td>
+      <td style="color: ${getAthleteColor(s.athlete_id)}">${getAthleteName(s.athlete_id)}</td>
       <td>${s.total_elevation.toLocaleString('fr-FR')}</td>
       <td>${s.activity_count}</td>
       <td>${(s.total_distance / 1000).toFixed(0)}</td>
@@ -833,13 +864,28 @@ export function showRankingTable(data) {
       <td>${s.elevation_per_distance}</td>
       <td>${s.elevation_per_time}</td>
       <td>${s.elevation_per_activity}</td>
+      <td>
+        ${s.best_activity ? `
+          <a href="${stravaLink}" target="_blank" class="record-link" title="${s.best_activity.name}">
+            <span class="record-elevation">↑ ${formatElevation(s.best_activity.elevation)} m</span>
+            <span class="record-date">${recordDate}</span>
+            <span class="record-strava">Voir sur Strava →</span>
+          </a>
+        ` : '-'}
+      </td>
     `;
     tbody.appendChild(row);
   });
 
+  // Générer les achievements
+  generateAchievements(stats);
+
+  // Tri des colonnes
   document.querySelectorAll('#rankingTable th').forEach(th => {
     th.addEventListener('click', () => {
       const key = th.dataset.sort;
+      if (!key) return;
+      
       const isAsc = th.classList.contains('sorted-asc');
       
       document.querySelectorAll('#rankingTable th').forEach(h => {
@@ -852,8 +898,11 @@ export function showRankingTable(data) {
       tbody.innerHTML = '';
       stats.forEach(s => {
         const row = document.createElement('tr');
+        const recordDate = s.best_activity ? new Date(s.best_activity.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : '-';
+        const stravaLink = s.best_activity ? `https://www.strava.com/activities/${s.best_activity.id}` : '#';
+        
         row.innerHTML = `
-          <td style="color: ${getAthleteColor(s.athlete_id)}">Athlète ${s.athlete_id}</td>
+          <td style="color: ${getAthleteColor(s.athlete_id)}">${getAthleteName(s.athlete_id)}</td>
           <td>${s.total_elevation.toLocaleString('fr-FR')}</td>
           <td>${s.activity_count}</td>
           <td>${(s.total_distance / 1000).toFixed(0)}</td>
@@ -861,11 +910,163 @@ export function showRankingTable(data) {
           <td>${s.elevation_per_distance}</td>
           <td>${s.elevation_per_time}</td>
           <td>${s.elevation_per_activity}</td>
+          <td>
+            ${s.best_activity ? `
+              <a href="${stravaLink}" target="_blank" class="record-link" title="${s.best_activity.name}">
+                <span class="record-elevation">↑ ${formatElevation(s.best_activity.elevation)} m</span>
+                <span class="record-date">${recordDate}</span>
+                <span class="record-strava">Voir sur Strava →</span>
+              </a>
+            ` : '-'}
+          </td>
         `;
         tbody.appendChild(row);
       });
     });
   });
+}
+
+function generateAchievements(stats) {
+  const grid = document.getElementById('achievementsGrid');
+  if (!grid) return;
+
+  const achievements = [
+    {
+      id: 'king',
+      emoji: '👑',
+      name: 'Roi de la Montagne',
+      desc: 'Le plus de dénivelé total',
+      type: 'legendary',
+      getValue: s => s.total_elevation,
+      format: v => `${formatElevation(v)} m`
+    },
+    {
+      id: 'regular',
+      emoji: '📅',
+      name: 'Régulier',
+      desc: 'Le plus de jours actifs',
+      type: 'normal',
+      getValue: s => s.active_days_count,
+      format: v => `${v} jours`
+    },
+    {
+      id: 'efficient',
+      emoji: '⚡',
+      name: 'Efficace',
+      desc: 'Le plus de D+ par sortie',
+      type: 'normal',
+      getValue: s => parseFloat(s.elevation_per_activity),
+      format: v => `${formatElevation(v)} m/sortie`
+    },
+    {
+      id: 'steep',
+      emoji: '🧗',
+      name: 'Accro à la Pente',
+      desc: 'Le plus de D+ par km',
+      type: 'normal',
+      getValue: s => parseFloat(s.elevation_per_distance),
+      format: v => `${v} m/km`
+    },
+    {
+      id: 'cyclist',
+      emoji: '🚴',
+      name: 'Roi de la Pédale',
+      desc: 'Le plus de D+ en vélo',
+      type: 'normal',
+      getValue: s => s.elevation_by_sport['Bike'] || 0,
+      format: v => `${formatElevation(v)} m`
+    },
+    {
+      id: 'runner',
+      emoji: '🏃',
+      name: 'Crapahute',
+      desc: 'Le plus de D+ en trail/run',
+      type: 'normal',
+      getValue: s => (s.elevation_by_sport['Run'] || 0) + (s.elevation_by_sport['Trail'] || 0),
+      format: v => `${formatElevation(v)} m`
+    },
+    {
+      id: 'skier',
+      emoji: '⛷️',
+      name: 'Collant Pipette',
+      desc: 'Le plus de D+ en ski',
+      type: 'normal',
+      getValue: s => (s.elevation_by_sport['Ski mountaineering'] || 0) + (s.elevation_by_sport['Ski'] || 0),
+      format: v => `${formatElevation(v)} m`
+    },
+    {
+      id: 'hiker',
+      emoji: '🥾',
+      name: 'Randonneur',
+      desc: 'Le plus de D+ en rando',
+      type: 'normal',
+      getValue: s => s.elevation_by_sport['Hike'] || 0,
+      format: v => `${formatElevation(v)} m`
+    },
+    {
+      id: 'flat',
+      emoji: '🤷',
+      name: 'A pas compris',
+      desc: 'Le plus d\'activités sans D+',
+      type: 'fun',
+      getValue: s => s.activities_without_elevation,
+      format: v => `${v} activités`
+    },
+    {
+      id: 'speedster',
+      emoji: '🚀',
+      name: 'Turbo',
+      desc: 'Le plus de D+ par heure',
+      type: 'normal',
+      getValue: s => parseFloat(s.elevation_per_time),
+      format: v => `${formatElevation(v)} m/h`
+    },
+    {
+      id: 'marathon',
+      emoji: '🏅',
+      name: 'Marathonien',
+      desc: 'Le plus d\'activités',
+      type: 'normal',
+      getValue: s => s.activity_count,
+      format: v => `${v} activités`
+    },
+    {
+      id: 'endurance',
+      emoji: '⏱️',
+      name: 'Endurant',
+      desc: 'Le plus de temps d\'effort',
+      type: 'normal',
+      getValue: s => s.total_time,
+      format: v => `${Math.round(v / 3600)}h`
+    }
+  ];
+
+  grid.innerHTML = achievements.map(achievement => {
+    // Trouver le gagnant
+    const validStats = stats.filter(s => achievement.getValue(s) > 0);
+    if (validStats.length === 0) return '';
+    
+    const winner = validStats.reduce((best, s) => 
+      achievement.getValue(s) > achievement.getValue(best) ? s : best
+    );
+    
+    const value = achievement.getValue(winner);
+    
+    return `
+      <div class="achievement-card">
+        <div class="achievement-badge ${achievement.type}">${achievement.emoji}</div>
+        <div class="achievement-info">
+          <div class="achievement-name">${achievement.name}</div>
+          <div class="achievement-desc">${achievement.desc}</div>
+          <div class="achievement-winner">
+            <div class="achievement-winner-color" style="background: ${getAthleteColor(winner.athlete_id)}"></div>
+            <span class="achievement-winner-name">${getAthleteName(winner.athlete_id)}</span>
+            <span class="achievement-winner-value">${achievement.format(value)}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
 // ==============================
@@ -888,24 +1089,51 @@ export function showSankeyDiagram(data) {
   const athletes = [...new Set(data.map(d => d.athlete_id))];
   const sports = [...new Set(data.map(d => mapSportName(d.sport)))];
 
+  // Calculer le total global
+  const totalGlobal = data.reduce((sum, d) => sum + (d.elevation_gain_m || 0), 0);
+
+  // Calculer les totaux par athlète
+  const athleteTotals = {};
   athletes.forEach(a => {
-    const name = `Athlète ${a}`;
+    athleteTotals[a] = data.filter(d => d.athlete_id === a)
+      .reduce((sum, d) => sum + (d.elevation_gain_m || 0), 0);
+  });
+
+  // Calculer les totaux par sport
+  const sportTotals = {};
+  sports.forEach(s => {
+    sportTotals[s] = data.filter(d => mapSportName(d.sport) === s)
+      .reduce((sum, d) => sum + (d.elevation_gain_m || 0), 0);
+  });
+
+  athletes.forEach(a => {
+    const name = `${getAthleteName(a)}`;
     if (!nodeSet.has(name)) {
-      nodes.push({ name, itemStyle: { color: getAthleteColor(a) } });
+      nodes.push({ 
+        name, 
+        itemStyle: { color: getAthleteColor(a) },
+        total: athleteTotals[a],
+        percentage: ((athleteTotals[a] / totalGlobal) * 100).toFixed(1)
+      });
       nodeSet.add(name);
     }
   });
 
   sports.forEach(s => {
     if (!nodeSet.has(s)) {
-      nodes.push({ name: s, itemStyle: { color: getSportColor(s) } });
+      nodes.push({ 
+        name: s, 
+        itemStyle: { color: getSportColor(s) },
+        total: sportTotals[s],
+        percentage: ((sportTotals[s] / totalGlobal) * 100).toFixed(1)
+      });
       nodeSet.add(s);
     }
   });
 
   const linkMap = {};
   data.forEach(activity => {
-    const source = `Athlète ${activity.athlete_id}`;
+    const source = `${getAthleteName(activity.athlete_id)}`;
     const target = mapSportName(activity.sport);
     const key = `${source}->${target}`;
 
@@ -927,6 +1155,11 @@ export function showSankeyDiagram(data) {
       formatter: params => {
         if (params.dataType === 'edge') {
           return `${params.data.source} → ${params.data.target}<br/>↑ ${formatElevation(params.data.value)} m`;
+        }
+        // Node tooltip
+        const node = nodes.find(n => n.name === params.name);
+        if (node) {
+          return `<strong>${params.name}</strong><br/>↑ ${formatElevation(node.total)} m<br/>${node.percentage}% du total`;
         }
         return params.name;
       }
@@ -1214,7 +1447,7 @@ function calculateHourlyDistribution(data, groupBy = 'sport') {
 
     let key;
     if (groupBy === 'athlete') {
-      key = `Athlète ${activity.athlete_id}`;
+      key = `${getAthleteName(activity.athlete_id)}`;
     } else {
       key = mapSportName(activity.sport);
     }
@@ -1322,7 +1555,7 @@ export function showRidgelineBySport(data, athleteId, selectedSport = null) {
   const option = {
     backgroundColor: 'transparent',
     title: {
-      text: athleteId ? `Rythmes — Athlète ${athleteId}` : 'Rythmes par sport',
+      text: athleteId ? `Rythmes — ${getAthleteName(athleteId)}` : 'Rythmes par sport',
       textStyle: {
         color: '#ffffff',
         fontSize: 16,
@@ -1418,11 +1651,7 @@ export function showRidgelineByAthlete(data, selectedSport = null) {
   }
 
   const distributions = calculateHourlyDistribution(filteredData, 'athlete');
-  const athletes = Object.keys(distributions).sort((a, b) => {
-    const numA = parseInt(a.replace('Athlète ', ''));
-    const numB = parseInt(b.replace('Athlète ', ''));
-    return numA - numB;
-  });
+  const athletes = Object.keys(distributions);
 
   if (athletes.length === 0) return;
 
@@ -1461,7 +1690,7 @@ export function showRidgelineByAthlete(data, selectedSport = null) {
   const GAP_FACTOR = 0.15;
 
   sortedAthletes.forEach((athlete, index) => {
-    const athleteId = parseInt(athlete.replace('Athlète ', ''));
+    const athleteId = getAthleteIdFromName(athlete);
     const hoursData = allHoursData[athlete];
     const normalizedData = hoursData.map(h => h + (index * (maxHours * GAP_FACTOR)));
 
@@ -1654,4 +1883,542 @@ export function showSportPieChart(data) {
   window.addEventListener('resize', () => {
     if (window.sportPieChart) window.sportPieChart.resize();
   });
+}
+
+// ==============================
+// MINI RANKING SLIDER
+// ==============================
+export function showMiniRanking(data) {
+  const slider = document.getElementById('miniRankingSlider');
+  const dotsContainer = document.getElementById('rankingDots');
+  const prevBtn = document.getElementById('rankingPrev');
+  const nextBtn = document.getElementById('rankingNext');
+  
+  if (!slider) return;
+
+  // Calculer les stats par athlète
+  const athleteStats = {};
+  data.forEach(activity => {
+    const id = activity.athlete_id;
+    if (!athleteStats[id]) {
+      athleteStats[id] = { athlete_id: id, total_elevation: 0 };
+    }
+    athleteStats[id].total_elevation += activity.elevation_gain_m || 0;
+  });
+
+  const stats = Object.values(athleteStats).sort((a, b) => b.total_elevation - a.total_elevation);
+  const maxElevation = stats[0]?.total_elevation || 1;
+
+  // Générer les items
+  slider.innerHTML = stats.map((s, index) => {
+    const percentage = (s.total_elevation / maxElevation) * 100;
+    const positionClass = index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : '';
+    
+    return `
+      <div class="mini-rank-item">
+        <div class="mini-rank-position ${positionClass}">${index + 1}</div>
+        <div class="mini-rank-info">
+          <div class="mini-rank-name" style="color: ${getAthleteColor(s.athlete_id)}">${getAthleteName(s.athlete_id)}</div>
+          <div class="mini-rank-value">${formatElevation(s.total_elevation)} m</div>
+        </div>
+        <div class="mini-rank-bar">
+          <div class="mini-rank-bar-fill" style="width: ${percentage}%; background: ${getAthleteColor(s.athlete_id)}"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Pagination par groupe de 4
+  const itemsPerPage = 4;
+  const totalPages = Math.ceil(stats.length / itemsPerPage);
+  let currentPage = 0;
+
+  // Générer les dots
+  if (dotsContainer) {
+    dotsContainer.innerHTML = Array.from({ length: totalPages }, (_, i) => 
+      `<div class="ranking-dot ${i === 0 ? 'active' : ''}" data-page="${i}"></div>`
+    ).join('');
+
+    dotsContainer.querySelectorAll('.ranking-dot').forEach(dot => {
+      dot.addEventListener('click', () => {
+        currentPage = parseInt(dot.dataset.page);
+        updateSlider();
+      });
+    });
+  }
+
+  function updateSlider() {
+    const itemWidth = 188; // min-width + gap
+    slider.scrollTo({ left: currentPage * itemsPerPage * itemWidth, behavior: 'smooth' });
+    
+    if (dotsContainer) {
+      dotsContainer.querySelectorAll('.ranking-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentPage);
+      });
+    }
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      currentPage = Math.max(0, currentPage - 1);
+      updateSlider();
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      currentPage = Math.min(totalPages - 1, currentPage + 1);
+      updateSlider();
+    });
+  }
+}
+
+// ==============================
+// SOCIAL GRAPH - SORTIES EN GROUPE
+// ==============================
+
+// Fonction pour calculer la distance entre deux points GPS (Haversine)
+function haversineDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371000; // Rayon de la Terre en mètres
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+// Fonction pour comparer deux polylines et déterminer leur similarité
+function comparePolylines(poly1, poly2, corridorWidth = 100) {
+  if (!poly1 || !poly2 || poly1.length < 2 || poly2.length < 2) return 0;
+  
+  // Échantillonner les polylines pour accélérer la comparaison
+  const sampleRate = Math.max(1, Math.floor(Math.min(poly1.length, poly2.length) / 50));
+  const sampled1 = poly1.filter((_, i) => i % sampleRate === 0);
+  const sampled2 = poly2.filter((_, i) => i % sampleRate === 0);
+  
+  let matchCount = 0;
+  
+  for (const point1 of sampled1) {
+    for (const point2 of sampled2) {
+      const distance = haversineDistance(point1[0], point1[1], point2[0], point2[1]);
+      if (distance <= corridorWidth) {
+        matchCount++;
+        break;
+      }
+    }
+  }
+  
+  return matchCount / sampled1.length;
+}
+
+// Fonction pour détecter les sorties communes
+function detectGroupActivities(data) {
+  const groupActivities = [];
+  const processedPairs = new Set();
+  
+  // Grouper les activités par date (même jour)
+  const activitiesByDate = {};
+  data.forEach(activity => {
+    const date = activity.date.split('T')[0];
+    if (!activitiesByDate[date]) activitiesByDate[date] = [];
+    activitiesByDate[date].push(activity);
+  });
+  
+  // Pour chaque jour, chercher les activités similaires
+  Object.values(activitiesByDate).forEach(dayActivities => {
+    if (dayActivities.length < 2) return;
+    
+    for (let i = 0; i < dayActivities.length; i++) {
+      for (let j = i + 1; j < dayActivities.length; j++) {
+        const a1 = dayActivities[i];
+        const a2 = dayActivities[j];
+        
+        // Éviter les doublons
+        const pairKey = [a1.id, a2.id].sort().join('-');
+        if (processedPairs.has(pairKey)) continue;
+        processedPairs.add(pairKey);
+        
+        // Même athlète = pas une sortie de groupe
+        if (a1.athlete_id === a2.athlete_id) continue;
+        
+        // Vérifier les critères de correspondance
+        const isMatch = checkActivityMatch(a1, a2);
+        
+        if (isMatch) {
+          groupActivities.push({
+            athletes: [a1.athlete_id, a2.athlete_id],
+            activities: [a1, a2],
+            date: a1.date.split('T')[0],
+            sport: a1.sport,
+            elevation: Math.round((a1.elevation_gain_m + a2.elevation_gain_m) / 2),
+            duration: Math.round((a1.moving_time_s + a2.moving_time_s) / 2)
+          });
+        }
+      }
+    }
+  });
+  
+  return groupActivities;
+}
+
+// Vérifier si deux activités correspondent à une sortie commune
+function checkActivityMatch(a1, a2) {
+  // 1. Vérifier l'heure de départ (moins de 30 minutes d'écart)
+  const time1 = new Date(a1.date).getTime();
+  const time2 = new Date(a2.date).getTime();
+  const timeDiff = Math.abs(time1 - time2) / (1000 * 60); // en minutes
+  
+  if (timeDiff > 30) return false;
+  
+  // 2. Vérifier la durée (moins d'1h d'écart)
+  const duration1 = a1.moving_time_s || 0;
+  const duration2 = a2.moving_time_s || 0;
+  const durationDiff = Math.abs(duration1 - duration2) / 3600; // en heures
+  
+  if (durationDiff > 1) return false;
+  
+  // 3. Vérifier le type de sport (doit être similaire)
+  const sport1 = mapSportName(a1.sport);
+  const sport2 = mapSportName(a2.sport);
+  if (sport1 !== sport2) return false;
+  
+  // 4. Vérifier les polylines si disponibles
+  if (a1.tracemap?.summary_polyline && a2.tracemap?.summary_polyline) {
+    const poly1 = decodePolyline(a1.tracemap.summary_polyline);
+    const poly2 = decodePolyline(a2.tracemap.summary_polyline);
+    
+    const similarity = comparePolylines(poly1, poly2, 100);
+    if (similarity < 0.75) return false;
+  } else {
+    // Sans polyline, vérifier la distance et le dénivelé
+    const distDiff = Math.abs((a1.distance_m || 0) - (a2.distance_m || 0));
+    const elevDiff = Math.abs((a1.elevation_gain_m || 0) - (a2.elevation_gain_m || 0));
+    
+    // Tolérance : 10% de différence max
+    const avgDist = ((a1.distance_m || 0) + (a2.distance_m || 0)) / 2;
+    const avgElev = ((a1.elevation_gain_m || 0) + (a2.elevation_gain_m || 0)) / 2;
+    
+    if (avgDist > 0 && distDiff / avgDist > 0.1) return false;
+    if (avgElev > 0 && elevDiff / avgElev > 0.1) return false;
+  }
+  
+  return true;
+}
+
+// Fonction principale pour afficher le graphe social
+export function showSocialGraph(data) {
+  const container = document.getElementById('socialGraph');
+  if (!container) return;
+  
+  // Nettoyer le conteneur
+  container.innerHTML = '';
+  
+  // Détecter les sorties en groupe
+  const groupActivities = detectGroupActivities(data);
+  
+  // Calculer les stats par athlète
+  const athleteStats = {};
+  data.forEach(activity => {
+    const id = activity.athlete_id;
+    if (!athleteStats[id]) {
+      athleteStats[id] = { 
+        id, 
+        name: getAthleteName(id),
+        totalElevation: 0,
+        groupCount: 0
+      };
+    }
+    athleteStats[id].totalElevation += activity.elevation_gain_m || 0;
+  });
+  
+  // Compter les sorties de groupe par athlète
+  groupActivities.forEach(group => {
+    group.athletes.forEach(athleteId => {
+      if (athleteStats[athleteId]) {
+        athleteStats[athleteId].groupCount++;
+      }
+    });
+  });
+  
+  // Créer les nodes
+  const nodes = Object.values(athleteStats).map(athlete => ({
+    id: athlete.id,
+    name: athlete.name,
+    totalElevation: athlete.totalElevation,
+    groupCount: athlete.groupCount,
+    radius: Math.max(20, Math.min(50, Math.sqrt(athlete.totalElevation) / 10))
+  }));
+  
+  // Créer les links avec offset pour éviter la superposition
+  const linksByPair = {};
+  groupActivities.forEach((group, index) => {
+    const pairKey = group.athletes.sort().join('-');
+    if (!linksByPair[pairKey]) {
+      linksByPair[pairKey] = [];
+    }
+    linksByPair[pairKey].push({
+      source: group.athletes[0],
+      target: group.athletes[1],
+      date: group.date,
+      sport: mapSportName(group.sport),
+      elevation: group.elevation,
+      duration: group.duration,
+      index: linksByPair[pairKey].length
+    });
+  });
+  
+  // Aplatir les links avec offset
+  const links = [];
+  Object.values(linksByPair).forEach(pairLinks => {
+    const count = pairLinks.length;
+    pairLinks.forEach((link, i) => {
+      link.offset = count > 1 ? (i - (count - 1) / 2) * 15 : 0;
+      link.totalInPair = count;
+      links.push(link);
+    });
+  });
+  
+  // Dimensions
+  const width = container.clientWidth || 800;
+  const height = container.clientHeight || 550;
+  
+  // Créer le SVG
+  const svg = d3.select(container)
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height)
+    .attr('viewBox', [0, 0, width, height]);
+  
+  // Créer le tooltip
+  const tooltip = d3.select(container)
+    .append('div')
+    .attr('class', 'social-tooltip');
+  
+  // Définir les gradients pour les liens
+  const defs = svg.append('defs');
+  
+  // Simulation de force
+  const simulation = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links)
+      .id(d => d.id)
+      .distance(150)
+      .strength(link => 0.3 + (link.totalInPair * 0.1))
+    )
+    .force('charge', d3.forceManyBody()
+      .strength(d => -300 - d.groupCount * 50)
+    )
+    .force('center', d3.forceCenter(width / 2, height / 2))
+    .force('collision', d3.forceCollide()
+      .radius(d => d.radius + 20)
+    );
+  
+  // Fonction pour générer un chemin courbe avec offset
+  function linkArc(d) {
+    const dx = d.target.x - d.source.x;
+    const dy = d.target.y - d.source.y;
+    const dr = Math.sqrt(dx * dx + dy * dy);
+    
+    // Calculer le point de contrôle pour la courbe
+    const midX = (d.source.x + d.target.x) / 2;
+    const midY = (d.source.y + d.target.y) / 2;
+    
+    // Perpendiculaire pour l'offset
+    const perpX = -dy / dr * d.offset;
+    const perpY = dx / dr * d.offset;
+    
+    const ctrlX = midX + perpX;
+    const ctrlY = midY + perpY;
+    
+    return `M${d.source.x},${d.source.y} Q${ctrlX},${ctrlY} ${d.target.x},${d.target.y}`;
+  }
+  
+  // Dessiner les liens
+  const link = svg.append('g')
+    .selectAll('path')
+    .data(links)
+    .join('path')
+    .attr('class', 'social-link')
+    .attr('stroke', d => getSportColor(d.sport))
+    .attr('stroke-width', d => Math.max(2, Math.min(8, d.elevation / 300)))
+    .attr('opacity', 0.6)
+    .on('mouseover', function(event, d) {
+      d3.select(this).attr('opacity', 1).attr('stroke-width', d => Math.max(3, Math.min(10, d.elevation / 300 + 2)));
+      
+      const date = new Date(d.date).toLocaleDateString('fr-FR', { 
+        weekday: 'long', day: 'numeric', month: 'long' 
+      });
+      const sourceName = getAthleteName(d.source.id || d.source);
+      const targetName = getAthleteName(d.target.id || d.target);
+      const duration = Math.round(d.duration / 60);
+      
+      tooltip.html(`
+        <div class="social-tooltip-title">
+          <span class="social-tooltip-sport" style="background: ${getSportColor(d.sport)}"></span>
+          ${sourceName} & ${targetName}
+        </div>
+        <div class="social-tooltip-details">
+          ${date}<br>
+          ${d.sport}<br>
+          <span class="social-tooltip-elevation">↑ ${formatElevation(d.elevation)} m</span> · ${duration} min
+        </div>
+      `)
+      .style('left', (event.offsetX + 15) + 'px')
+      .style('top', (event.offsetY - 15) + 'px')
+      .classed('visible', true);
+    })
+    .on('mouseout', function() {
+      d3.select(this).attr('opacity', 0.6).attr('stroke-width', d => Math.max(2, Math.min(8, d.elevation / 300)));
+      tooltip.classed('visible', false);
+    });
+  
+  // Dessiner les nodes
+  const node = svg.append('g')
+    .selectAll('g')
+    .data(nodes)
+    .join('g')
+    .attr('class', 'social-node')
+    .call(d3.drag()
+      .on('start', dragstarted)
+      .on('drag', dragged)
+      .on('end', dragended)
+    );
+  
+  // Cercles des nodes
+  node.append('circle')
+    .attr('r', d => d.radius)
+    //.attr('fill', d => getAthleteColor(d.id))
+      .attr('fill', "#222230FF")
+    .attr('stroke', '#fff')
+    .attr('stroke-width', 2)
+    .attr('opacity', 0.9);
+  
+  // Labels des nodes
+  node.append('text')
+    .attr('class', 'social-node-label')
+    .attr('dy', d => d.radius + 15)
+    .text(d => d.name);
+  
+  // Tooltip pour les nodes
+  node.on('mouseover', function(event, d) {
+    tooltip.html(`
+      <div class="social-tooltip-title">
+        <span class="social-tooltip-sport" style="background: ${getAthleteColor(d.id)}"></span>
+        ${d.name}
+      </div>
+      <div class="social-tooltip-details">
+        <span class="social-tooltip-elevation">↑ ${formatElevation(d.totalElevation)} m</span> total<br>
+        ${d.groupCount} sortie${d.groupCount > 1 ? 's' : ''} en groupe
+      </div>
+    `)
+    .style('left', (event.offsetX + 15) + 'px')
+    .style('top', (event.offsetY - 15) + 'px')
+    .classed('visible', true);
+  })
+  .on('mouseout', function() {
+    tooltip.classed('visible', false);
+  });
+  
+  // Mise à jour de la simulation
+  simulation.on('tick', () => {
+    link.attr('d', linkArc);
+    
+    node.attr('transform', d => {
+      d.x = Math.max(d.radius, Math.min(width - d.radius, d.x));
+      d.y = Math.max(d.radius, Math.min(height - d.radius, d.y));
+      return `translate(${d.x},${d.y})`;
+    });
+  });
+  
+  // Fonctions de drag
+  function dragstarted(event) {
+    if (!event.active) simulation.alphaTarget(0.3).restart();
+    event.subject.fx = event.subject.x;
+    event.subject.fy = event.subject.y;
+  }
+  
+  function dragged(event) {
+    event.subject.fx = event.x;
+    event.subject.fy = event.y;
+  }
+  
+  function dragended(event) {
+    if (!event.active) simulation.alphaTarget(0);
+    event.subject.fx = null;
+    event.subject.fy = null;
+  }
+  
+  // Générer la légende et les stats
+  generateSocialLegend(links);
+  generateSocialStats(nodes, links, groupActivities);
+  
+  // Resize handler
+  window.addEventListener('resize', () => {
+    const newWidth = container.clientWidth || 800;
+    const newHeight = container.clientHeight || 550;
+    svg.attr('width', newWidth).attr('height', newHeight);
+    simulation.force('center', d3.forceCenter(newWidth / 2, newHeight / 2));
+    simulation.alpha(0.3).restart();
+  });
+}
+
+function generateSocialLegend(links) {
+  const legendContainer = document.getElementById('socialLegendItems');
+  if (!legendContainer) return;
+  
+  const sports = [...new Set(links.map(l => l.sport))];
+  
+  legendContainer.innerHTML = sports.map(sport => `
+    <div class="social-legend-item">
+      <div class="social-legend-color" style="background: ${getSportColor(sport)}"></div>
+      <span>${sport}</span>
+    </div>
+  `).join('');
+}
+
+function generateSocialStats(nodes, links, groupActivities) {
+  const statsContainer = document.getElementById('socialStats');
+  if (!statsContainer) return;
+  
+  const totalGroupRides = groupActivities.length;
+  const totalGroupElevation = groupActivities.reduce((sum, g) => sum + g.elevation, 0);
+  
+  // Trouver le duo le plus actif
+  const pairCount = {};
+  groupActivities.forEach(g => {
+    const key = g.athletes.sort().map(id => getAthleteName(id)).join(' & ');
+    pairCount[key] = (pairCount[key] || 0) + 1;
+  });
+  
+  const topDuo = Object.entries(pairCount).sort((a, b) => b[1] - a[1])[0];
+  
+  // Athlète le plus social
+  const socialScore = {};
+  nodes.forEach(n => socialScore[n.name] = n.groupCount);
+  const mostSocial = Object.entries(socialScore).sort((a, b) => b[1] - a[1])[0];
+  
+  statsContainer.innerHTML = `
+    <h4>Statistiques</h4>
+    <div class="social-stat-item">
+      <span>Sorties en groupe</span>
+      <span class="social-stat-value">${totalGroupRides}</span>
+    </div>
+    <div class="social-stat-item">
+      <span>D+ en groupe</span>
+      <span class="social-stat-value">${formatElevation(totalGroupElevation)} m</span>
+    </div>
+    ${topDuo ? `
+    <div class="social-stat-item">
+      <span>Duo le + actif</span>
+      <span class="social-stat-value" style="font-size: 0.65rem">${topDuo[0]}</span>
+    </div>
+    ` : ''}
+    ${mostSocial && mostSocial[1] > 0 ? `
+    <div class="social-stat-item">
+      <span>Le + social</span>
+      <span class="social-stat-value">${mostSocial[0]}</span>
+    </div>
+    ` : ''}
+  `;
 }

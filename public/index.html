@@ -118,6 +118,16 @@
                 <div class="stat-label" style="margin-bottom: 12px;">Répartition par sport</div>
                 <div id="sportPieChart"></div>
             </div>
+            
+            <div class="stat-card stat-ranking-mini">
+                <div class="stat-label">Classement</div>
+                <div class="mini-ranking-container">
+                    <button class="ranking-nav-btn ranking-prev" id="rankingPrev">‹</button>
+                    <div class="mini-ranking-slider" id="miniRankingSlider"></div>
+                    <button class="ranking-nav-btn ranking-next" id="rankingNext">›</button>
+                </div>
+                <div class="ranking-dots" id="rankingDots"></div>
+            </div>
         </div>
     </section>
 
@@ -183,7 +193,7 @@
                             <span>Max</span>
                         </div>
                     </div>
-                    <div class="legend-note">Jours sans activité en gris foncé</div>
+                    <div class="legend-note">Jours sans activité en blanc</div>
                 </div>
                 <div class="heatmap-main">
                     <div id="calendarHeatmap"></div>
@@ -220,11 +230,39 @@
         </div>
     </section>
 
+    <!-- SOCIAL GRAPH SECTION -->
+    <section class="social-section">
+        <div class="section-header">
+            <span class="section-number">07</span>
+            <h2 class="section-title">Sorties en groupe</h2>
+            <p class="section-desc">Connexions entre athlètes lors de sorties communes</p>
+        </div>
+        
+        <div class="social-container">
+            <div class="social-sidebar">
+                <div class="social-legend">
+                    <h4>Sports</h4>
+                    <div class="social-legend-items" id="socialLegendItems"></div>
+                </div>
+                <div class="social-stats" id="socialStats"></div>
+            </div>
+            <div class="social-graph-wrapper">
+                <div id="socialGraph"></div>
+            </div>
+        </div>
+    </section>
+
     <!-- RANKING TABLE -->
     <section id="rankingTableContainer" class="ranking-section" style="display: none;">
         <div class="section-header">
-            <span class="section-number">07</span>
+            <span class="section-number">08</span>
             <h2 class="section-title">Classement</h2>
+        </div>
+        
+        <!-- ACHIEVEMENTS -->
+        <div class="achievements-container">
+            <h3 class="achievements-title">🏆 Achievements</h3>
+            <div class="achievements-grid" id="achievementsGrid"></div>
         </div>
         
         <div class="table-wrapper">
@@ -239,6 +277,7 @@
                         <th data-sort="elevation_per_distance">D+/km</th>
                         <th data-sort="elevation_per_time">D+/h</th>
                         <th data-sort="elevation_per_activity">D+/Activité</th>
+                        <th>Record</th>
                     </tr>
                 </thead>
                 <tbody id="rankingTableBody"></tbody>
@@ -261,6 +300,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script type="module" src="js/app.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-import { loadData, updateStats } from './utils.js';
+import { loadData, updateStats, getAthleteName } from './utils.js';
 import {
   showRankingChart,
   showIndividualChart,
@@ -10,7 +10,9 @@ import {
   initMap,
   showRidgelineBySport,
   showRidgelineByAthlete,
-  showSportPieChart
+  showSportPieChart,
+  showMiniRanking,
+  showSocialGraph
 } from './charts.js';
 
 // ==============================
@@ -32,7 +34,7 @@ function fillDropdowns(data) {
   athletes.forEach(athlete => {
     const option = document.createElement('option');
     option.value = athlete;
-    option.textContent = `Athlète ${athlete}`;
+    option.textContent = getAthleteName(athlete);
     athleteSelect.appendChild(option);
   });
 
@@ -80,10 +82,12 @@ function updateChart() {
     const sankeyContainer = document.querySelector('.sankey-container');
     const heatmapContainer = document.querySelector('.heatmap-container');
     const ridgelineContainer = document.querySelector('.ridgeline-container');
+    const socialContainer = document.querySelector('.social-section');
     const chartSection = document.querySelector('.chart-section');
 
     updateStats(filteredData);
     showSportPieChart(filteredData);
+    showMiniRanking(allData);
 
     if (athleteValue === "classement") {
       // Mode classement : tableau d'abord, masquer les sections inutiles
@@ -92,11 +96,13 @@ function updateChart() {
       if (sankeyContainer) sankeyContainer.style.display = 'none';
       if (heatmapContainer) heatmapContainer.style.display = 'none';
       if (ridgelineContainer) ridgelineContainer.style.display = 'block';
+      if (socialContainer) socialContainer.style.display = 'none';
       
       // Masquer les headers des sections cachées
       document.querySelector('.map-section .section-header')?.style.setProperty('display', 'none');
       document.querySelector('.sankey-section .section-header')?.style.setProperty('display', 'none');
       document.querySelector('.heatmap-section .section-header')?.style.setProperty('display', 'none');
+      document.querySelector('.social-section .section-header')?.style.setProperty('display', 'none');
       
       // Réorganiser : tableau avant le graphique
       if (chartSection && rankingTableContainer) {
@@ -113,17 +119,20 @@ function updateChart() {
       if (sankeyContainer) sankeyContainer.style.display = 'block';
       if (heatmapContainer) heatmapContainer.style.display = 'block';
       if (ridgelineContainer) ridgelineContainer.style.display = 'block';
+      if (socialContainer) socialContainer.style.display = 'block';
       
       // Réafficher les headers
       document.querySelector('.map-section .section-header')?.style.setProperty('display', 'block');
       document.querySelector('.sankey-section .section-header')?.style.setProperty('display', 'block');
       document.querySelector('.heatmap-section .section-header')?.style.setProperty('display', 'block');
+      document.querySelector('.social-section .section-header')?.style.setProperty('display', 'block');
 
       showAllAthletesChart(allData, sportValue);
       showMapChart(filteredData, null);
       showSankeyDiagram(filteredData);
       showCalendarHeatmap(allData, null, sportValue);
       showRidgelineBySport(allData, null, sportValue);
+      showSocialGraph(allData);
 
     } else {
       rankingTableContainer.style.display = 'none';
@@ -131,11 +140,13 @@ function updateChart() {
       if (sankeyContainer) sankeyContainer.style.display = 'block';
       if (heatmapContainer) heatmapContainer.style.display = 'block';
       if (ridgelineContainer) ridgelineContainer.style.display = 'block';
+      if (socialContainer) socialContainer.style.display = 'none';
       
-      // Réafficher les headers
+      // Réafficher les headers sauf social
       document.querySelector('.map-section .section-header')?.style.setProperty('display', 'block');
       document.querySelector('.sankey-section .section-header')?.style.setProperty('display', 'block');
       document.querySelector('.heatmap-section .section-header')?.style.setProperty('display', 'block');
+      document.querySelector('.social-section .section-header')?.style.setProperty('display', 'none');
 
       showIndividualChart(allData, athleteValue, sportValue);
       showMapChart(filteredData, athleteValue);

@@ -54,7 +54,7 @@ for i, file in enumerate(files):
         "elevation_gain_m": data.get("total_elevation_gain"),
         "calories": data.get("calories"),
         "tracemap": data.get("map"),
-        "country": country  # 🌍 Nouveau champ !
+        "country": country
     }
 
     rows.append(row)

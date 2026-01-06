@@ -24,6 +24,36 @@ const sportColors = {
   'Ski mountaineering': '#22d3ee' // Cyan
 };
 
+// Mapping des IDs vers les noms d'athlètes
+const athleteNames = {
+  '3953180': 'Clement D',
+  '6635902': 'Bapt I',
+  '3762537': 'Bapt M',
+  '68391361': 'Elo F',
+  '5231535': 'Franck P',
+  '87904944': 'Guillaume B',
+  '1841009': 'Mana S',
+  '106477520': 'Matt X',
+  '119310419': 'Max 2Peuf',
+  '19523416': 'Morguy D',
+  '110979265': 'Pef B',
+  '84388438': 'Remi S',
+  '25332977': 'Thomas G'
+};
+
+// Mapping inverse : nom -> ID
+const athleteIds = Object.fromEntries(
+  Object.entries(athleteNames).map(([id, name]) => [name, id])
+);
+
+export function getAthleteName(athleteId) {
+  return athleteNames[String(athleteId)] || `Athlète ${athleteId}`;
+}
+
+export function getAthleteIdFromName(name) {
+  return athleteIds[name] || name.replace('Athlète ', '');
+}
+
 // Mapping des sports bruts vers les catégories simplifiées
 const sportMapping = {
   'Run': 'Run',
