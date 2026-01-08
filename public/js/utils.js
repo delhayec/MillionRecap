@@ -181,11 +181,22 @@ export async function loadData() {
   if (cachedVersion === CURRENT_CACHE_VERSION && cachedData) {
     try {
       const data = JSON.parse(cachedData);
-      console.log(' Données chargées depuis le cache localStorage');
-      console.log(` ${data.length} activités en cache`);
-      return data;
+
+      // Gérer différents formats de données
+      let activities;
+      if (Array.isArray(data)) {
+        activities = data;
+      } else if (data.activities && Array.isArray(data.activities)) {
+        activities = data.activities;
+      } else {
+        throw new Error('Format de données invalide dans le cache');
+      }
+
+      console.log('✅ Données chargées depuis le cache localStorage');
+      console.log(`📦 ${activities.length} activités en cache`);
+      return activities;
     } catch (error) {
-      console.warn(' Cache corrompu, rechargement depuis le serveur...');
+      console.warn('⚠️ Cache corrompu, rechargement depuis le serveur...', error);
       localStorage.removeItem(CACHE_KEY);
       localStorage.removeItem(CACHE_VERSION_KEY);
     }
@@ -195,33 +206,46 @@ export async function loadData() {
   console.log('🔄 Chargement des données depuis le serveur...');
 
   const possiblePaths = [
-    '/data/activities_with_groups.json',
-    '/public/data/activities_with_groups.json',
-    'data/activities_with_groups.json',
-    './data/activities_with_groups.json'
+    '/data/all_activities_2025.json',
+    '/public/data/all_activities_2025.json',
+    'data/all_activities_2025.json',
+    './data/all_activities_2025.json'
   ];
 
   for (const path of possiblePaths) {
     try {
       const response = await fetch(path);
       if (response.ok) {
-        const data = await response.json();
-        console.log(` Données chargées depuis: ${path}`);
-        console.log(` ${data.length} activités`);
+        const rawData = await response.json();
 
-        // Sauvegarder dans le cache
+        // Gérer différents formats de données
+        let data;
+        if (Array.isArray(rawData)) {
+          data = rawData;
+        } else if (rawData.activities && Array.isArray(rawData.activities)) {
+          data = rawData.activities;
+        } else {
+          console.error('Format de données JSON invalide');
+          continue;
+        }
+
+        console.log(`✅ Données chargées depuis: ${path}`);
+        console.log(`📦 ${data.length} activités`);
+
+        // Sauvegarder dans le cache (toujours sauvegarder le tableau)
         try {
           localStorage.setItem(CACHE_KEY, JSON.stringify(data));
           localStorage.setItem(CACHE_VERSION_KEY, CURRENT_CACHE_VERSION);
-          console.log(' Données mises en cache');
+          console.log('💾 Données mises en cache');
         } catch (storageError) {
-          console.warn(' Impossible de sauvegarder dans le cache:', storageError.message);
+          console.warn('⚠️ Impossible de sauvegarder dans le cache:', storageError.message);
           // Si localStorage est plein, on continue sans cache
         }
 
         return data;
       }
     } catch (error) {
+      console.error(`Erreur lors du chargement de ${path}:`, error);
       continue;
     }
   }
@@ -286,14 +310,17 @@ export function getCacheInfo() {
   }
 
   try {
-    const data = JSON.parse(localStorage.getItem(CACHE_KEY));
+    const rawData = JSON.parse(localStorage.getItem(CACHE_KEY));
     const size = new Blob([localStorage.getItem(CACHE_KEY)]).size;
     const sizeKB = (size / 1024).toFixed(2);
+
+    // Gérer différents formats
+    let activities = Array.isArray(rawData) ? rawData : (rawData.activities || []);
 
     return {
       cached: true,
       version: version,
-      activities: data.length,
+      activities: activities.length,
       sizeKB: sizeKB,
       upToDate: version === CURRENT_CACHE_VERSION
     };
