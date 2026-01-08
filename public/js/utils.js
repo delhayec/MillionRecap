@@ -206,10 +206,10 @@ export async function loadData() {
   console.log('🔄 Chargement des données depuis le serveur...');
 
   const possiblePaths = [
-    '/data/all_activities_2025.json',
-    '/public/data/all_activities_2025.json',
-    'data/all_activities_2025.json',
-    './data/all_activities_2025.json'
+    '/data/activities_with_groups.json',
+    '/public/data/activities_with_groups.json',
+    'data/activities_with_groups.json',
+    './data/activities_with_groups.json'
   ];
 
   for (const path of possiblePaths) {
