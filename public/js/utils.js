@@ -59,12 +59,44 @@ const sportMapping = {
   'Run': 'Run',
   'TrailRun': 'Run',
   'Ride': 'Bike',
-  'MountainBike': 'Bike',
+  'MountainBikeRide': 'Bike',
   'Hike': 'Hike',
   'Walk': 'Hike',
+  'Snowshoe': 'Hike',
+  'RockClimbing': 'Hike',
   'BackcountrySki': 'Ski mountaineering',
-  'Alpinism': 'Ski mountaineering'
+  'NordicSki': 'Ski mountaineering'
 };
+
+// Sports à exclure (assistés, virtuels, sans dénivelé pertinent)
+const excludedSports = [
+  'AlpineSki',
+  'Snowboard',
+  'EBikeRide',
+  'EMountainBikeRide',
+  'VirtualRide',
+  'VirtualRun',
+  'Sail',
+  'Kitesurf',
+  'Swim',
+  'Yoga',
+  'WeightTraining',
+  'Rowing',
+  'StandUpPaddling',
+  'Crossfit',
+  'HighIntensityIntervalTraining',
+  'Workout',
+  'IceSkate',
+  'Surfing'
+];
+
+export function isExcludedSport(sport) {
+  return excludedSports.includes(sport);
+}
+
+export function filterValidActivities(data) {
+  return data.filter(activity => !isExcludedSport(activity.sport_type));
+}
 
 const athleteColorMap = {};
 
@@ -131,15 +163,42 @@ export function formatElevation(value) {
   return `${value.toFixed(0)}`;
 }
 
+
 // ==============================
-// CHARGEMENT DES DONNÉES
+// CHARGEMENT DES DONNÉES AVEC CACHE
 // ==============================
+
+// Clé pour le cache localStorage
+const CACHE_KEY = 'recapmillion_activities_cache';
+const CACHE_VERSION_KEY = 'recapmillion_cache_version';
+const CURRENT_CACHE_VERSION = '1.0'; // Incrémenter pour forcer le rechargement
+
 export async function loadData() {
+  // Vérifier si le cache existe et est valide
+  const cachedVersion = localStorage.getItem(CACHE_VERSION_KEY);
+  const cachedData = localStorage.getItem(CACHE_KEY);
+
+  if (cachedVersion === CURRENT_CACHE_VERSION && cachedData) {
+    try {
+      const data = JSON.parse(cachedData);
+      console.log(' Données chargées depuis le cache localStorage');
+      console.log(` ${data.length} activités en cache`);
+      return data;
+    } catch (error) {
+      console.warn(' Cache corrompu, rechargement depuis le serveur...');
+      localStorage.removeItem(CACHE_KEY);
+      localStorage.removeItem(CACHE_VERSION_KEY);
+    }
+  }
+
+  // Sinon, charger depuis le serveur
+  console.log('🔄 Chargement des données depuis le serveur...');
+
   const possiblePaths = [
-    '/data/activities_2025.json',
-    '/public/data/activities_2025.json',
-    'data/activities_2025.json',
-    './data/activities_2025.json'
+    '/data/all_activities_2025.json',
+    '/public/data/all_activities_2025.json',
+    'data/all_activities_2025.json',
+    './data/all_activities_2025.json'
   ];
 
   for (const path of possiblePaths) {
@@ -147,7 +206,19 @@ export async function loadData() {
       const response = await fetch(path);
       if (response.ok) {
         const data = await response.json();
-        console.log(`Données chargées depuis: ${path}`, data);
+        console.log(` Données chargées depuis: ${path}`);
+        console.log(` ${data.length} activités`);
+
+        // Sauvegarder dans le cache
+        try {
+          localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+          localStorage.setItem(CACHE_VERSION_KEY, CURRENT_CACHE_VERSION);
+          console.log(' Données mises en cache');
+        } catch (storageError) {
+          console.warn(' Impossible de sauvegarder dans le cache:', storageError.message);
+          // Si localStorage est plein, on continue sans cache
+        }
+
         return data;
       }
     } catch (error) {
@@ -156,6 +227,85 @@ export async function loadData() {
   }
 
   throw new Error('Impossible de charger le fichier JSON. Chemins testés: ' + possiblePaths.join(', '));
+}
+
+// Fonction pour charger les données de groupe avec cache
+export async function loadGroupActivitiesWithCache() {
+  const GROUPS_CACHE_KEY = 'recapmillion_groups_cache';
+
+  // Vérifier le cache
+  const cachedVersion = localStorage.getItem(CACHE_VERSION_KEY);
+  const cachedGroups = localStorage.getItem(GROUPS_CACHE_KEY);
+
+  if (cachedVersion === CURRENT_CACHE_VERSION && cachedGroups) {
+    try {
+      const data = JSON.parse(cachedGroups);
+      console.log('✅ Données de groupe chargées depuis le cache');
+      return data;
+    } catch (error) {
+      localStorage.removeItem(GROUPS_CACHE_KEY);
+    }
+  }
+
+  // Charger depuis le serveur
+  try {
+    const response = await fetch('data/activities_with_groups.json');
+    const data = await response.json();
+    const groups = data.group_activities || [];
+
+    // Sauvegarder dans le cache
+    try {
+      localStorage.setItem(GROUPS_CACHE_KEY, JSON.stringify(groups));
+      console.log('💾 Données de groupe mises en cache');
+    } catch (storageError) {
+      console.warn('⚠️ Impossible de sauvegarder les groupes dans le cache');
+    }
+
+    return groups;
+  } catch (e) {
+    console.warn('Fichier activities_with_groups.json non trouvé');
+    return null;
+  }
+}
+
+// Fonction pour vider le cache (utile pour le développement)
+export function clearCache() {
+  localStorage.removeItem(CACHE_KEY);
+  localStorage.removeItem(CACHE_VERSION_KEY);
+  localStorage.removeItem('recapmillion_groups_cache');
+  console.log('🗑️ Cache vidé');
+}
+
+// Fonction pour obtenir des infos sur le cache
+export function getCacheInfo() {
+  const hasCache = localStorage.getItem(CACHE_KEY) !== null;
+  const version = localStorage.getItem(CACHE_VERSION_KEY);
+
+  if (!hasCache) {
+    return { cached: false };
+  }
+
+  try {
+    const data = JSON.parse(localStorage.getItem(CACHE_KEY));
+    const size = new Blob([localStorage.getItem(CACHE_KEY)]).size;
+    const sizeKB = (size / 1024).toFixed(2);
+
+    return {
+      cached: true,
+      version: version,
+      activities: data.length,
+      sizeKB: sizeKB,
+      upToDate: version === CURRENT_CACHE_VERSION
+    };
+  } catch (error) {
+    return { cached: false, error: true };
+  }
+}
+
+// Exposer la fonction clearCache dans la console pour le développement
+if (typeof window !== 'undefined') {
+  window.clearRecapCache = clearCache;
+  window.getCacheInfo = getCacheInfo;
 }
 
 // ==============================
@@ -208,7 +358,7 @@ let statsAnimated = false;
 
 export function updateStats(filteredData) {
   const TARGET = 1000000;
-  
+
   if (!filteredData || filteredData.length === 0) {
     document.getElementById('totalElevation').textContent = '0';
     document.getElementById('totalActivities').textContent = '0';
@@ -220,10 +370,10 @@ export function updateStats(filteredData) {
     return;
   }
 
-  const totalElevation = filteredData.reduce((sum, activity) => sum + (activity.elevation_gain_m || 0), 0);
+  const totalElevation = filteredData.reduce((sum, activity) => sum + (activity.total_elevation_gain || 0), 0);
   const totalActivities = filteredData.length;
-  const totalDistance = Math.round(filteredData.reduce((sum, activity) => sum + (activity.distance_m || 0), 0) / 1000);
-  const totalTime = Math.round(filteredData.reduce((sum, activity) => sum + (activity.moving_time_s || 0), 0) / 3600);
+  const totalDistance = Math.round(filteredData.reduce((sum, activity) => sum + (activity.distance || 0), 0) / 1000);
+  const totalTime = Math.round(filteredData.reduce((sum, activity) => sum + (activity.moving_time || 0), 0) / 3600);
 
   // Stocker les valeurs pour l'animation
   window.statsValues = { totalElevation, totalActivities, totalDistance, totalTime, TARGET };
@@ -248,7 +398,7 @@ export function updateStats(filteredData) {
         }
       });
     }, { threshold: 0.3 });
-    
+
     observer.observe(statsSection);
   } else if (statsAnimated) {
     // Si déjà animé une fois, mettre à jour directement
@@ -262,7 +412,7 @@ export function updateStats(filteredData) {
 
 function triggerStatsAnimation() {
   const { totalElevation, totalActivities, totalDistance, totalTime, TARGET } = window.statsValues;
-  
+
   animateValue('totalElevation', totalElevation);
   animateValue('totalActivities', totalActivities);
   animateValue('totalDistance', totalDistance);
@@ -273,44 +423,44 @@ function triggerStatsAnimation() {
 function animateValue(elementId, endValue) {
   const element = document.getElementById(elementId);
   if (!element) return;
-  
+
   const duration = 2000;
   const startTime = performance.now();
   const startValue = 0;
-  
+
   function update(currentTime) {
     const elapsed = currentTime - startTime;
     const progress = Math.min(elapsed / duration, 1);
-    
+
     // Easing function (ease-out-expo)
     const easeOutExpo = 1 - Math.pow(2, -10 * progress);
     const current = Math.floor(startValue + (endValue - startValue) * easeOutExpo);
-    
+
     element.textContent = current.toLocaleString('fr-FR');
-    
+
     if (progress < 1) {
       requestAnimationFrame(update);
     }
   }
-  
+
   requestAnimationFrame(update);
 }
 
 function updateProgressBar(current, target) {
   const progressBar = document.getElementById('progressBar');
   if (!progressBar) return;
-  
+
   const percentage = Math.min((current / target) * 100, 100);
-  
+
   // Reset pour animation
   progressBar.style.transition = 'none';
   progressBar.style.width = '0%';
-  
+
   // Déclencher l'animation après un court délai
   setTimeout(() => {
     progressBar.style.transition = 'width 2.5s cubic-bezier(0.16, 1, 0.3, 1)';
     progressBar.style.width = percentage + '%';
-    
+
     // Célébration si objectif atteint !
     if (current >= target) {
       setTimeout(() => {
@@ -324,9 +474,9 @@ function updateProgressBar(current, target) {
 function createConfetti() {
   const container = document.getElementById('statsSection');
   if (!container) return;
-  
+
   const colors = ['#f97316', '#22d3ee', '#a855f7', '#10b981', '#eab308'];
-  
+
   for (let i = 0; i < 50; i++) {
     const confetti = document.createElement('div');
     confetti.className = 'confetti';
@@ -343,7 +493,7 @@ function createConfetti() {
       animation-delay: ${Math.random() * 0.5}s;
     `;
     container.appendChild(confetti);
-    
+
     setTimeout(() => confetti.remove(), 4000);
   }
 }
@@ -358,9 +508,9 @@ function findBestDay(data) {
 
   const dailyElevation = {};
   data.forEach(activity => {
-    if (!activity.date) return;
-    const date = activity.date.split('T')[0];
-    dailyElevation[date] = (dailyElevation[date] || 0) + (activity.elevation_gain_m || 0);
+    if (!activity.start_date) return;
+    const date = activity.start_date.split('T')[0];
+    dailyElevation[date] = (dailyElevation[date] || 0) + (activity.total_elevation_gain || 0);
   });
 
   let bestDate = null;
@@ -388,14 +538,14 @@ function findBestWeek(data) {
   const weeklyDates = {};
 
   data.forEach(activity => {
-    if (!activity.date) return;
+    if (!activity.start_date) return;
 
-    const date = new Date(activity.date);
+    const date = new Date(activity.start_date);
     const year = date.getFullYear();
     const week = getWeekNumber(date);
     const weekKey = `${year}-${week}`;
 
-    weeklyElevation[weekKey] = (weeklyElevation[weekKey] || 0) + (activity.elevation_gain_m || 0);
+    weeklyElevation[weekKey] = (weeklyElevation[weekKey] || 0) + (activity.total_elevation_gain || 0);
 
     if (!weeklyDates[weekKey]) {
       weeklyDates[weekKey] = { min: date, max: date };
@@ -427,4 +577,62 @@ function findBestWeek(data) {
     period: `${formattedStartDate} - ${formattedEndDate}`,
     elevation: bestElevation
   };
+}
+// ==============================
+// NORMALISATION DES ACTIVITÉS MULTI-JOURS
+// ==============================
+export function normalizeMultiDayActivities(data) {
+  const normalizedData = [];
+  
+  data.forEach(activity => {
+    const startDate = new Date(activity.start_date);
+    const endDate = new Date(startDate.getTime() + (activity.elapsed_time || activity.moving_time || 0) * 1000);
+    
+    // Calculer le nombre de jours
+    const startDay = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+    const endDay = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+    const daysDiff = Math.ceil((endDay - startDay) / (1000 * 60 * 60 * 24)) + 1;
+    
+    // Calculer le ratio entre temps écoulé et temps de déplacement
+    const elapsedTime = activity.elapsed_time || 0;
+    const movingTime = activity.moving_time || 0;
+    const restRatio = movingTime > 0 ? (elapsedTime - movingTime) / movingTime : 0;
+    
+    // Conditions pour lisser :
+    // 1. Activité de plusieurs jours
+    // 2. ET ratio repos/effort > 0.4 (beaucoup de temps de repos = bivouac/trek)
+    // Si le ratio est faible, c'est un ultratrail en continu, on ne lisse pas
+    const shouldSmooth = daysDiff > 1 && restRatio > 0.4;
+    
+    if (!shouldSmooth) {
+      // Activité normale ou ultratrail en continu
+      normalizedData.push(activity);
+    } else {
+      // Activité multi-jours avec bivouacs : diviser en plusieurs jours
+      const elevationPerDay = (activity.total_elevation_gain || 0) / daysDiff;
+      const distancePerDay = (activity.distance || 0) / daysDiff;
+      const timePerDay = (activity.moving_time || 0) / daysDiff;
+      
+      for (let i = 0; i < daysDiff; i++) {
+        const dayDate = new Date(startDay.getTime() + i * 24 * 60 * 60 * 1000);
+        const isoDate = dayDate.toISOString();
+        
+        normalizedData.push({
+          ...activity,
+          activity_id: `${activity.activity_id}_day${i + 1}`,
+          start_date: isoDate,
+          start_date_local: isoDate,
+          total_elevation_gain: elevationPerDay,
+          distance: distancePerDay,
+          moving_time: timePerDay,
+          _isPartOfMultiDay: true,
+          _originalActivityId: activity.activity_id,
+          _dayNumber: i + 1,
+          _totalDays: daysDiff
+        });
+      }
+    }
+  });
+  
+  return normalizedData;
 }

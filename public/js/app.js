@@ -1,4 +1,4 @@
-import { loadData, updateStats, getAthleteName } from './utils.js';
+import { loadData, updateStats, getAthleteName, filterValidActivities, normalizeMultiDayActivities } from './utils.js';
 import {
   showRankingChart,
   showIndividualChart,
@@ -12,13 +12,15 @@ import {
   showRidgelineByAthlete,
   showSportPieChart,
   showMiniRanking,
-  showSocialGraph
+  showSocialGraph,
+  loadGroupActivities
 } from './charts.js';
 
 // ==============================
 // VARIABLES GLOBALES
 // ==============================
 let allData = [];
+let groupActivities = null;
 
 // ==============================
 // REMPLISSAGE DES DROPDOWNS
@@ -39,7 +41,7 @@ function fillDropdowns(data) {
   });
 
   const sportSelect = document.getElementById('sportSelect');
-  const sports = [...new Set(data.map(item => item.sport))];
+  const sports = [...new Set(data.map(item => item.sport_type))];
   sports.forEach(sport => {
     const option = document.createElement('option');
     option.value = sport;
@@ -58,7 +60,7 @@ function getFilteredData() {
   let filteredData = allData;
 
   if (sportValue) {
-    filteredData = filteredData.filter(item => item.sport === sportValue);
+    filteredData = filteredData.filter(item => item.sport_type === sportValue);
   }
 
   if (athleteValue && athleteValue !== "classement") {
@@ -84,25 +86,35 @@ function updateChart() {
     const ridgelineContainer = document.querySelector('.ridgeline-container');
     const socialContainer = document.querySelector('.social-section');
     const chartSection = document.querySelector('.chart-section');
+    const mapSection = document.querySelector('.map-section');
+    const sankeySection = document.querySelector('.sankey-section');
+    const heatmapSection = document.querySelector('.heatmap-section');
 
     updateStats(filteredData);
     showSportPieChart(filteredData);
     showMiniRanking(allData);
 
+    // Fonction pour renuméroter les sections visibles
+    const renumberSections = () => {
+      const visibleSections = document.querySelectorAll('section:not([style*="display: none"]):not([style*="display:none"])');
+      let num = 1;
+      visibleSections.forEach(section => {
+        const numberEl = section.querySelector('.section-number');
+        if (numberEl) {
+          numberEl.textContent = String(num).padStart(2, '0');
+          num++;
+        }
+      });
+    };
+
     if (athleteValue === "classement") {
-      // Mode classement : tableau d'abord, masquer les sections inutiles
+      // Mode classement : masquer les sections inutiles entièrement
       rankingTableContainer.style.display = 'block';
-      mapAndLegend.style.display = 'none';
-      if (sankeyContainer) sankeyContainer.style.display = 'none';
-      if (heatmapContainer) heatmapContainer.style.display = 'none';
+      if (mapSection) mapSection.style.display = 'none';
+      if (sankeySection) sankeySection.style.display = 'none';
+      if (heatmapSection) heatmapSection.style.display = 'none';
       if (ridgelineContainer) ridgelineContainer.style.display = 'block';
       if (socialContainer) socialContainer.style.display = 'none';
-      
-      // Masquer les headers des sections cachées
-      document.querySelector('.map-section .section-header')?.style.setProperty('display', 'none');
-      document.querySelector('.sankey-section .section-header')?.style.setProperty('display', 'none');
-      document.querySelector('.heatmap-section .section-header')?.style.setProperty('display', 'none');
-      document.querySelector('.social-section .section-header')?.style.setProperty('display', 'none');
       
       // Réorganiser : tableau avant le graphique
       if (chartSection && rankingTableContainer) {
@@ -112,47 +124,42 @@ function updateChart() {
       showRankingChart(allData, sportValue);
       showRankingTable(allData);
       showRidgelineByAthlete(allData, sportValue);
+      
+      // Renuméroter après affichage
+      setTimeout(renumberSections, 50);
 
     } else if (athleteValue === "") {
       rankingTableContainer.style.display = 'none';
-      mapAndLegend.style.display = 'flex';
-      if (sankeyContainer) sankeyContainer.style.display = 'block';
-      if (heatmapContainer) heatmapContainer.style.display = 'block';
+      if (mapSection) mapSection.style.display = 'block';
+      if (sankeySection) sankeySection.style.display = 'block';
+      if (heatmapSection) heatmapSection.style.display = 'block';
       if (ridgelineContainer) ridgelineContainer.style.display = 'block';
       if (socialContainer) socialContainer.style.display = 'block';
-      
-      // Réafficher les headers
-      document.querySelector('.map-section .section-header')?.style.setProperty('display', 'block');
-      document.querySelector('.sankey-section .section-header')?.style.setProperty('display', 'block');
-      document.querySelector('.heatmap-section .section-header')?.style.setProperty('display', 'block');
-      document.querySelector('.social-section .section-header')?.style.setProperty('display', 'block');
 
       showAllAthletesChart(allData, sportValue);
       showMapChart(filteredData, null);
       showSankeyDiagram(filteredData);
       showCalendarHeatmap(allData, null, sportValue);
       showRidgelineBySport(allData, null, sportValue);
-      showSocialGraph(allData);
+      showSocialGraph(allData, groupActivities);
+      
+      setTimeout(renumberSections, 50);
 
     } else {
       rankingTableContainer.style.display = 'none';
-      mapAndLegend.style.display = 'flex';
-      if (sankeyContainer) sankeyContainer.style.display = 'block';
-      if (heatmapContainer) heatmapContainer.style.display = 'block';
+      if (mapSection) mapSection.style.display = 'block';
+      if (sankeySection) sankeySection.style.display = 'block';
+      if (heatmapSection) heatmapSection.style.display = 'block';
       if (ridgelineContainer) ridgelineContainer.style.display = 'block';
       if (socialContainer) socialContainer.style.display = 'none';
-      
-      // Réafficher les headers sauf social
-      document.querySelector('.map-section .section-header')?.style.setProperty('display', 'block');
-      document.querySelector('.sankey-section .section-header')?.style.setProperty('display', 'block');
-      document.querySelector('.heatmap-section .section-header')?.style.setProperty('display', 'block');
-      document.querySelector('.social-section .section-header')?.style.setProperty('display', 'none');
 
       showIndividualChart(allData, athleteValue, sportValue);
       showMapChart(filteredData, athleteValue);
       showSankeyDiagram(filteredData);
       showCalendarHeatmap(allData, athleteValue, sportValue);
       showRidgelineBySport(allData, athleteValue, sportValue);
+      
+      setTimeout(renumberSections, 50);
     }
   } catch (error) {
     console.error('Erreur dans updateChart():', error);
@@ -242,15 +249,42 @@ function setupFullscreen() {
 // INITIALISATION
 // ==============================
 async function init() {
+  const loadingScreen = document.getElementById('loadingScreen');
+  const loadingText = document.querySelector('.loading-text');
+  
   try {
-    allData = await loadData();
-    console.log("Données chargées:", allData);
+    // Masquer le contenu pendant le chargement
+    document.body.style.overflow = 'hidden';
+    
+    // Charger les données pré-calculées de groupe en parallèle
+    loadingText.textContent = 'Chargement des données...';
+    const groupDataPromise = loadGroupActivities();
+    
+    let rawData = await loadData();
+    console.log("Données brutes chargées:", rawData.length, "activités");
+
+    // Filtrer les sports exclus
+    loadingText.textContent = 'Traitement des activités...';
+    rawData = filterValidActivities(rawData);
+    console.log("Après filtrage des sports exclus:", rawData.length, "activités");
+
+    // Normaliser les activités multi-jours
+    allData = normalizeMultiDayActivities(rawData);
+    console.log("Après normalisation multi-jours:", allData.length, "activités");
+    
+    // Récupérer les données de groupe pré-calculées
+    loadingText.textContent = 'Chargement des données de groupe...';
+    groupActivities = await groupDataPromise;
+    if (groupActivities) {
+      console.log("Données de groupe pré-calculées:", groupActivities.length, "sorties");
+    }
 
     if (!allData || !Array.isArray(allData) || allData.length === 0) {
       console.error("Données invalides ou vides.");
       return;
     }
 
+    loadingText.textContent = 'Initialisation des composants...';
     fillDropdowns(allData);
     initMap();
     setupFullscreen();
@@ -258,9 +292,24 @@ async function init() {
     document.getElementById('athleteSelect').addEventListener('change', updateChart);
     document.getElementById('sportSelect').addEventListener('change', updateChart);
 
+    // Afficher les données initiales
+    loadingText.textContent = 'Génération des graphiques...';
+    
+    // Petit délai pour permettre à l'UI de se mettre à jour
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
     updateChart();
+    
+    // Masquer l'écran de chargement avec une transition
+    await new Promise(resolve => setTimeout(resolve, 300));
+    loadingScreen.classList.add('hidden');
+    document.body.style.overflow = '';
+    
+    console.log("✅ Initialisation terminée avec succès");
   } catch (error) {
-    console.error("Erreur lors de l'initialisation:", error);
+    console.error("❌ Erreur lors de l'initialisation:", error);
+    loadingText.textContent = 'Erreur de chargement. Veuillez rafraîchir la page.';
+    loadingText.style.color = '#ef4444';
   }
 }
 

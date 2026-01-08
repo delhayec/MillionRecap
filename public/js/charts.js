@@ -1,4 +1,4 @@
-import { getAthleteColor, getSportColor, mapSportName, generateAllDays, getOrdinalSuffix, decodePolyline, formatElevation, getAthleteName, getAthleteIdFromName } from './utils.js';
+import { getAthleteColor, getSportColor, mapSportName, generateAllDays, getOrdinalSuffix, decodePolyline, formatElevation, getAthleteName, getAthleteIdFromName, loadGroupActivitiesWithCache } from './utils.js';
 
 // ==============================
 // CONFIGURATION CHART.JS — REFONTE 2025
@@ -81,12 +81,12 @@ const crosshairPlugin = {
 // GRAPHIQUE TOUS LES ATHLÈTES
 // ==============================
 export function showAllAthletesChart(data, selectedSport) {
-  const year = data.length > 0 ? new Date(data[0].date).getFullYear() : 2025;
+  const year = data.length > 0 ? new Date(data[0].start_date).getFullYear() : 2025;
   const allDays = generateAllDays(year);
   const TARGET = 1000000;
 
   const filteredData = selectedSport
-    ? data.filter(item => item.sport === selectedSport)
+    ? data.filter(item => item.sport_type === selectedSport)
     : data;
 
   const athletes = [...new Set(filteredData.map(item => item.athlete_id))];
@@ -96,14 +96,14 @@ export function showAllAthletesChart(data, selectedSport) {
   athletes.forEach(athlete => {
     athleteDailyData[athlete] = allDays.map((day, index) => {
       const dayActivities = filteredData.filter(item =>
-        item.athlete_id === athlete && item.date.startsWith(day)
+        item.athlete_id === athlete && item.start_date.startsWith(day)
       );
 
       if (!dailySports[index]) dailySports[index] = {};
-      const mappedSports = [...new Set(dayActivities.map(act => mapSportName(act.sport)))].join(', ');
+      const mappedSports = [...new Set(dayActivities.map(act => mapSportName(act.sport_type)))].join(', ');
       dailySports[index][athlete] = mappedSports || 'Aucun';
 
-      return dayActivities.reduce((sum, act) => sum + (act.elevation_gain_m || 0), 0);
+      return dayActivities.reduce((sum, act) => sum + (act.total_elevation_gain|| 0), 0);
     });
   });
 
@@ -174,43 +174,95 @@ export function showAllAthletesChart(data, selectedSport) {
           text: `Progression ${year} — ${selectedSport || 'Tous sports'}`
         },
         tooltip: {
-          enabled: true,
-          backgroundColor: 'rgba(10, 10, 15, 0.95)',
-          titleColor: chartColors.text,
-          bodyColor: chartColors.textSecondary,
-          borderColor: chartColors.grid,
-          borderWidth: 1,
-          padding: 16,
-          cornerRadius: 12,
-          displayColors: true,
-          titleFont: { family: "'Syne', sans-serif", weight: '600', size: 14 },
-          bodyFont: { family: "'Inter', sans-serif", size: 12 },
-          callbacks: {
-            title: function(tooltipItems) {
-              const date = tooltipItems[0].label;
-              const dateObj = new Date(date);
-              return dateObj.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
-            },
-            afterTitle: function(tooltipItems) {
-              const index = tooltipItems[0].dataIndex;
-              const cumul = cumulativeElevation[index];
-              const objectif = targetLine[index];
+          enabled: false,
+          external: function(context) {
+            // Utiliser le container du chart pour le plein écran
+            const chartContainer = context.chart.canvas.parentNode;
+            let tooltipEl = chartContainer.querySelector('#all-athletes-tooltip');
+            if (!tooltipEl) {
+              tooltipEl = document.createElement('div');
+              tooltipEl.id = 'all-athletes-tooltip';
+              tooltipEl.style.cssText = `
+                position: absolute;
+                background: rgba(10, 10, 15, 0.98);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 12px;
+                padding: 12px 16px;
+                pointer-events: none;
+                z-index: 10000;
+                font-family: 'Inter', sans-serif;
+                font-size: 12px;
+                color: #fff;
+                max-width: 300px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+                transition: opacity 0.15s ease;
+              `;
+              chartContainer.style.position = 'relative';
+              chartContainer.appendChild(tooltipEl);
+            }
+
+            const tooltipModel = context.tooltip;
+            if (tooltipModel.opacity === 0) {
+              tooltipEl.style.opacity = 0;
+              return;
+            }
+
+            if (tooltipModel.body) {
+              const dayIndex = tooltipModel.dataPoints[0].dataIndex;
+              const date = new Date(allDays[dayIndex]);
+              const dateStr = date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+              
+              const cumul = cumulativeElevation[dayIndex];
+              const objectif = targetLine[dayIndex];
               const difference = cumul - objectif;
               const status = difference >= 0 ? '↑ Avance' : '↓ Retard';
-              return `\nCumulé: ${formatElevation(cumul)} m\n${status}: ${formatElevation(Math.abs(difference))} m`;
-            },
-            label: function(context) {
-              if (context.dataset.type === 'bar') {
-                const athleteId = getAthleteIdFromName(context.dataset.label);
-                const dayIndex = context.dataIndex;
-                const sport = dailySports[dayIndex]?.[athleteId] || 'Aucun';
-                return [
-                  `${context.dataset.label}: ${formatElevation(context.parsed.y)} m`,
-                  `Sport: ${sport}`
-                ];
-              }
-              return null;
+              const statusColor = difference >= 0 ? '#10b981' : '#f43f5e';
+              
+              let html = `
+                <div style="font-weight:600;margin-bottom:8px;color:#fff;">${dateStr}</div>
+                <div style="margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.1);">
+                  <div>Cumulé: ${formatElevation(cumul)} m</div>
+                  <div style="color:${statusColor}">${status}: ${formatElevation(Math.abs(difference))} m</div>
+                </div>
+              `;
+              
+              // N'afficher que les athlètes avec du D+ ce jour
+              athletes.forEach(athleteId => {
+                const elevation = athleteDailyData[athleteId][dayIndex];
+                if (elevation > 0) {
+                  const sport = dailySports[dayIndex]?.[athleteId] || '';
+                  html += `
+                    <div style="display:flex;align-items:center;gap:8px;margin:3px 0;">
+                      <span style="width:10px;height:10px;border-radius:50%;background:${getAthleteColor(athleteId)};flex-shrink:0;"></span>
+                      <span style="color:rgba(255,255,255,0.9);">${getAthleteName(athleteId)}</span>
+                      <span style="color:rgba(255,255,255,0.5);margin-left:auto;">${formatElevation(elevation)} m</span>
+                    </div>
+                  `;
+                }
+              });
+              
+              tooltipEl.innerHTML = html;
             }
+
+            // Position du tooltip relative au canvas
+            const canvasRect = context.chart.canvas.getBoundingClientRect();
+            const containerRect = chartContainer.getBoundingClientRect();
+            const mouseX = tooltipModel.caretX;
+            const chartWidth = context.chart.width;
+            
+            let left;
+            if (mouseX > chartWidth / 2) {
+              left = mouseX - tooltipEl.offsetWidth - 20;
+            } else {
+              left = mouseX + 20;
+            }
+            
+            // S'assurer que le tooltip reste dans le container
+            left = Math.max(10, Math.min(left, chartWidth - tooltipEl.offsetWidth - 10));
+            
+            tooltipEl.style.opacity = 1;
+            tooltipEl.style.left = left + 'px';
+            tooltipEl.style.top = Math.max(10, tooltipModel.caretY - tooltipEl.offsetHeight / 2) + 'px';
           }
         }
       },
@@ -268,12 +320,12 @@ export function showAllAthletesChart(data, selectedSport) {
 // GRAPHIQUE INDIVIDUEL
 // ==============================
 export function showIndividualChart(data, athleteId, selectedSport) {
-  const year = data.length > 0 ? new Date(data[0].date).getFullYear() : 2025;
+  const year = data.length > 0 ? new Date(data[0].start_date).getFullYear() : 2025;
   const allDays = generateAllDays(year);
 
   let filteredData = data.filter(item => item.athlete_id == athleteId);
   if (selectedSport) {
-    filteredData = filteredData.filter(item => item.sport === selectedSport);
+    filteredData = filteredData.filter(item => item.sport_type === selectedSport);
   }
 
   const dailyElevation = [];
@@ -281,22 +333,22 @@ export function showIndividualChart(data, athleteId, selectedSport) {
   const dailySportNames = [];
 
   allDays.forEach(day => {
-    const dayActivities = filteredData.filter(item => item.date.startsWith(day));
-    const totalElevation = dayActivities.reduce((sum, act) => sum + (act.elevation_gain_m || 0), 0);
+    const dayActivities = filteredData.filter(item => item.start_date.startsWith(day));
+    const totalElevation = dayActivities.reduce((sum, act) => sum + (act.total_elevation_gain|| 0), 0);
     dailyElevation.push(totalElevation);
 
     if (dayActivities.length > 0) {
       const sportElevation = {};
       dayActivities.forEach(act => {
-        const mappedSport = mapSportName(act.sport);
-        sportElevation[mappedSport] = (sportElevation[mappedSport] || 0) + (act.elevation_gain_m || 0);
+        const mappedSport = mapSportName(act.sport_type);
+        sportElevation[mappedSport] = (sportElevation[mappedSport] || 0) + (act.total_elevation_gain|| 0);
       });
       const mainSport = Object.keys(sportElevation).reduce((a, b) =>
         sportElevation[a] > sportElevation[b] ? a : b
       );
       dailySportColors.push(getSportColor(mainSport));
 
-      const mappedSports = [...new Set(dayActivities.map(act => mapSportName(act.sport)))].join(', ');
+      const mappedSports = [...new Set(dayActivities.map(act => mapSportName(act.sport_type)))].join(', ');
       dailySportNames.push(mappedSports);
     } else {
       dailySportColors.push(getAthleteColor(athleteId));
@@ -455,11 +507,11 @@ export function showIndividualChart(data, athleteId, selectedSport) {
 // GRAPHIQUE DE CLASSEMENT
 // ==============================
 export function showRankingChart(data, selectedSport) {
-  const year = data.length > 0 ? new Date(data[0].date).getFullYear() : 2025;
+  const year = data.length > 0 ? new Date(data[0].start_date).getFullYear() : 2025;
   const allDays = generateAllDays(year);
 
   const filteredData = selectedSport
-    ? data.filter(item => item.sport === selectedSport)
+    ? data.filter(item => item.sport_type === selectedSport)
     : data;
 
   const athletes = [...new Set(filteredData.map(item => item.athlete_id))];
@@ -468,8 +520,8 @@ export function showRankingChart(data, selectedSport) {
   athletes.forEach(athlete => {
     const athleteData = filteredData.filter(item => item.athlete_id === athlete);
     const allDaysWithData = allDays.map(day => {
-      const dayActivities = athleteData.filter(item => item.date.startsWith(day));
-      return dayActivities.reduce((sum, act) => sum + (act.elevation_gain_m || 0), 0);
+      const dayActivities = athleteData.filter(item => item.start_date.startsWith(day));
+      return dayActivities.reduce((sum, act) => sum + (act.total_elevation_gain|| 0), 0);
     });
 
     let cumulativeElevation = 0;
@@ -481,6 +533,9 @@ export function showRankingChart(data, selectedSport) {
     athleteDataMap[athlete] = cumulativeElevations;
   });
 
+  // État pour les séries sélectionnées
+  let selectedSeries = new Set();
+
   const datasets = athletes.map(athlete => ({
     type: 'line',
     label: `${getAthleteName(athlete)}`,
@@ -490,7 +545,10 @@ export function showRankingChart(data, selectedSport) {
     borderWidth: 3,
     fill: false,
     pointRadius: 0,
-    tension: 0.4
+    pointHoverRadius: 6,
+    pointHitRadius: 20, // Zone de clic élargie
+    tension: 0.4,
+    athleteId: athlete
   }));
 
   const ctx = document.getElementById('elevationChart').getContext('2d');
@@ -499,17 +557,13 @@ export function showRankingChart(data, selectedSport) {
   const getRankingForDay = (dayIndex) => {
     const dayRanking = athletes.map(athlete => ({
       athleteId: athlete,
-      elevation: athleteDataMap[athlete][dayIndex]
+      name: getAthleteName(athlete),
+      elevation: athleteDataMap[athlete][dayIndex],
+      color: getAthleteColor(athlete)
     }));
 
     dayRanking.sort((a, b) => b.elevation - a.elevation);
-
-    const rankingMap = {};
-    dayRanking.forEach((entry, index) => {
-      rankingMap[entry.athleteId] = index + 1;
-    });
-
-    return rankingMap;
+    return dayRanking;
   };
 
   window.deniveleChart = new Chart(ctx, {
@@ -517,6 +571,55 @@ export function showRankingChart(data, selectedSport) {
     data: { labels: allDays, datasets },
     options: {
       ...baseChartOptions,
+      onClick: (event, elements) => {
+        if (elements.length > 0) {
+          const datasetIndex = elements[0].datasetIndex;
+          const athleteId = datasets[datasetIndex].athleteId;
+          
+          if (selectedSeries.has(athleteId)) {
+            selectedSeries.delete(athleteId);
+          } else {
+            selectedSeries.add(athleteId);
+          }
+          
+          // Mettre à jour les styles
+          window.deniveleChart.data.datasets.forEach((ds, idx) => {
+            if (selectedSeries.size === 0) {
+              // Aucune sélection : tout normal
+              ds.borderWidth = 3;
+              ds.borderColor = getAthleteColor(ds.athleteId);
+            } else if (selectedSeries.has(ds.athleteId)) {
+              // Sélectionné : en surbrillance
+              ds.borderWidth = 5;
+              ds.borderColor = getAthleteColor(ds.athleteId);
+            } else {
+              // Non sélectionné : atténué
+              ds.borderWidth = 1;
+              ds.borderColor = getAthleteColor(ds.athleteId) + '40';
+            }
+          });
+          
+          // Ajuster l'échelle si des séries sont sélectionnées
+          if (selectedSeries.size > 0) {
+            const selectedData = [];
+            window.deniveleChart.data.datasets.forEach(ds => {
+              if (selectedSeries.has(ds.athleteId)) {
+                selectedData.push(...ds.data);
+              }
+            });
+            const maxVal = Math.max(...selectedData);
+            const minVal = Math.min(...selectedData.filter(v => v > 0));
+            window.deniveleChart.options.scales.y.min = Math.max(0, minVal * 0.9);
+            window.deniveleChart.options.scales.y.max = maxVal * 1.1;
+          } else {
+            // Reset de l'échelle
+            window.deniveleChart.options.scales.y.min = undefined;
+            window.deniveleChart.options.scales.y.max = undefined;
+          }
+          
+          window.deniveleChart.update();
+        }
+      },
       plugins: {
         ...baseChartOptions.plugins,
         title: {
@@ -524,32 +627,130 @@ export function showRankingChart(data, selectedSport) {
           text: `Classement ${year} — ${selectedSport || 'Tous sports'}`
         },
         tooltip: {
-          enabled: true,
-          backgroundColor: 'rgba(10, 10, 15, 0.95)',
-          titleColor: chartColors.text,
-          bodyColor: chartColors.textSecondary,
-          borderColor: chartColors.grid,
-          borderWidth: 1,
-          padding: 16,
-          cornerRadius: 12,
-          displayColors: true,
-          callbacks: {
-            title: function(tooltipItems) {
-              const date = tooltipItems[0].label;
-              const dateObj = new Date(date);
-              return dateObj.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
-            },
-            label: function(context) {
-              const dataset = context.dataset;
-              const dayIndex = context.dataIndex;
-              const athleteId = getAthleteIdFromName(dataset.label);
-              const ranking = getRankingForDay(dayIndex)[athleteId];
-
-              return [
-                `${dataset.label}: ${formatElevation(context.parsed.y)} m`,
-                `Classement: ${ranking}${getOrdinalSuffix(ranking)}`
-              ];
+          enabled: false,
+          external: function(context) {
+            const chartContainer = context.chart.canvas.parentNode;
+            let tooltipEl = chartContainer.querySelector('#ranking-tooltip');
+            if (!tooltipEl) {
+              tooltipEl = document.createElement('div');
+              tooltipEl.id = 'ranking-tooltip';
+              tooltipEl.style.cssText = `
+                position: absolute;
+                background: rgba(10, 10, 15, 0.98);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 12px;
+                padding: 12px 16px;
+                pointer-events: none;
+                z-index: 10000;
+                font-family: 'Inter', sans-serif;
+                font-size: 12px;
+                color: #fff;
+                max-width: 280px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+                transition: opacity 0.15s ease;
+              `;
+              chartContainer.style.position = 'relative';
+              chartContainer.appendChild(tooltipEl);
             }
+
+            const tooltipModel = context.tooltip;
+            if (tooltipModel.opacity === 0) {
+              tooltipEl.style.opacity = 0;
+              return;
+            }
+
+            if (tooltipModel.body) {
+              const dayIndex = tooltipModel.dataPoints[0].dataIndex;
+              const date = new Date(allDays[dayIndex]);
+              const dateStr = date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+              
+              const ranking = getRankingForDay(dayIndex);
+              
+              // Filtrer si des séries sont sélectionnées
+              const displayRanking = selectedSeries.size > 0 
+                ? ranking.filter(entry => selectedSeries.has(entry.athleteId))
+                : ranking;
+              
+              let html = `<div style="font-weight:600;margin-bottom:8px;color:#fff;">${dateStr}</div>`;
+              
+              displayRanking.forEach((entry, idx) => {
+                const fullPosition = ranking.findIndex(r => r.athleteId === entry.athleteId) + 1;
+                const suffix = fullPosition === 1 ? 'ᵉʳ' : 'ᵉ';
+                const elevFormatted = formatElevation(entry.elevation);
+                
+                html += `
+                  <div style="display:flex;align-items:center;gap:8px;margin:4px 0;">
+                    <span style="width:10px;height:10px;border-radius:50%;background:${entry.color};flex-shrink:0;"></span>
+                    <span style="color:rgba(255,255,255,0.9);">${fullPosition}${suffix} ${entry.name}</span>
+                    <span style="color:rgba(255,255,255,0.5);margin-left:auto;">${elevFormatted} D+</span>
+                  </div>
+                `;
+              });
+              
+              tooltipEl.innerHTML = html;
+            }
+
+            const mouseX = tooltipModel.caretX;
+            const chartWidth = context.chart.width;
+            
+            let left;
+            if (mouseX > chartWidth / 2) {
+              left = mouseX - tooltipEl.offsetWidth - 20;
+            } else {
+              left = mouseX + 20;
+            }
+            
+            left = Math.max(10, Math.min(left, chartWidth - tooltipEl.offsetWidth - 10));
+            
+            tooltipEl.style.opacity = 1;
+            tooltipEl.style.left = left + 'px';
+            tooltipEl.style.top = Math.max(10, tooltipModel.caretY - tooltipEl.offsetHeight / 2) + 'px';
+          }
+        },
+        legend: {
+          ...baseChartOptions.plugins.legend,
+          onClick: (e, legendItem, legend) => {
+            const index = legendItem.datasetIndex;
+            const athleteId = datasets[index].athleteId;
+            
+            if (selectedSeries.has(athleteId)) {
+              selectedSeries.delete(athleteId);
+            } else {
+              selectedSeries.add(athleteId);
+            }
+            
+            // Mettre à jour les styles
+            legend.chart.data.datasets.forEach((ds) => {
+              if (selectedSeries.size === 0) {
+                ds.borderWidth = 3;
+                ds.borderColor = getAthleteColor(ds.athleteId);
+              } else if (selectedSeries.has(ds.athleteId)) {
+                ds.borderWidth = 5;
+                ds.borderColor = getAthleteColor(ds.athleteId);
+              } else {
+                ds.borderWidth = 1;
+                ds.borderColor = getAthleteColor(ds.athleteId) + '40';
+              }
+            });
+            
+            // Ajuster l'échelle
+            if (selectedSeries.size > 0) {
+              const selectedData = [];
+              legend.chart.data.datasets.forEach(ds => {
+                if (selectedSeries.has(ds.athleteId)) {
+                  selectedData.push(...ds.data);
+                }
+              });
+              const maxVal = Math.max(...selectedData);
+              const minVal = Math.min(...selectedData.filter(v => v > 0));
+              legend.chart.options.scales.y.min = Math.max(0, minVal * 0.9);
+              legend.chart.options.scales.y.max = maxVal * 1.1;
+            } else {
+              legend.chart.options.scales.y.min = undefined;
+              legend.chart.options.scales.y.max = undefined;
+            }
+            
+            legend.chart.update();
           }
         }
       },
@@ -626,11 +827,11 @@ function generateLegend(activities, colorMode = 'athlete') {
   legendContainer.innerHTML = '<h3>Légende</h3>';
 
   if (colorMode === 'sport') {
-    const sports = [...new Set(activities.map(activity => mapSportName(activity.sport)))];
+    const sports = [...new Set(activities.map(activity => mapSportName(activity.sport_type)))];
 
     sports.forEach(sport => {
       const color = getSportColor(sport);
-      const count = activities.filter(a => mapSportName(a.sport) === sport).length;
+      const count = activities.filter(a => mapSportName(a.sport_type) === sport).length;
 
       const legendItem = document.createElement('div');
       legendItem.className = 'legend-item';
@@ -692,8 +893,8 @@ function calculateCountryStats(activities) {
     }
 
     countryStats[country].count++;
-    countryStats[country].elevation += activity.elevation_gain_m || 0;
-    countryStats[country].distance += activity.distance_m || 0;
+    countryStats[country].elevation += activity.total_elevation_gain|| 0;
+    countryStats[country].distance += activity.distance|| 0;
     countryStats[country].athletes.add(activity.athlete_id);
   });
 
@@ -747,30 +948,37 @@ export function showMapChart(data, athleteId) {
   generateCountryStats(data);
 
   data.forEach(activity => {
-    if (!activity.tracemap || !activity.tracemap.summary_polyline) return;
+    if (!activity.map || !activity.map.summary_polyline) return;
 
-    const points = decodePolyline(activity.tracemap.summary_polyline);
+    const points = decodePolyline(activity.map.summary_polyline);
     if (points.length === 0) return;
 
     const color = athleteId 
-      ? getSportColor(mapSportName(activity.sport))
+      ? getSportColor(mapSportName(activity.sport_type))
       : getAthleteColor(activity.athlete_id);
 
-    const polyline = L.polyline(points, {
-      color: color,
-      weight: 2.5,
-      opacity: 0.8
-    }).addTo(map);
+    // Filtrer les segments rectilignes (trajets en train)
+    const filteredSegments = filterStraightLines(points, 5000); // 5km de seuil
+    
+    filteredSegments.forEach(segment => {
+      if (segment.length < 2) return;
+      
+      const polyline = L.polyline(segment, {
+        color: color,
+        weight: 2.5,
+        opacity: 0.8
+      }).addTo(map);
 
-    const date = new Date(activity.date).toLocaleDateString('fr-FR');
-    const popup = `
-      <strong>${activity.name}</strong><br>
-      ${date}<br>
-      ${mapSportName(activity.sport)}<br>
-      ↑ ${activity.elevation_gain_m} m
-    `;
-    polyline.bindPopup(popup);
-    polylines.push(polyline);
+      const date = new Date(activity.start_date).toLocaleDateString('fr-FR');
+      const popup = `
+        <strong>${activity.name}</strong><br>
+        ${date}<br>
+        ${mapSportName(activity.sport_type)}<br>
+        ↑ ${activity.total_elevation_gain} m
+      `;
+      polyline.bindPopup(popup);
+      polylines.push(polyline);
+    });
   });
 
   if (polylines.length > 0) {
@@ -782,6 +990,83 @@ export function showMapChart(data, athleteId) {
       map.invalidateSize();
     }, 300);
   }
+}
+
+// Fonction pour vérifier si un segment est rectiligne
+function isSegmentStraight(points, startIdx, endIdx) {
+  if (endIdx - startIdx < 2) return false;
+  
+  const start = points[startIdx];
+  const end = points[endIdx];
+  
+  // Calculer la distance directe (utilise haversineDistance définie plus bas)
+  const directDistance = haversineDistanceMap(start[0], start[1], end[0], end[1]);
+  
+  // Calculer la distance totale du chemin
+  let pathDistance = 0;
+  for (let i = startIdx; i < endIdx; i++) {
+    pathDistance += haversineDistanceMap(points[i][0], points[i][1], points[i+1][0], points[i+1][1]);
+  }
+  
+  // Si le ratio est très proche de 1, c'est une ligne droite
+  const ratio = directDistance / pathDistance;
+  return ratio > 0.98; // Plus de 98% de rectitude
+}
+
+// Version locale de haversine pour la carte (évite conflit avec celle du social graph)
+function haversineDistanceMap(lat1, lon1, lat2, lon2) {
+  const R = 6371000;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
+}
+
+// Filtrer les lignes droites de plus de X mètres
+function filterStraightLines(points, minStraightDistance) {
+  if (!points || points.length < 3) return [points];
+  
+  const segments = [];
+  let currentSegment = [points[0]];
+  
+  for (let i = 1; i < points.length - 1; i++) {
+    // Chercher en avant pour détecter une ligne droite
+    let straightEnd = -1;
+    
+    for (let j = i + 2; j < Math.min(i + 50, points.length); j++) {
+      const directDist = haversineDistanceMap(points[i][0], points[i][1], points[j][0], points[j][1]);
+      
+      if (directDist > minStraightDistance && isSegmentStraight(points, i, j)) {
+        straightEnd = j;
+      }
+    }
+    
+    if (straightEnd > 0) {
+      // On a trouvé une ligne droite significative
+      // Terminer le segment courant
+      currentSegment.push(points[i]);
+      if (currentSegment.length > 1) {
+        segments.push(currentSegment);
+      }
+      
+      // Commencer un nouveau segment après la ligne droite
+      currentSegment = [points[straightEnd]];
+      i = straightEnd; // Sauter la ligne droite
+    } else {
+      currentSegment.push(points[i]);
+    }
+  }
+  
+  // Ajouter le dernier point et segment
+  currentSegment.push(points[points.length - 1]);
+  if (currentSegment.length > 1) {
+    segments.push(currentSegment);
+  }
+  
+  return segments.length > 0 ? segments : [points];
 }
 
 // ==============================
@@ -805,123 +1090,180 @@ export function showRankingTable(data) {
         active_days: new Set(),
         best_activity: null,
         elevation_by_sport: {},
-        activities_without_elevation: 0
+        activities_without_elevation: 0,
+        // Nouvelles stats
+        total_kudos: 0,
+        total_achievements: 0,
+        night_activities: 0,
+        morning_activities: 0,
+        weekend_activities: 0,
+        countries: new Set(),
+        max_speed: 0,
+        longest_activity_time: 0,
+        // Stats pour nouveaux achievements
+        elevation_by_day: {}, // Pour calculer le meilleur jour
+        sports_used: new Set() // Pour compter les types de sports
       };
     }
 
-    athleteStats[id].total_elevation += activity.elevation_gain_m || 0;
+    athleteStats[id].total_elevation += activity.total_elevation_gain || 0;
     athleteStats[id].activity_count++;
-    athleteStats[id].total_distance += activity.distance_m || 0;
-    athleteStats[id].total_time += activity.moving_time_s || 0;
+    athleteStats[id].total_distance += activity.distance || 0;
+    athleteStats[id].total_time += activity.moving_time || 0;
     
-    // Jours actifs
-    const day = activity.date.split('T')[0];
+    // Jours actifs et D+ par jour
+    const day = activity.start_date.split('T')[0];
     athleteStats[id].active_days.add(day);
+    athleteStats[id].elevation_by_day[day] = (athleteStats[id].elevation_by_day[day] || 0) + (activity.total_elevation_gain || 0);
     
-    // Meilleure activité
-    if (!athleteStats[id].best_activity || (activity.elevation_gain_m || 0) > athleteStats[id].best_activity.elevation) {
-      athleteStats[id].best_activity = {
-        id: activity.id,
-        elevation: activity.elevation_gain_m || 0,
-        date: activity.date,
-        name: activity.name
-      };
+    // Sports utilisés
+    const sport = mapSportName(activity.sport_type);
+    athleteStats[id].sports_used.add(sport);
+    
+    // Meilleure activité (ignorer les activités multi-jours)
+    if (!activity._isPartOfMultiDay) {
+      if (!athleteStats[id].best_activity || (activity.total_elevation_gain || 0) > athleteStats[id].best_activity.elevation) {
+        athleteStats[id].best_activity = {
+          id: activity.activity_id,
+          elevation: activity.total_elevation_gain || 0,
+          date: activity.start_date,
+          name: activity.name
+        };
+      }
     }
     
     // Elevation par sport
-    const sport = mapSportName(activity.sport);
-    athleteStats[id].elevation_by_sport[sport] = (athleteStats[id].elevation_by_sport[sport] || 0) + (activity.elevation_gain_m || 0);
+    athleteStats[id].elevation_by_sport[sport] = (athleteStats[id].elevation_by_sport[sport] || 0) + (activity.total_elevation_gain || 0);
     
     // Activités sans dénivelé
-    if (!activity.elevation_gain_m || activity.elevation_gain_m === 0) {
+    if (!activity.total_elevation_gain || activity.total_elevation_gain === 0) {
       athleteStats[id].activities_without_elevation++;
+    }
+    
+    // Nouvelles stats
+    athleteStats[id].total_kudos += activity.kudos_count || 0;
+    athleteStats[id].total_achievements += activity.achievement_count || 0;
+    
+    // Heure locale pour déterminer matin/nuit
+    const localTime = activity.start_date_local || activity.start_date;
+    const hour = parseInt(localTime.substring(11, 13));
+    if (hour >= 20 || hour < 5) {
+      athleteStats[id].night_activities++;
+    }
+    if (hour >= 5 && hour < 9) {
+      athleteStats[id].morning_activities++;
+    }
+    
+    // Weekend
+    const dt = new Date(activity.start_date);
+    if (dt.getDay() === 0 || dt.getDay() === 6) {
+      athleteStats[id].weekend_activities++;
+    }
+    
+    // Pays
+    if (activity.country) {
+      athleteStats[id].countries.add(activity.country);
+    }
+    
+    // Vitesse max
+    if (activity.max_speed && activity.max_speed > athleteStats[id].max_speed) {
+      athleteStats[id].max_speed = activity.max_speed;
+    }
+    
+    // Plus longue activité
+    if (activity.moving_time && activity.moving_time > athleteStats[id].longest_activity_time) {
+      athleteStats[id].longest_activity_time = activity.moving_time;
     }
   });
 
-  const stats = Object.values(athleteStats).map(s => ({
-    ...s,
-    active_days_count: s.active_days.size,
-    elevation_per_distance: s.total_distance > 0 ? (s.total_elevation / (s.total_distance / 1000)).toFixed(1) : 0,
-    elevation_per_time: s.total_time > 0 ? (s.total_elevation / (s.total_time / 3600)).toFixed(1) : 0,
-    elevation_per_activity: s.activity_count > 0 ? (s.total_elevation / s.activity_count).toFixed(0) : 0
-  }));
+  const stats = Object.values(athleteStats).map(s => {
+    // Calculer le meilleur jour (plus gros D+ en 24h)
+    const best24h = Object.entries(s.elevation_by_day).reduce((best, [day, elev]) => {
+      return elev > best.elevation ? { day, elevation: elev } : best;
+    }, { day: null, elevation: 0 });
+    
+    return {
+      ...s,
+      active_days_count: s.active_days.size,
+      elevation_per_distance: s.total_distance > 0 ? (s.total_elevation / (s.total_distance / 1000)).toFixed(1) : 0,
+      elevation_per_time: s.total_time > 0 ? (s.total_elevation / (s.total_time / 3600)).toFixed(1) : 0,
+      elevation_per_activity: s.activity_count > 0 ? (s.total_elevation / s.activity_count).toFixed(0) : 0,
+      best_elevation: s.best_activity ? s.best_activity.elevation : 0,
+      num_countries: s.countries.size,
+      weekend_ratio: s.activity_count > 0 ? s.weekend_activities / s.activity_count : 0,
+      // Nouvelles stats dérivées
+      best_24h_elevation: best24h.elevation,
+      best_24h_day: best24h.day,
+      num_sports: s.sports_used.size
+    };
+  });
 
   stats.sort((a, b) => b.total_elevation - a.total_elevation);
 
-  tbody.innerHTML = '';
+  const renderTable = () => {
+    tbody.innerHTML = '';
+    stats.forEach(s => {
+      const row = document.createElement('tr');
+      const recordDate = s.best_activity ? new Date(s.best_activity.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : '-';
+      const stravaLink = s.best_activity ? `https://www.strava.com/activities/${s.best_activity.id}` : '#';
+      
+      row.innerHTML = `
+        <td style="color: ${getAthleteColor(s.athlete_id)}">${getAthleteName(s.athlete_id)}</td>
+        <td>${s.total_elevation.toLocaleString('fr-FR')}</td>
+        <td>${s.activity_count}</td>
+        <td>${(s.total_distance / 1000).toFixed(0)}</td>
+        <td>${Math.round(s.total_time / 3600)}</td>
+        <td>${s.elevation_per_distance}</td>
+        <td>${s.elevation_per_time}</td>
+        <td>${s.elevation_per_activity}</td>
+        <td data-sort-value="${s.best_elevation}">
+          ${s.best_activity ? `
+            <a href="${stravaLink}" target="_blank" class="record-link" title="${s.best_activity.name}">
+              <span class="record-elevation">↑ ${formatElevation(s.best_activity.elevation)} m</span>
+              <span class="record-date">${recordDate}</span>
+              <span class="record-strava">Voir sur Strava →</span>
+            </a>
+          ` : '-'}
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  };
 
-  stats.forEach(s => {
-    const row = document.createElement('tr');
-    const recordDate = s.best_activity ? new Date(s.best_activity.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : '-';
-    const stravaLink = s.best_activity ? `https://www.strava.com/activities/${s.best_activity.id}` : '#';
-    
-    row.innerHTML = `
-      <td style="color: ${getAthleteColor(s.athlete_id)}">${getAthleteName(s.athlete_id)}</td>
-      <td>${s.total_elevation.toLocaleString('fr-FR')}</td>
-      <td>${s.activity_count}</td>
-      <td>${(s.total_distance / 1000).toFixed(0)}</td>
-      <td>${Math.round(s.total_time / 3600)}</td>
-      <td>${s.elevation_per_distance}</td>
-      <td>${s.elevation_per_time}</td>
-      <td>${s.elevation_per_activity}</td>
-      <td>
-        ${s.best_activity ? `
-          <a href="${stravaLink}" target="_blank" class="record-link" title="${s.best_activity.name}">
-            <span class="record-elevation">↑ ${formatElevation(s.best_activity.elevation)} m</span>
-            <span class="record-date">${recordDate}</span>
-            <span class="record-strava">Voir sur Strava →</span>
-          </a>
-        ` : '-'}
-      </td>
-    `;
-    tbody.appendChild(row);
-  });
+  renderTable();
 
   // Générer les achievements
   generateAchievements(stats);
 
   // Tri des colonnes
   document.querySelectorAll('#rankingTable th').forEach(th => {
-    th.addEventListener('click', () => {
-      const key = th.dataset.sort;
+    // Supprimer les anciens listeners
+    const newTh = th.cloneNode(true);
+    th.parentNode.replaceChild(newTh, th);
+    
+    newTh.addEventListener('click', () => {
+      const key = newTh.dataset.sort;
       if (!key) return;
       
-      const isAsc = th.classList.contains('sorted-asc');
+      const isAsc = newTh.classList.contains('sorted-asc');
       
       document.querySelectorAll('#rankingTable th').forEach(h => {
         h.classList.remove('sorted-asc', 'sorted-desc');
       });
       
-      stats.sort((a, b) => isAsc ? a[key] - b[key] : b[key] - a[key]);
-      th.classList.add(isAsc ? 'sorted-desc' : 'sorted-asc');
+      // Tri selon le type de clé
+      if (key === 'best_elevation') {
+        stats.sort((a, b) => isAsc ? a.best_elevation - b.best_elevation : b.best_elevation - a.best_elevation);
+      } else {
+        stats.sort((a, b) => {
+          const valA = parseFloat(a[key]) || 0;
+          const valB = parseFloat(b[key]) || 0;
+          return isAsc ? valA - valB : valB - valA;
+        });
+      }
       
-      tbody.innerHTML = '';
-      stats.forEach(s => {
-        const row = document.createElement('tr');
-        const recordDate = s.best_activity ? new Date(s.best_activity.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : '-';
-        const stravaLink = s.best_activity ? `https://www.strava.com/activities/${s.best_activity.id}` : '#';
-        
-        row.innerHTML = `
-          <td style="color: ${getAthleteColor(s.athlete_id)}">${getAthleteName(s.athlete_id)}</td>
-          <td>${s.total_elevation.toLocaleString('fr-FR')}</td>
-          <td>${s.activity_count}</td>
-          <td>${(s.total_distance / 1000).toFixed(0)}</td>
-          <td>${Math.round(s.total_time / 3600)}</td>
-          <td>${s.elevation_per_distance}</td>
-          <td>${s.elevation_per_time}</td>
-          <td>${s.elevation_per_activity}</td>
-          <td>
-            ${s.best_activity ? `
-              <a href="${stravaLink}" target="_blank" class="record-link" title="${s.best_activity.name}">
-                <span class="record-elevation">↑ ${formatElevation(s.best_activity.elevation)} m</span>
-                <span class="record-date">${recordDate}</span>
-                <span class="record-strava">Voir sur Strava →</span>
-              </a>
-            ` : '-'}
-          </td>
-        `;
-        tbody.appendChild(row);
-      });
+      newTh.classList.add(isAsc ? 'sorted-desc' : 'sorted-asc');
+      renderTable();
     });
   });
 }
@@ -934,20 +1276,29 @@ function generateAchievements(stats) {
     {
       id: 'king',
       emoji: '👑',
-      name: 'Roi de la Montagne',
+      name: 'Roi du D+',
       desc: 'Le plus de dénivelé total',
       type: 'legendary',
       getValue: s => s.total_elevation,
       format: v => `${formatElevation(v)} m`
     },
     {
-      id: 'regular',
-      emoji: '📅',
-      name: 'Régulier',
-      desc: 'Le plus de jours actifs',
+      id: 'best24h',
+      emoji: '🔥',
+      name: 'Journée de Feu',
+      desc: 'Le plus gros D+ en 24h',
+      type: 'legendary',
+      getValue: s => s.best_24h_elevation,
+      format: v => `${formatElevation(v)} m`
+    },
+    {
+      id: 'polyvalent',
+      emoji: '🎯',
+      name: 'Polyvalent',
+      desc: 'Le plus de types d\'activités',
       type: 'normal',
-      getValue: s => s.active_days_count,
-      format: v => `${v} jours`
+      getValue: s => s.num_sports,
+      format: v => `${v} sports`
     },
     {
       id: 'efficient',
@@ -968,6 +1319,42 @@ function generateAchievements(stats) {
       format: v => `${v} m/km`
     },
     {
+      id: 'nightowl',
+      emoji: '🦉',
+      name: 'Oiseau de Nuit',
+      desc: 'Activités après 20h (heure locale)',
+      type: 'fun',
+      getValue: s => s.night_activities,
+      format: v => `${v} sorties`
+    },
+    {
+      id: 'earlybird',
+      emoji: '🐓',
+      name: 'Lève-tôt',
+      desc: 'Activités 5h-9h (heure locale)',
+      type: 'normal',
+      getValue: s => s.morning_activities,
+      format: v => `${v} sorties`
+    },
+    {
+      id: 'distance',
+      emoji: '🛣️',
+      name: 'Forrest Gump',
+      desc: 'La plus grande distance totale',
+      type: 'normal',
+      getValue: s => s.total_distance,
+      format: v => `${(v/1000).toFixed(0)} km`
+    },
+    {
+      id: 'flat',
+      emoji: '🤷',
+      name: 'A pas compris',
+      desc: 'Le plus d\'activités sans D+',
+      type: 'fun',
+      getValue: s => s.activities_without_elevation,
+      format: v => `${v} activités`
+    },
+    {
       id: 'cyclist',
       emoji: '🚴',
       name: 'Roi de la Pédale',
@@ -982,7 +1369,7 @@ function generateAchievements(stats) {
       name: 'Crapahute',
       desc: 'Le plus de D+ en trail/run',
       type: 'normal',
-      getValue: s => (s.elevation_by_sport['Run'] || 0) + (s.elevation_by_sport['Trail'] || 0),
+      getValue: s => s.elevation_by_sport['Run'] || 0,
       format: v => `${formatElevation(v)} m`
     },
     {
@@ -991,7 +1378,7 @@ function generateAchievements(stats) {
       name: 'Collant Pipette',
       desc: 'Le plus de D+ en ski',
       type: 'normal',
-      getValue: s => (s.elevation_by_sport['Ski mountaineering'] || 0) + (s.elevation_by_sport['Ski'] || 0),
+      getValue: s => s.elevation_by_sport['Ski mountaineering'] || 0,
       format: v => `${formatElevation(v)} m`
     },
     {
@@ -1002,58 +1389,47 @@ function generateAchievements(stats) {
       type: 'normal',
       getValue: s => s.elevation_by_sport['Hike'] || 0,
       format: v => `${formatElevation(v)} m`
-    },
-    {
-      id: 'flat',
-      emoji: '🤷',
-      name: 'A pas compris',
-      desc: 'Le plus d\'activités sans D+',
-      type: 'fun',
-      getValue: s => s.activities_without_elevation,
-      format: v => `${v} activités`
-    },
-    {
-      id: 'speedster',
-      emoji: '🚀',
-      name: 'Turbo',
-      desc: 'Le plus de D+ par heure',
-      type: 'normal',
-      getValue: s => parseFloat(s.elevation_per_time),
-      format: v => `${formatElevation(v)} m/h`
-    },
-    {
-      id: 'marathon',
-      emoji: '🏅',
-      name: 'Marathonien',
-      desc: 'Le plus d\'activités',
-      type: 'normal',
-      getValue: s => s.activity_count,
-      format: v => `${v} activités`
-    },
-    {
-      id: 'endurance',
-      emoji: '⏱️',
-      name: 'Endurant',
-      desc: 'Le plus de temps d\'effort',
-      type: 'normal',
-      getValue: s => s.total_time,
-      format: v => `${Math.round(v / 3600)}h`
     }
   ];
 
-  grid.innerHTML = achievements.map(achievement => {
-    // Trouver le gagnant
+  // Créer le tooltip custom s'il n'existe pas
+  let tooltipEl = document.getElementById('achievement-tooltip');
+  if (!tooltipEl) {
+    tooltipEl = document.createElement('div');
+    tooltipEl.id = 'achievement-tooltip';
+    tooltipEl.style.cssText = `
+      position: fixed;
+      background: rgba(10, 10, 15, 0.98);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 12px 16px;
+      pointer-events: none;
+      z-index: 10000;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #fff;
+      max-width: 280px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    `;
+    document.body.appendChild(tooltipEl);
+  }
+
+  grid.innerHTML = achievements.map((achievement, achievementIdx) => {
+    // Trouver le classement complet
     const validStats = stats.filter(s => achievement.getValue(s) > 0);
     if (validStats.length === 0) return '';
     
-    const winner = validStats.reduce((best, s) => 
-      achievement.getValue(s) > achievement.getValue(best) ? s : best
-    );
+    // Trier pour avoir le classement
+    const sorted = [...validStats].sort((a, b) => achievement.getValue(b) - achievement.getValue(a));
+    const winner = sorted[0];
+    const top3 = sorted.slice(0, 3);
     
     const value = achievement.getValue(winner);
     
     return `
-      <div class="achievement-card">
+      <div class="achievement-card" data-achievement-idx="${achievementIdx}">
         <div class="achievement-badge ${achievement.type}">${achievement.emoji}</div>
         <div class="achievement-info">
           <div class="achievement-name">${achievement.name}</div>
@@ -1067,6 +1443,47 @@ function generateAchievements(stats) {
       </div>
     `;
   }).join('');
+
+  // Ajouter les événements pour le tooltip
+  document.querySelectorAll('.achievement-card').forEach(card => {
+    const idx = parseInt(card.dataset.achievementIdx);
+    const achievement = achievements[idx];
+    if (!achievement) return;
+    
+    const validStats = stats.filter(s => achievement.getValue(s) > 0);
+    const sorted = [...validStats].sort((a, b) => achievement.getValue(b) - achievement.getValue(a));
+    const top3 = sorted.slice(0, 3);
+    
+    card.addEventListener('mouseenter', (e) => {
+      let html = `<div style="font-weight:600;margin-bottom:10px;font-size:13px;">${achievement.emoji} ${achievement.name}</div>`;
+      
+      top3.forEach((s, idx) => {
+        const pos = idx + 1;
+        const suffix = pos === 1 ? 'er' : 'e';
+        const medal = pos === 1 ? '🥇' : pos === 2 ? '🥈' : '🥉';
+        html += `
+          <div style="display:flex;align-items:center;gap:8px;margin:6px 0;">
+            <span>${medal}</span>
+            <span style="width:10px;height:10px;border-radius:50%;background:${getAthleteColor(s.athlete_id)};flex-shrink:0;"></span>
+            <span style="color:rgba(255,255,255,0.9);">${getAthleteName(s.athlete_id)}</span>
+            <span style="color:rgba(255,255,255,0.5);margin-left:auto;">${achievement.format(achievement.getValue(s))}</span>
+          </div>
+        `;
+      });
+      
+      tooltipEl.innerHTML = html;
+      tooltipEl.style.opacity = '1';
+    });
+    
+    card.addEventListener('mousemove', (e) => {
+      tooltipEl.style.left = (e.clientX + 15) + 'px';
+      tooltipEl.style.top = (e.clientY - 10) + 'px';
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      tooltipEl.style.opacity = '0';
+    });
+  });
 }
 
 // ==============================
@@ -1087,23 +1504,23 @@ export function showSankeyDiagram(data) {
   const nodeSet = new Set();
 
   const athletes = [...new Set(data.map(d => d.athlete_id))];
-  const sports = [...new Set(data.map(d => mapSportName(d.sport)))];
+  const sports = [...new Set(data.map(d => mapSportName(d.sport_type)))];
 
   // Calculer le total global
-  const totalGlobal = data.reduce((sum, d) => sum + (d.elevation_gain_m || 0), 0);
+  const totalGlobal = data.reduce((sum, d) => sum + (d.total_elevation_gain|| 0), 0);
 
   // Calculer les totaux par athlète
   const athleteTotals = {};
   athletes.forEach(a => {
     athleteTotals[a] = data.filter(d => d.athlete_id === a)
-      .reduce((sum, d) => sum + (d.elevation_gain_m || 0), 0);
+      .reduce((sum, d) => sum + (d.total_elevation_gain|| 0), 0);
   });
 
   // Calculer les totaux par sport
   const sportTotals = {};
   sports.forEach(s => {
-    sportTotals[s] = data.filter(d => mapSportName(d.sport) === s)
-      .reduce((sum, d) => sum + (d.elevation_gain_m || 0), 0);
+    sportTotals[s] = data.filter(d => mapSportName(d.sport_type) === s)
+      .reduce((sum, d) => sum + (d.total_elevation_gain|| 0), 0);
   });
 
   athletes.forEach(a => {
@@ -1134,13 +1551,13 @@ export function showSankeyDiagram(data) {
   const linkMap = {};
   data.forEach(activity => {
     const source = `${getAthleteName(activity.athlete_id)}`;
-    const target = mapSportName(activity.sport);
+    const target = mapSportName(activity.sport_type);
     const key = `${source}->${target}`;
 
     if (!linkMap[key]) {
       linkMap[key] = { source, target, value: 0 };
     }
-    linkMap[key].value += activity.elevation_gain_m || 0;
+    linkMap[key].value += activity.total_elevation_gain|| 0;
   });
 
   Object.values(linkMap).forEach(link => links.push(link));
@@ -1212,15 +1629,23 @@ export function showCalendarHeatmap(data, athleteId, selectedSport) {
     filteredData = filteredData.filter(d => d.athlete_id == athleteId);
   }
   if (selectedSport) {
-    filteredData = filteredData.filter(d => d.sport === selectedSport);
+    filteredData = filteredData.filter(d => d.sport_type === selectedSport);
   }
 
-  const year = filteredData.length > 0 ? new Date(filteredData[0].date).getFullYear() : 2025;
+  // Calculer le nombre d'athlètes (pour l'objectif individuel)
+  // Si un athlète est sélectionné, on divise par le nombre total d'athlètes
+  // Si tous sont affichés, on ne divise pas (objectif global)
+  const totalAthletes = [...new Set(data.map(d => d.athlete_id))].length;
+  const numAthletes = athleteId && athleteId !== "classement" 
+    ? totalAthletes  // Un athlète sélectionné -> objectif individuel
+    : 1;             // Tous les athlètes -> objectif global
+
+  const year = filteredData.length > 0 ? new Date(filteredData[0].start_date).getFullYear() : 2025;
 
   const dailyElevation = {};
   filteredData.forEach(activity => {
-    const date = activity.date.split('T')[0];
-    dailyElevation[date] = (dailyElevation[date] || 0) + (activity.elevation_gain_m || 0);
+    const date = activity.start_date.split('T')[0];
+    dailyElevation[date] = (dailyElevation[date] || 0) + (activity.total_elevation_gain|| 0);
   });
 
   const calendarData = Object.entries(dailyElevation).map(([date, value]) => [date, value]);
@@ -1284,27 +1709,27 @@ export function showCalendarHeatmap(data, athleteId, selectedSport) {
   window.calendarChart.setOption(option);
 
   // Générer les barres de performance avec animation au scroll
-  setupPerformanceBarsAnimation(filteredData, year);
+  setupPerformanceBarsAnimation(filteredData, year, numAthletes);
 
   window.addEventListener('resize', () => {
     if (window.calendarChart) window.calendarChart.resize();
   });
 }
 
-function setupPerformanceBarsAnimation(data, year) {
+function setupPerformanceBarsAnimation(data, year, numAthletes = 1) {
   const performanceBars = document.querySelector('.performance-bars');
   if (!performanceBars) return;
 
   // Stocker les données pour l'animation
-  window.perfBarsData = { data, year };
+  window.perfBarsData = { data, year, numAthletes };
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         // Déclencher l'animation des barres
         setTimeout(() => {
-          generateWeeklyBars(data, year, true);
-          generateMonthlyBars(data, year, true);
+          generateWeeklyBars(data, year, true, numAthletes);
+          generateMonthlyBars(data, year, true, numAthletes);
         }, 100);
         observer.unobserve(entry.target);
       }
@@ -1314,26 +1739,27 @@ function setupPerformanceBarsAnimation(data, year) {
   observer.observe(performanceBars);
   
   // Générer les barres sans animation d'abord (hauteur 0)
-  generateWeeklyBars(data, year, false);
-  generateMonthlyBars(data, year, false);
+  generateWeeklyBars(data, year, false, numAthletes);
+  generateMonthlyBars(data, year, false, numAthletes);
 }
 
-function generateWeeklyBars(data, year, animate = true) {
+function generateWeeklyBars(data, year, animate = true, numAthletes = 1) {
   const container = document.getElementById('weeklyBars');
   if (!container) return;
 
   const TARGET = 1000000;
-  const weeklyTarget = TARGET / 52; // ~19 231 m par semaine
+  // Objectif individuel : divisé par le nombre d'athlètes
+  const weeklyTarget = (TARGET / numAthletes) / 52;
 
   // Calculer le dénivelé par semaine
   const weeklyData = {};
   data.forEach(activity => {
-    const date = new Date(activity.date);
+    const date = new Date(activity.start_date);
     if (date.getFullYear() !== year) return;
     
     const weekNum = getWeekNumber(date);
     const weekKey = `S${weekNum}`;
-    weeklyData[weekKey] = (weeklyData[weekKey] || 0) + (activity.elevation_gain_m || 0);
+    weeklyData[weekKey] = (weeklyData[weekKey] || 0) + (activity.total_elevation_gain|| 0);
   });
 
   // Créer toutes les semaines de l'année
@@ -1378,20 +1804,21 @@ function generateWeeklyBars(data, year, animate = true) {
   container.innerHTML = barsHTML + objectiveLine;
 }
 
-function generateMonthlyBars(data, year, animate = true) {
+function generateMonthlyBars(data, year, animate = true, numAthletes = 1) {
   const container = document.getElementById('monthlyBars');
   if (!container) return;
 
   const TARGET = 1000000;
-  const monthlyTarget = TARGET / 12; // ~83 333 m par mois
+  // Objectif individuel : divisé par le nombre d'athlètes
+  const monthlyTarget = (TARGET / numAthletes) / 12;
   const monthNames = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
   
   // Calculer le dénivelé par mois
   const monthlyData = new Array(12).fill(0);
   data.forEach(activity => {
-    const date = new Date(activity.date);
+    const date = new Date(activity.start_date);
     if (date.getFullYear() !== year) return;
-    monthlyData[date.getMonth()] += (activity.elevation_gain_m || 0);
+    monthlyData[date.getMonth()] += (activity.total_elevation_gain|| 0);
   });
 
   const maxValue = Math.max(...monthlyData, monthlyTarget * 1.2);
@@ -1440,16 +1867,21 @@ function getWeekNumber(date) {
 function calculateHourlyDistribution(data, groupBy = 'sport') {
   const distributions = {};
 
-  data.forEach(activity => {
-    const date = new Date(activity.date);
-    const hour = date.getHours() + date.getMinutes() / 60;
-    const duration = (activity.moving_time_s || 0) / 3600;
+  // Exclure les activités lissées sur plusieurs jours
+  const filteredData = data.filter(activity => !activity._isPartOfMultiDay);
+
+  filteredData.forEach(activity => {
+    // Utiliser start_date_local pour avoir l'heure locale de l'athlète
+    const dateStr = activity.start_date_local || activity.start_date;
+    const date = new Date(dateStr);
+    const hour = date.getUTCHours() + date.getUTCMinutes() / 60; // UTC car start_date_local est déjà en local
+    const duration = (activity.moving_time || 0) / 3600;
 
     let key;
     if (groupBy === 'athlete') {
       key = `${getAthleteName(activity.athlete_id)}`;
     } else {
-      key = mapSportName(activity.sport);
+      key = mapSportName(activity.sport_type);
     }
 
     if (!distributions[key]) {
@@ -1480,7 +1912,7 @@ export function showRidgelineBySport(data, athleteId, selectedSport = null) {
     filteredData = filteredData.filter(activity => activity.athlete_id == athleteId);
   }
   if (selectedSport) {
-    filteredData = filteredData.filter(activity => activity.sport === selectedSport);
+    filteredData = filteredData.filter(activity => activity.sport_type === selectedSport);
   }
 
   const distributions = calculateHourlyDistribution(filteredData, 'sport');
@@ -1647,7 +2079,7 @@ export function showRidgelineByAthlete(data, selectedSport = null) {
 
   let filteredData = data;
   if (selectedSport) {
-    filteredData = filteredData.filter(activity => activity.sport === selectedSport);
+    filteredData = filteredData.filter(activity => activity.sport_type === selectedSport);
   }
 
   const distributions = calculateHourlyDistribution(filteredData, 'athlete');
@@ -1819,8 +2251,8 @@ export function showSportPieChart(data) {
 
   const sportData = {};
   data.forEach(activity => {
-    const sport = mapSportName(activity.sport);
-    sportData[sport] = (sportData[sport] || 0) + (activity.elevation_gain_m || 0);
+    const sport = mapSportName(activity.sport_type);
+    sportData[sport] = (sportData[sport] || 0) + (activity.total_elevation_gain|| 0);
   });
 
   const pieData = Object.entries(sportData)
@@ -1903,7 +2335,7 @@ export function showMiniRanking(data) {
     if (!athleteStats[id]) {
       athleteStats[id] = { athlete_id: id, total_elevation: 0 };
     }
-    athleteStats[id].total_elevation += activity.elevation_gain_m || 0;
+    athleteStats[id].total_elevation += activity.total_elevation_gain|| 0;
   });
 
   const stats = Object.values(athleteStats).sort((a, b) => b.total_elevation - a.total_elevation);
@@ -1974,450 +2406,474 @@ export function showMiniRanking(data) {
 }
 
 // ==============================
-// SOCIAL GRAPH - SORTIES EN GROUPE
+// CHORD DIAGRAM (SOCIAL GRAPH) - VERSION MODIFIÉE
 // ==============================
 
-// Fonction pour calculer la distance entre deux points GPS (Haversine)
-function haversineDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371000; // Rayon de la Terre en mètres
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
+let precomputedGroups = null;
 
-// Fonction pour comparer deux polylines et déterminer leur similarité
-function comparePolylines(poly1, poly2, corridorWidth = 100) {
-  if (!poly1 || !poly2 || poly1.length < 2 || poly2.length < 2) return 0;
-  
-  // Échantillonner les polylines pour accélérer la comparaison
-  const sampleRate = Math.max(1, Math.floor(Math.min(poly1.length, poly2.length) / 50));
-  const sampled1 = poly1.filter((_, i) => i % sampleRate === 0);
-  const sampled2 = poly2.filter((_, i) => i % sampleRate === 0);
-  
-  let matchCount = 0;
-  
-  for (const point1 of sampled1) {
-    for (const point2 of sampled2) {
-      const distance = haversineDistance(point1[0], point1[1], point2[0], point2[1]);
-      if (distance <= corridorWidth) {
-        matchCount++;
-        break;
-      }
-    }
+export async function loadGroupActivities() {
+  if (precomputedGroups) return precomputedGroups;
+
+  // Utiliser la fonction avec cache
+  precomputedGroups = await loadGroupActivitiesWithCache();
+  return precomputedGroups;
+}
+// Fonction principale pour afficher le Chord Diagram
+export function showSocialGraph(data, groupActivities = null) {
+  const container = document.getElementById('socialGraph');
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  // Utiliser les données pré-calculées si disponibles
+  const groups = groupActivities || precomputedGroups || [];
+
+  if (groups.length === 0) {
+    container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(255,255,255,0.5);">Aucune sortie de groupe détectée</div>';
+    return;
   }
-  
-  return matchCount / sampled1.length;
-}
 
-// Fonction pour détecter les sorties communes
-function detectGroupActivities(data) {
-  const groupActivities = [];
-  const processedPairs = new Set();
-  
-  // Grouper les activités par date (même jour)
-  const activitiesByDate = {};
-  data.forEach(activity => {
-    const date = activity.date.split('T')[0];
-    if (!activitiesByDate[date]) activitiesByDate[date] = [];
-    activitiesByDate[date].push(activity);
+  // Filtrer les activités "Climb" et mapper correctement les sports
+  const filteredGroups = groups.filter(g => {
+    const sport = g.sport_type || g.sport;
+    return sport !== 'Climb' && sport !== 'RockClimbing';
   });
-  
-  // Pour chaque jour, chercher les activités similaires
-  Object.values(activitiesByDate).forEach(dayActivities => {
-    if (dayActivities.length < 2) return;
-    
-    for (let i = 0; i < dayActivities.length; i++) {
-      for (let j = i + 1; j < dayActivities.length; j++) {
-        const a1 = dayActivities[i];
-        const a2 = dayActivities[j];
-        
-        // Éviter les doublons
-        const pairKey = [a1.id, a2.id].sort().join('-');
-        if (processedPairs.has(pairKey)) continue;
-        processedPairs.add(pairKey);
-        
-        // Même athlète = pas une sortie de groupe
-        if (a1.athlete_id === a2.athlete_id) continue;
-        
-        // Vérifier les critères de correspondance
-        const isMatch = checkActivityMatch(a1, a2);
-        
-        if (isMatch) {
-          groupActivities.push({
-            athletes: [a1.athlete_id, a2.athlete_id],
-            activities: [a1, a2],
-            date: a1.date.split('T')[0],
-            sport: a1.sport,
-            elevation: Math.round((a1.elevation_gain_m + a2.elevation_gain_m) / 2),
-            duration: Math.round((a1.moving_time_s + a2.moving_time_s) / 2)
+
+  // Collecter les athlètes actifs (ceux avec des sorties de groupe)
+  const athleteSet = new Set();
+  filteredGroups.forEach(g => g.athletes.forEach(id => athleteSet.add(id)));
+  const athleteIds = Array.from(athleteSet);
+  const n = athleteIds.length;
+
+  // Créer une matrice pour la somme des D+ (pour dimensionner les arcs)
+  const totalMatrix = Array(n).fill(null).map(() => Array(n).fill(0));
+  const athleteIndex = new Map(athleteIds.map((id, i) => [id, i]));
+
+  // Stocker chaque activité individuellement pour créer des ribbons séparés
+  const individualLinks = [];
+  const sportsUsed = new Set();
+
+  filteredGroups.forEach(g => {
+    // Mapper correctement les sports
+    let sportCat = g.sport_category || mapSportName(g.sport_type || g.sport);
+
+    // S'assurer que "Ski" est bien mappé à "Ski mountaineering"
+    if (sportCat === 'Ski' || g.sport === 'BackcountrySki' || g.sport === 'NordicSki') {
+      sportCat = 'Ski mountaineering';
+    }
+
+    sportsUsed.add(sportCat);
+
+    // Pour chaque paire d'athlètes dans le groupe
+    for (let i = 0; i < g.athletes.length; i++) {
+      for (let j = i + 1; j < g.athletes.length; j++) {
+        const a1 = g.athletes[i];
+        const a2 = g.athletes[j];
+        const idx1 = athleteIndex.get(a1);
+        const idx2 = athleteIndex.get(a2);
+
+        if (idx1 !== undefined && idx2 !== undefined) {
+          // Ajouter le D+ à la matrice totale
+          totalMatrix[idx1][idx2] += g.elevation;
+          totalMatrix[idx2][idx1] += g.elevation;
+
+          // Stocker chaque activité comme un lien individuel
+          individualLinks.push({
+            source: idx1,
+            target: idx2,
+            value: g.elevation,
+            sport: sportCat,
+            name: g.name,
+            date: g.date,
+            athleteIds: [a1, a2],
+            // Stocker les IDs des activités pour choisir un nom arbitrairement
+            activityIds: g.activity_ids || []
           });
         }
       }
     }
   });
-  
-  return groupActivities;
-}
 
-// Vérifier si deux activités correspondent à une sortie commune
-function checkActivityMatch(a1, a2) {
-  // 1. Vérifier l'heure de départ (moins de 30 minutes d'écart)
-  const time1 = new Date(a1.date).getTime();
-  const time2 = new Date(a2.date).getTime();
-  const timeDiff = Math.abs(time1 - time2) / (1000 * 60); // en minutes
-  
-  if (timeDiff > 30) return false;
-  
-  // 2. Vérifier la durée (moins d'1h d'écart)
-  const duration1 = a1.moving_time_s || 0;
-  const duration2 = a2.moving_time_s || 0;
-  const durationDiff = Math.abs(duration1 - duration2) / 3600; // en heures
-  
-  if (durationDiff > 1) return false;
-  
-  // 3. Vérifier le type de sport (doit être similaire)
-  const sport1 = mapSportName(a1.sport);
-  const sport2 = mapSportName(a2.sport);
-  if (sport1 !== sport2) return false;
-  
-  // 4. Vérifier les polylines si disponibles
-  if (a1.tracemap?.summary_polyline && a2.tracemap?.summary_polyline) {
-    const poly1 = decodePolyline(a1.tracemap.summary_polyline);
-    const poly2 = decodePolyline(a2.tracemap.summary_polyline);
-    
-    const similarity = comparePolylines(poly1, poly2, 100);
-    if (similarity < 0.75) return false;
-  } else {
-    // Sans polyline, vérifier la distance et le dénivelé
-    const distDiff = Math.abs((a1.distance_m || 0) - (a2.distance_m || 0));
-    const elevDiff = Math.abs((a1.elevation_gain_m || 0) - (a2.elevation_gain_m || 0));
-    
-    // Tolérance : 10% de différence max
-    const avgDist = ((a1.distance_m || 0) + (a2.distance_m || 0)) / 2;
-    const avgElev = ((a1.elevation_gain_m || 0) + (a2.elevation_gain_m || 0)) / 2;
-    
-    if (avgDist > 0 && distDiff / avgDist > 0.1) return false;
-    if (avgElev > 0 && elevDiff / avgElev > 0.1) return false;
-  }
-  
-  return true;
-}
-
-// Fonction principale pour afficher le graphe social
-export function showSocialGraph(data) {
-  const container = document.getElementById('socialGraph');
-  if (!container) return;
-  
-  // Nettoyer le conteneur
-  container.innerHTML = '';
-  
-  // Détecter les sorties en groupe
-  const groupActivities = detectGroupActivities(data);
-  
-  // Calculer les stats par athlète
-  const athleteStats = {};
-  data.forEach(activity => {
-    const id = activity.athlete_id;
-    if (!athleteStats[id]) {
-      athleteStats[id] = { 
-        id, 
-        name: getAthleteName(id),
-        totalElevation: 0,
-        groupCount: 0
-      };
-    }
-    athleteStats[id].totalElevation += activity.elevation_gain_m || 0;
-  });
-  
-  // Compter les sorties de groupe par athlète
-  groupActivities.forEach(group => {
-    group.athletes.forEach(athleteId => {
-      if (athleteStats[athleteId]) {
-        athleteStats[athleteId].groupCount++;
-      }
-    });
-  });
-  
-  // Créer les nodes
-  const nodes = Object.values(athleteStats).map(athlete => ({
-    id: athlete.id,
-    name: athlete.name,
-    totalElevation: athlete.totalElevation,
-    groupCount: athlete.groupCount,
-    radius: Math.max(20, Math.min(50, Math.sqrt(athlete.totalElevation) / 10))
-  }));
-  
-  // Créer les links avec offset pour éviter la superposition
-  const linksByPair = {};
-  groupActivities.forEach((group, index) => {
-    const pairKey = group.athletes.sort().join('-');
-    if (!linksByPair[pairKey]) {
-      linksByPair[pairKey] = [];
-    }
-    linksByPair[pairKey].push({
-      source: group.athletes[0],
-      target: group.athletes[1],
-      date: group.date,
-      sport: mapSportName(group.sport),
-      elevation: group.elevation,
-      duration: group.duration,
-      index: linksByPair[pairKey].length
-    });
-  });
-  
-  // Aplatir les links avec offset
-  const links = [];
-  Object.values(linksByPair).forEach(pairLinks => {
-    const count = pairLinks.length;
-    pairLinks.forEach((link, i) => {
-      link.offset = count > 1 ? (i - (count - 1) / 2) * 15 : 0;
-      link.totalInPair = count;
-      links.push(link);
-    });
-  });
-  
   // Dimensions
   const width = container.clientWidth || 800;
-  const height = container.clientHeight || 550;
-  
+  const height = container.clientHeight || 500;
+  const outerRadius = Math.min(width, height) * 0.4;
+  const innerRadius = outerRadius - 25;
+
   // Créer le SVG
   const svg = d3.select(container)
     .append('svg')
     .attr('width', width)
     .attr('height', height)
-    .attr('viewBox', [0, 0, width, height]);
-  
-  // Créer le tooltip
+    .append('g')
+    .attr('transform', `translate(${width/2},${height/2})`);
+
+  // Tooltip
   const tooltip = d3.select(container)
     .append('div')
-    .attr('class', 'social-tooltip');
-  
-  // Définir les gradients pour les liens
-  const defs = svg.append('defs');
-  
-  // Simulation de force
-  const simulation = d3.forceSimulation(nodes)
-    .force('link', d3.forceLink(links)
-      .id(d => d.id)
-      .distance(150)
-      .strength(link => 0.3 + (link.totalInPair * 0.1))
-    )
-    .force('charge', d3.forceManyBody()
-      .strength(d => -300 - d.groupCount * 50)
-    )
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .force('collision', d3.forceCollide()
-      .radius(d => d.radius + 20)
-    );
-  
-  // Fonction pour générer un chemin courbe avec offset
-  function linkArc(d) {
-    const dx = d.target.x - d.source.x;
-    const dy = d.target.y - d.source.y;
-    const dr = Math.sqrt(dx * dx + dy * dy);
-    
-    // Calculer le point de contrôle pour la courbe
-    const midX = (d.source.x + d.target.x) / 2;
-    const midY = (d.source.y + d.target.y) / 2;
-    
-    // Perpendiculaire pour l'offset
-    const perpX = -dy / dr * d.offset;
-    const perpY = dx / dr * d.offset;
-    
-    const ctrlX = midX + perpX;
-    const ctrlY = midY + perpY;
-    
-    return `M${d.source.x},${d.source.y} Q${ctrlX},${ctrlY} ${d.target.x},${d.target.y}`;
-  }
-  
-  // Dessiner les liens
-  const link = svg.append('g')
-    .selectAll('path')
-    .data(links)
-    .join('path')
-    .attr('class', 'social-link')
-    .attr('stroke', d => getSportColor(d.sport))
-    .attr('stroke-width', d => Math.max(2, Math.min(8, d.elevation / 300)))
-    .attr('opacity', 0.6)
-    .on('mouseover', function(event, d) {
-      d3.select(this).attr('opacity', 1).attr('stroke-width', d => Math.max(3, Math.min(10, d.elevation / 300 + 2)));
-      
-      const date = new Date(d.date).toLocaleDateString('fr-FR', { 
-        weekday: 'long', day: 'numeric', month: 'long' 
+    .style('position', 'fixed')
+    .style('background', 'rgba(10, 10, 15, 0.98)')
+    .style('border', '1px solid rgba(255,255,255,0.15)')
+    .style('border-radius', '10px')
+    .style('padding', '12px 16px')
+    .style('pointer-events', 'none')
+    .style('z-index', '1000')
+    .style('font-size', '12px')
+    .style('color', '#fff')
+    .style('box-shadow', '0 4px 20px rgba(0,0,0,0.5)')
+    .style('opacity', 0)
+    .style('transition', 'opacity 0.15s')
+    .style('max-width', '300px');
+
+  // Créer le layout chord avec la matrice totale (pour les arcs)
+  const chord = d3.chord()
+    .padAngle(0.05)
+    .sortSubgroups(d3.descending);
+
+  const chords = chord(totalMatrix);
+
+  // Arc pour les groupes (arcs extérieurs)
+  const arc = d3.arc()
+    .innerRadius(innerRadius)
+    .outerRadius(outerRadius);
+
+  // Fonction pour créer un ribbon personnalisé pour chaque activité
+  const ribbon = d3.ribbon()
+    .radius(innerRadius - 2);
+
+  // État de sélection
+  let selectedIndex = null;
+
+  // Fonction highlight
+  function highlightAthlete(index) {
+    selectedIndex = index;
+    tooltip.style('opacity', 0);
+
+    // Atténuer les arcs non connectés
+    groupArcs.transition().duration(200)
+      .style('opacity', d => {
+        const isConnected = individualLinks.some(link =>
+          link.source === index || link.target === index
+        );
+        return (d.index === index || isConnected) ? 1 : 0.15;
       });
-      const sourceName = getAthleteName(d.source.id || d.source);
-      const targetName = getAthleteName(d.target.id || d.target);
-      const duration = Math.round(d.duration / 60);
-      
+
+    // Atténuer les ribbons non connectés
+    ribbons.transition().duration(200)
+      .style('opacity', d => (d.source === index || d.target === index) ? 0.85 : 0.03);
+
+    // Atténuer les labels
+    labels.transition().duration(200)
+      .style('opacity', d => {
+        const isConnected = individualLinks.some(link =>
+          link.source === index || link.target === index
+        );
+        return (d.index === index || isConnected) ? 1 : 0.2;
+      });
+  }
+
+  function resetHighlight() {
+    selectedIndex = null;
+
+    groupArcs.transition().duration(200).style('opacity', 0.9);
+    ribbons.transition().duration(200).style('opacity', 0.65);
+    labels.transition().duration(200).style('opacity', 1);
+  }
+
+  // Dessiner les ribbons individuels (une ligne par activité)
+  // On groupe d'abord les liens par paire pour calculer les positions
+  const linksByPair = new Map();
+  individualLinks.forEach(link => {
+    const pairKey = `${Math.min(link.source, link.target)}-${Math.max(link.source, link.target)}`;
+    if (!linksByPair.has(pairKey)) {
+      linksByPair.set(pairKey, []);
+    }
+    linksByPair.get(pairKey).push(link);
+  });
+
+  // Préparer les données de ribbons avec offsets
+  const ribbonData = [];
+  linksByPair.forEach((links, pairKey) => {
+    const [sourceIdx, targetIdx] = pairKey.split('-').map(Number);
+
+    // Trouver les groupes correspondants
+    const sourceGroup = chords.groups.find(g => g.index === sourceIdx);
+    const targetGroup = chords.groups.find(g => g.index === targetIdx);
+
+    if (!sourceGroup || !targetGroup) return;
+
+    // Calculer la largeur d'angle totale pour cette paire
+    const totalValue = links.reduce((sum, l) => sum + l.value, 0);
+    const sourceAngleWidth = (sourceGroup.endAngle - sourceGroup.startAngle) * (totalValue / sourceGroup.value);
+    const targetAngleWidth = (targetGroup.endAngle - targetGroup.startAngle) * (totalValue / targetGroup.value);
+
+    // Calculer l'offset de départ (centré dans la section de la paire)
+    let sourceOffset = sourceGroup.startAngle;
+    let targetOffset = targetGroup.startAngle;
+
+    // Pour chaque lien, créer un ribbon
+    links.forEach(link => {
+      const linkSourceWidth = sourceAngleWidth * (link.value / totalValue);
+      const linkTargetWidth = targetAngleWidth * (link.value / totalValue);
+
+      ribbonData.push({
+        ...link,
+        sourceStartAngle: sourceOffset,
+        sourceEndAngle: sourceOffset + linkSourceWidth,
+        targetStartAngle: targetOffset,
+        targetEndAngle: targetOffset + linkTargetWidth
+      });
+
+      sourceOffset += linkSourceWidth;
+      targetOffset += linkTargetWidth;
+    });
+  });
+
+  const ribbons = svg.append('g')
+    .selectAll('path')
+    .data(ribbonData)
+    .join('path')
+    .attr('d', d => {
+      return ribbon({
+        source: {
+          startAngle: d.sourceStartAngle,
+          endAngle: d.sourceEndAngle
+        },
+        target: {
+          startAngle: d.targetStartAngle,
+          endAngle: d.targetEndAngle
+        }
+      });
+    })
+    .attr('fill', d => getSportColor(d.sport))
+    .attr('stroke', 'rgba(255,255,255,0.1)')
+    .attr('stroke-width', 0.5)
+    .style('opacity', 0.65)
+    .style('cursor', 'pointer')
+    .on('mouseover', function(event, d) {
+      if (selectedIndex !== null) return;
+
+      d3.select(this)
+        .style('opacity', 0.95)
+        .attr('stroke-width', 1);
+
+      const a1 = athleteIds[d.source];
+      const a2 = athleteIds[d.target];
+      const date = new Date(d.date).toLocaleDateString('fr-FR', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+      });
+
+      // Afficher l'infobulle avec : Date, D+, Type d'activité, Nom de l'activité
       tooltip.html(`
-        <div class="social-tooltip-title">
-          <span class="social-tooltip-sport" style="background: ${getSportColor(d.sport)}"></span>
-          ${sourceName} & ${targetName}
+        <div style="font-weight:600;font-size:13px;margin-bottom:8px;color:#f97316;">
+          ${date}
         </div>
-        <div class="social-tooltip-details">
-          ${date}<br>
-          ${d.sport}<br>
-          <span class="social-tooltip-elevation">↑ ${formatElevation(d.elevation)} m</span> · ${duration} min
+        <div style="font-size:14px;margin-bottom:6px;font-weight:500;">
+          ${d.name}
+        </div>
+        <div style="display:flex;gap:12px;font-size:11px;color:rgba(255,255,255,0.8);">
+          <div>
+            <span style="color:rgba(255,255,255,0.5);">Sport:</span> ${d.sport}
+          </div>
+          <div>
+            <span style="color:rgba(255,255,255,0.5);">D+:</span> ${formatElevation(d.value)} m
+          </div>
+        </div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.1);">
+          ${getAthleteName(a1)} · ${getAthleteName(a2)}
         </div>
       `)
-      .style('left', (event.offsetX + 15) + 'px')
-      .style('top', (event.offsetY - 15) + 'px')
-      .classed('visible', true);
+      .style('left', (event.clientX + 15) + 'px')
+      .style('top', (event.clientY - 10) + 'px')
+      .style('opacity', 1);
     })
     .on('mouseout', function() {
-      d3.select(this).attr('opacity', 0.6).attr('stroke-width', d => Math.max(2, Math.min(8, d.elevation / 300)));
-      tooltip.classed('visible', false);
+      if (selectedIndex !== null) return;
+      d3.select(this)
+        .style('opacity', 0.65)
+        .attr('stroke-width', 0.5);
+      tooltip.style('opacity', 0);
     });
-  
-  // Dessiner les nodes
-  const node = svg.append('g')
-    .selectAll('g')
-    .data(nodes)
-    .join('g')
-    .attr('class', 'social-node')
-    .call(d3.drag()
-      .on('start', dragstarted)
-      .on('drag', dragged)
-      .on('end', dragended)
-    );
-  
-  // Cercles des nodes
-  node.append('circle')
-    .attr('r', d => d.radius)
-    //.attr('fill', d => getAthleteColor(d.id))
-      .attr('fill', "#222230FF")
+
+  // Dessiner les arcs (athlètes)
+  const groupArcs = svg.append('g')
+    .selectAll('path')
+    .data(chords.groups)
+    .join('path')
+    .attr('d', arc)
+    .attr('fill', d => getAthleteColor(athleteIds[d.index]))
     .attr('stroke', '#fff')
-    .attr('stroke-width', 2)
-    .attr('opacity', 0.9);
-  
-  // Labels des nodes
-  node.append('text')
-    .attr('class', 'social-node-label')
-    .attr('dy', d => d.radius + 15)
-    .text(d => d.name);
-  
-  // Tooltip pour les nodes
-  node.on('mouseover', function(event, d) {
-    tooltip.html(`
-      <div class="social-tooltip-title">
-        <span class="social-tooltip-sport" style="background: ${getAthleteColor(d.id)}"></span>
-        ${d.name}
-      </div>
-      <div class="social-tooltip-details">
-        <span class="social-tooltip-elevation">↑ ${formatElevation(d.totalElevation)} m</span> total<br>
-        ${d.groupCount} sortie${d.groupCount > 1 ? 's' : ''} en groupe
-      </div>
-    `)
-    .style('left', (event.offsetX + 15) + 'px')
-    .style('top', (event.offsetY - 15) + 'px')
-    .classed('visible', true);
-  })
-  .on('mouseout', function() {
-    tooltip.classed('visible', false);
-  });
-  
-  // Mise à jour de la simulation
-  simulation.on('tick', () => {
-    link.attr('d', linkArc);
-    
-    node.attr('transform', d => {
-      d.x = Math.max(d.radius, Math.min(width - d.radius, d.x));
-      d.y = Math.max(d.radius, Math.min(height - d.radius, d.y));
-      return `translate(${d.x},${d.y})`;
+    .attr('stroke-width', 1)
+    .style('opacity', 0.9)
+    .style('cursor', 'pointer')
+    .on('click', function(event, d) {
+      event.stopPropagation();
+      if (selectedIndex === d.index) {
+        resetHighlight();
+      } else {
+        highlightAthlete(d.index);
+      }
+    })
+    .on('mouseover', function(event, d) {
+      if (selectedIndex !== null) return;
+
+      d3.select(this).style('opacity', 1);
+
+      const athleteId = athleteIds[d.index];
+      const groupCount = filteredGroups.filter(g => g.athletes.includes(athleteId)).length;
+      const partners = new Set();
+      let totalElev = 0;
+
+      filteredGroups.forEach(g => {
+        if (g.athletes.includes(athleteId)) {
+          g.athletes.forEach(id => { if (id !== athleteId) partners.add(id); });
+          totalElev += g.elevation;
+        }
+      });
+
+      tooltip.html(`
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <span style="width:14px;height:14px;border-radius:50%;background:${getAthleteColor(athleteId)};"></span>
+          <span style="font-weight:600;font-size:14px;">${getAthleteName(athleteId)}</span>
+        </div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.7);">
+          ${groupCount} sortie${groupCount > 1 ? 's' : ''} en groupe<br>
+          ${partners.size} partenaire${partners.size > 1 ? 's' : ''}<br>
+          ↑ ${formatElevation(totalElev)} m en groupe
+        </div>
+        <div style="margin-top:8px;font-size:10px;color:rgba(255,255,255,0.4);">
+          Cliquer pour filtrer
+        </div>
+      `)
+      .style('left', (event.clientX + 15) + 'px')
+      .style('top', (event.clientY - 10) + 'px')
+      .style('opacity', 1);
+    })
+    .on('mouseout', function() {
+      if (selectedIndex !== null) return;
+      d3.select(this).style('opacity', 0.9);
+      tooltip.style('opacity', 0);
     });
+
+  // Labels des athlètes
+  const labels = svg.append('g')
+    .selectAll('text')
+    .data(chords.groups)
+    .join('text')
+    .attr('dy', '.35em')
+    .attr('transform', d => {
+      const angle = (d.startAngle + d.endAngle) / 2;
+      const rotate = angle * 180 / Math.PI - 90;
+      const flip = angle > Math.PI;
+      return `rotate(${rotate}) translate(${outerRadius + 10}) ${flip ? 'rotate(180)' : ''}`;
+    })
+    .attr('text-anchor', d => {
+      const angle = (d.startAngle + d.endAngle) / 2;
+      return angle > Math.PI ? 'end' : 'start';
+    })
+    .attr('fill', '#fff')
+    .attr('font-size', '11px')
+    .attr('font-weight', '500')
+    .style('text-shadow', '0 1px 3px rgba(0,0,0,0.8)')
+    .text(d => getAthleteName(athleteIds[d.index]));
+
+  // Clic sur le fond pour reset
+  d3.select(container).select('svg').on('click', () => {
+    resetHighlight();
+    tooltip.style('opacity', 0);
   });
-  
-  // Fonctions de drag
-  function dragstarted(event) {
-    if (!event.active) simulation.alphaTarget(0.3).restart();
-    event.subject.fx = event.subject.x;
-    event.subject.fy = event.subject.y;
-  }
-  
-  function dragged(event) {
-    event.subject.fx = event.x;
-    event.subject.fy = event.y;
-  }
-  
-  function dragended(event) {
-    if (!event.active) simulation.alphaTarget(0);
-    event.subject.fx = null;
-    event.subject.fy = null;
-  }
-  
-  // Générer la légende et les stats
-  generateSocialLegend(links);
-  generateSocialStats(nodes, links, groupActivities);
-  
-  // Resize handler
-  window.addEventListener('resize', () => {
-    const newWidth = container.clientWidth || 800;
-    const newHeight = container.clientHeight || 550;
-    svg.attr('width', newWidth).attr('height', newHeight);
-    simulation.force('center', d3.forceCenter(newWidth / 2, newHeight / 2));
-    simulation.alpha(0.3).restart();
-  });
+
+  // Légende et stats
+  generateSocialLegend(Array.from(sportsUsed));
+  generateChordStats(athleteIds, individualLinks, filteredGroups);
 }
 
-function generateSocialLegend(links) {
+function generateSocialLegend(sports) {
   const legendContainer = document.getElementById('socialLegendItems');
   if (!legendContainer) return;
-  
-  const sports = [...new Set(links.map(l => l.sport))];
-  
+
+  if (!sports || sports.length === 0) {
+    legendContainer.innerHTML = '<span style="color:rgba(255,255,255,0.5)">Aucune sortie de groupe détectée</span>';
+    return;
+  }
+
   legendContainer.innerHTML = sports.map(sport => `
     <div class="social-legend-item">
-      <div class="social-legend-color" style="background: ${getSportColor(sport)}"></div>
-      <span>${sport}</span>
+      <span class="social-legend-color" style="background: ${getSportColor(sport)}"></span>
+      <span class="social-legend-label">${sport}</span>
     </div>
   `).join('');
 }
 
-function generateSocialStats(nodes, links, groupActivities) {
+function generateChordStats(athleteIds, individualLinks, groups) {
   const statsContainer = document.getElementById('socialStats');
   if (!statsContainer) return;
-  
-  const totalGroupRides = groupActivities.length;
-  const totalGroupElevation = groupActivities.reduce((sum, g) => sum + g.elevation, 0);
-  
-  // Trouver le duo le plus actif
-  const pairCount = {};
-  groupActivities.forEach(g => {
-    const key = g.athletes.sort().map(id => getAthleteName(id)).join(' & ');
-    pairCount[key] = (pairCount[key] || 0) + 1;
+
+  const totalGroups = groups.length;
+  const totalElev = individualLinks.reduce((sum, l) => sum + l.value, 0);
+
+  // Trouver le duo le plus actif (par nombre d'activités)
+  const pairCounts = new Map();
+  individualLinks.forEach(link => {
+    const pairKey = [link.athleteIds[0], link.athleteIds[1]].sort().join('-');
+    pairCounts.set(pairKey, (pairCounts.get(pairKey) || 0) + 1);
   });
-  
-  const topDuo = Object.entries(pairCount).sort((a, b) => b[1] - a[1])[0];
-  
+
+  let topPair = null;
+  let topCount = 0;
+  pairCounts.forEach((count, key) => {
+    if (count > topCount) {
+      topCount = count;
+      topPair = key;
+    }
+  });
+
+  let topPairNames = '';
+  if (topPair) {
+    const [a1, a2] = topPair.split('-').map(Number);
+    topPairNames = `${getAthleteName(a1)} & ${getAthleteName(a2)}`;
+  }
+
   // Athlète le plus social
-  const socialScore = {};
-  nodes.forEach(n => socialScore[n.name] = n.groupCount);
-  const mostSocial = Object.entries(socialScore).sort((a, b) => b[1] - a[1])[0];
-  
+  const socialCounts = {};
+  groups.forEach(g => {
+    g.athletes.forEach(id => {
+      socialCounts[id] = (socialCounts[id] || 0) + 1;
+    });
+  });
+  const mostSocial = Object.entries(socialCounts).sort((a, b) => b[1] - a[1])[0];
+
+  // Groupes de 3+
+  const bigGroups = groups.filter(g => g.athletes.length >= 3).length;
+
   statsContainer.innerHTML = `
     <h4>Statistiques</h4>
     <div class="social-stat-item">
       <span>Sorties en groupe</span>
-      <span class="social-stat-value">${totalGroupRides}</span>
+      <span class="social-stat-value">${totalGroups}</span>
     </div>
     <div class="social-stat-item">
       <span>D+ en groupe</span>
-      <span class="social-stat-value">${formatElevation(totalGroupElevation)} m</span>
+      <span class="social-stat-value">${formatElevation(totalElev)} m</span>
     </div>
-    ${topDuo ? `
+    ${bigGroups > 0 ? `
     <div class="social-stat-item">
-      <span>Duo le + actif</span>
-      <span class="social-stat-value" style="font-size: 0.65rem">${topDuo[0]}</span>
+      <span>Sorties à 3+</span>
+      <span class="social-stat-value">${bigGroups}</span>
     </div>
     ` : ''}
-    ${mostSocial && mostSocial[1] > 0 ? `
+    ${topPairNames ? `
+    <div class="social-stat-item">
+      <span>Duo le + actif</span>
+      <span class="social-stat-value" style="font-size: 0.65rem">${topPairNames}</span>
+    </div>
+    ` : ''}
+    ${mostSocial ? `
     <div class="social-stat-item">
       <span>Le + social</span>
-      <span class="social-stat-value">${mostSocial[0]}</span>
+      <span class="social-stat-value">${getAthleteName(Number(mostSocial[0]))}</span>
     </div>
     ` : ''}
   `;

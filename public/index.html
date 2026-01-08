@@ -11,6 +11,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- LOADING SCREEN -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-icon">▲</div>
+            <h2 class="loading-title">Récap du Million</h2>
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Chargement des données...</p>
+        </div>
+    </div>
+
     <!-- HERO SECTION -->
     <header class="hero">
         <div class="hero-bg"></div>
@@ -277,7 +287,7 @@
                         <th data-sort="elevation_per_distance">D+/km</th>
                         <th data-sort="elevation_per_time">D+/h</th>
                         <th data-sort="elevation_per_activity">D+/Activité</th>
-                        <th>Record</th>
+                        <th data-sort="best_elevation">Record</th>
                     </tr>
                 </thead>
                 <tbody id="rankingTableBody"></tbody>
