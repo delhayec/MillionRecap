@@ -201,7 +201,7 @@ export function decodePolyline(encoded) {
 const CACHE_KEY = 'recapmillion_activities_cache';
 const NORMALIZED_CACHE_KEY = 'recapmillion_normalized_cache';
 const CACHE_VERSION_KEY = 'recapmillion_cache_version';
-const CURRENT_CACHE_VERSION = '1.2';
+const CURRENT_CACHE_VERSION = '1.3';
 
 export async function loadData() {
   // Vérifier si le cache existe et est valide
@@ -349,6 +349,7 @@ export function normalizeMultiDayActivities(data) {
   const startTime = performance.now();
 
   const normalizedData = [];
+  let smoothedCount = 0;
 
   data.forEach(activity => {
     const startDate = new Date(activity.start_date);
@@ -363,10 +364,16 @@ export function normalizeMultiDayActivities(data) {
     const restRatio = movingTime > 0 ? (elapsedTime - movingTime) / movingTime : 0;
 
     const shouldSmooth = daysDiff > 1 && restRatio > 0.4;
+    
+    // Debug pour les activités de plusieurs jours
+    if (daysDiff > 1) {
+      console.log(`📅 Multi-jour détecté: "${activity.name}" - ${daysDiff} jours, restRatio=${restRatio.toFixed(2)}, lissé=${shouldSmooth}`);
+    }
 
     if (!shouldSmooth) {
       normalizedData.push(activity);
     } else {
+      smoothedCount++;
       const elevationPerDay = (activity.total_elevation_gain || 0) / daysDiff;
       const distancePerDay = (activity.distance || 0) / daysDiff;
       const timePerDay = (activity.moving_time || 0) / daysDiff;
@@ -392,6 +399,7 @@ export function normalizeMultiDayActivities(data) {
 
   const endTime = performance.now();
   console.log(`✅ Normalisation terminée en ${(endTime - startTime).toFixed(0)}ms`);
+  console.log(`📊 ${smoothedCount} activités lissées sur plusieurs jours`);
 
   // Sauvegarder dans le cache
   try {
