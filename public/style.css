@@ -1599,7 +1599,7 @@ body {
 
 .social-container {
   display: grid;
-  grid-template-columns: 220px 1fr;
+  grid-template-columns: 280px 1fr;
   gap: 24px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);

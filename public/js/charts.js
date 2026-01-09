@@ -221,8 +221,8 @@ export function showAllAthletesChart(data, selectedSport) {
               let html = `
                 <div style="font-weight:600;margin-bottom:8px;color:#fff;">${dateStr}</div>
                 <div style="margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.1);">
-                  <div>Cumulé: ${formatElevation(cumul)} m</div>
-                  <div style="color:${statusColor}">${status}: ${formatElevation(Math.abs(difference))} m</div>
+                  <div>Cumulé: ${formatElevation(cumul)} m D+</div>
+                  <div style="color:${statusColor}">${status}: ${formatElevation(Math.abs(difference))} m D+</div>
                 </div>
               `;
               
@@ -235,7 +235,7 @@ export function showAllAthletesChart(data, selectedSport) {
                     <div style="display:flex;align-items:center;gap:8px;margin:3px 0;">
                       <span style="width:10px;height:10px;border-radius:50%;background:${getAthleteColor(athleteId)};flex-shrink:0;"></span>
                       <span style="color:rgba(255,255,255,0.9);">${getAthleteName(athleteId)}</span>
-                      <span style="color:rgba(255,255,255,0.5);margin-left:auto;">${formatElevation(elevation)} m</span>
+                      <span style="color:rgba(255,255,255,0.5);margin-left:auto;">${formatElevation(elevation)} m D+</span>
                     </div>
                   `;
                 }
@@ -397,7 +397,7 @@ export function showIndividualChart(data, athleteId, selectedSport) {
         },
         {
           type: 'line',
-          label: `Objectif ${formatElevation(totalElevation)} m`,
+          label: `Objectif ${formatElevation(totalElevation)} m D+`,
           data: targetLine,
           borderColor: chartColors.accent,
           borderWidth: 2,
@@ -438,14 +438,14 @@ export function showIndividualChart(data, athleteId, selectedSport) {
               const objectif = targetLine[index];
               const difference = cumul - objectif;
               const status = difference >= 0 ? '↑ Avance' : '↓ Retard';
-              return `\nCumulé: ${formatElevation(cumul)} m\n${status}: ${formatElevation(Math.abs(difference))} m`;
+              return `\nCumulé: ${formatElevation(cumul)} m\n${status}: ${formatElevation(Math.abs(difference))} m D+`;
             },
             label: function(context) {
               if (context.dataset.type === 'bar') {
                 const dayIndex = context.dataIndex;
                 const sport = dailySportNames[dayIndex];
                 return [
-                  `${context.dataset.label}: ${formatElevation(context.parsed.y)} m`,
+                  `${context.dataset.label}: ${formatElevation(context.parsed.y)} m D+`,
                   `Sport: ${sport}`
                 ];
               }
@@ -918,7 +918,7 @@ function generateCountryStats(activities) {
         <span class="country-badge">${index + 1}</span>
         ${country.name}
       </div>
-      <div class="country-stats-line">↑ ${formatElevation(country.elevation)} m</div>
+      <div class="country-stats-line">↑ ${formatElevation(country.elevation)} m D+</div>
       <div class="country-stats-line">→ ${(country.distance / 1000).toFixed(0)} km</div>
       <div class="country-stats-line">◉ ${country.count} activités</div>
     `;
@@ -958,7 +958,7 @@ export function showMapChart(data, athleteId) {
       : getAthleteColor(activity.athlete_id);
 
     // Filtrer les segments rectilignes (trajets en train)
-    const filteredSegments = filterStraightLines(points, 5000); // 5km de seuil
+    const filteredSegments = filterStraightLines(points, 20000); // 20km de seuil
     
     filteredSegments.forEach(segment => {
       if (segment.length < 2) return;
@@ -1010,7 +1010,7 @@ function isSegmentStraight(points, startIdx, endIdx) {
   
   // Si le ratio est très proche de 1, c'est une ligne droite
   const ratio = directDistance / pathDistance;
-  return ratio > 0.98; // Plus de 98% de rectitude
+  return ratio > 0.99; // Plus de 98% de rectitude
 }
 
 // Version locale de haversine pour la carte (évite conflit avec celle du social graph)
@@ -1219,7 +1219,7 @@ export function showRankingTable(data) {
         <td data-sort-value="${s.best_elevation}">
           ${s.best_activity ? `
             <a href="${stravaLink}" target="_blank" class="record-link" title="${s.best_activity.name}">
-              <span class="record-elevation">↑ ${formatElevation(s.best_activity.elevation)} m</span>
+              <span class="record-elevation">↑ ${formatElevation(s.best_activity.elevation)} m D+</span>
               <span class="record-date">${recordDate}</span>
               <span class="record-strava">Voir sur Strava →</span>
             </a>
@@ -1280,7 +1280,7 @@ function generateAchievements(stats) {
       desc: 'Le plus de dénivelé total',
       type: 'legendary',
       getValue: s => s.total_elevation,
-      format: v => `${formatElevation(v)} m`
+      format: v => `${formatElevation(v)} m D+`
     },
     {
       id: 'best24h',
@@ -1289,7 +1289,7 @@ function generateAchievements(stats) {
       desc: 'Le plus gros D+ en 24h',
       type: 'legendary',
       getValue: s => s.best_24h_elevation,
-      format: v => `${formatElevation(v)} m`
+      format: v => `${formatElevation(v)} m D+`
     },
     {
       id: 'polyvalent',
@@ -1307,7 +1307,7 @@ function generateAchievements(stats) {
       desc: 'Le plus de D+ par sortie',
       type: 'normal',
       getValue: s => parseFloat(s.elevation_per_activity),
-      format: v => `${formatElevation(v)} m/sortie`
+      format: v => `${formatElevation(v)} m D+/sortie`
     },
     {
       id: 'steep',
@@ -1361,7 +1361,7 @@ function generateAchievements(stats) {
       desc: 'Le plus de D+ en vélo',
       type: 'normal',
       getValue: s => s.elevation_by_sport['Bike'] || 0,
-      format: v => `${formatElevation(v)} m`
+      format: v => `${formatElevation(v)} m D+ `
     },
     {
       id: 'runner',
@@ -1370,7 +1370,7 @@ function generateAchievements(stats) {
       desc: 'Le plus de D+ en trail/run',
       type: 'normal',
       getValue: s => s.elevation_by_sport['Run'] || 0,
-      format: v => `${formatElevation(v)} m`
+      format: v => `${formatElevation(v)} m D+`
     },
     {
       id: 'skier',
@@ -1379,7 +1379,7 @@ function generateAchievements(stats) {
       desc: 'Le plus de D+ en ski',
       type: 'normal',
       getValue: s => s.elevation_by_sport['Ski mountaineering'] || 0,
-      format: v => `${formatElevation(v)} m`
+      format: v => `${formatElevation(v)} m D+`
     },
     {
       id: 'hiker',
@@ -1388,7 +1388,7 @@ function generateAchievements(stats) {
       desc: 'Le plus de D+ en rando',
       type: 'normal',
       getValue: s => s.elevation_by_sport['Hike'] || 0,
-      format: v => `${formatElevation(v)} m`
+      format: v => `${formatElevation(v)} m D+`
     }
   ];
 
@@ -1571,12 +1571,12 @@ export function showSankeyDiagram(data) {
       textStyle: { color: '#ffffff', fontFamily: "'Inter', sans-serif" },
       formatter: params => {
         if (params.dataType === 'edge') {
-          return `${params.data.source} → ${params.data.target}<br/>↑ ${formatElevation(params.data.value)} m`;
+          return `${params.data.source} → ${params.data.target}<br/>↑ ${formatElevation(params.data.value)} m D+`;
         }
         // Node tooltip
         const node = nodes.find(n => n.name === params.name);
         if (node) {
-          return `<strong>${params.name}</strong><br/>↑ ${formatElevation(node.total)} m<br/>${node.percentage}% du total`;
+          return `<strong>${params.name}</strong><br/>↑ ${formatElevation(node.total)} m D+<br/>${node.percentage}% du total`;
         }
         return params.name;
       }
@@ -1662,7 +1662,7 @@ export function showCalendarHeatmap(data, athleteId, selectedSport) {
         const date = new Date(params.data[0]).toLocaleDateString('fr-FR', { 
           weekday: 'long', day: 'numeric', month: 'long' 
         });
-        return `${date}<br/>↑ ${formatElevation(params.data[1])} m`;
+        return `${date}<br/>↑ ${formatElevation(params.data[1])} m D+`;
       }
     },
     visualMap: {
@@ -1786,8 +1786,8 @@ function generateWeeklyBars(data, year, animate = true, numAthletes = 1) {
       <div class="perf-bar" style="height: ${initialHeight}%; transition: height 0.5s ease-out ${delay}ms;">
         <div class="perf-bar-tooltip">
           <strong>${w.week}</strong><br>
-          ↑ ${formatElevation(w.value)} m<br>
-          <span class="diff-${diffClass}">${diffSign}${formatElevation(diff)} m</span>
+          ↑ ${formatElevation(w.value)} m D+<br>
+          <span class="diff-${diffClass}">${diffSign}${formatElevation(diff)} m D+</span>
         </div>
         ${showLabel ? `<span class="perf-bar-label">${displayLabel}</span>` : ''}
       </div>
@@ -1797,7 +1797,7 @@ function generateWeeklyBars(data, year, animate = true, numAthletes = 1) {
   // Ajouter la ligne d'objectif
   const objectiveLine = `
     <div class="objective-line" style="bottom: ${objectiveHeight}%">
-      <span class="objective-label">Obj. ${formatElevation(weeklyTarget)} m/sem</span>
+      <span class="objective-label">Obj. ${formatElevation(weeklyTarget)} m D+/sem</span>
     </div>
   `;
 
@@ -1837,8 +1837,8 @@ function generateMonthlyBars(data, year, animate = true, numAthletes = 1) {
       <div class="perf-bar" style="height: ${initialHeight}%; transition: height 0.6s ease-out ${delay}ms;">
         <div class="perf-bar-tooltip">
           <strong>${monthNames[index]}</strong><br>
-          ↑ ${formatElevation(value)} m<br>
-          <span class="diff-${diffClass}">${diffSign}${formatElevation(diff)} m</span>
+          ↑ ${formatElevation(value)} m D+<br>
+          <span class="diff-${diffClass}">${diffSign}${formatElevation(diff)} m D+</span>
         </div>
         <span class="perf-bar-label">${monthNames[index]}</span>
       </div>
@@ -1848,7 +1848,7 @@ function generateMonthlyBars(data, year, animate = true, numAthletes = 1) {
   // Ajouter la ligne d'objectif
   const objectiveLine = `
     <div class="objective-line" style="bottom: ${objectiveHeight}%">
-      <span class="objective-label">Obj. ${formatElevation(monthlyTarget)} m/mois</span>
+      <span class="objective-label">Obj. ${formatElevation(monthlyTarget)} m D+/mois</span>
     </div>
   `;
 
@@ -2270,7 +2270,7 @@ export function showSportPieChart(data) {
       backgroundColor: 'rgba(10, 10, 15, 0.95)',
       borderColor: 'rgba(255, 255, 255, 0.08)',
       textStyle: { color: '#ffffff', fontFamily: "'Inter', sans-serif", fontSize: 12 },
-      formatter: params => `${params.name}<br/>↑ ${formatElevation(params.value)} m (${params.percent.toFixed(1)}%)`
+      formatter: params => `${params.name}<br/>↑ ${formatElevation(params.value)} m D+ (${params.percent.toFixed(1)}%)`
     },
     series: [{
       type: 'pie',
@@ -2351,7 +2351,7 @@ export function showMiniRanking(data) {
         <div class="mini-rank-position ${positionClass}">${index + 1}</div>
         <div class="mini-rank-info">
           <div class="mini-rank-name" style="color: ${getAthleteColor(s.athlete_id)}">${getAthleteName(s.athlete_id)}</div>
-          <div class="mini-rank-value">${formatElevation(s.total_elevation)} m</div>
+          <div class="mini-rank-value">${formatElevation(s.total_elevation)} m D+</div>
         </div>
         <div class="mini-rank-bar">
           <div class="mini-rank-bar-fill" style="width: ${percentage}%; background: ${getAthleteColor(s.athlete_id)}"></div>
@@ -2678,7 +2678,7 @@ export function showSocialGraph(data, groupActivities = null) {
             <span style="color:rgba(255,255,255,0.5);">Sport:</span> ${d.sport}
           </div>
           <div>
-            <span style="color:rgba(255,255,255,0.5);">D+:</span> ${formatElevation(d.value)} m
+            <span style="color:rgba(255,255,255,0.5);">D+:</span> ${formatElevation(d.value)} m D+
           </div>
         </div>
         <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.1);">
@@ -2741,7 +2741,7 @@ export function showSocialGraph(data, groupActivities = null) {
         <div style="font-size:11px;color:rgba(255,255,255,0.7);">
           ${groupCount} sortie${groupCount > 1 ? 's' : ''} en groupe<br>
           ${partners.size} partenaire${partners.size > 1 ? 's' : ''}<br>
-          ↑ ${formatElevation(totalElev)} m en groupe
+          ↑ ${formatElevation(totalElev)} m D+ en groupe
         </div>
         <div style="margin-top:8px;font-size:10px;color:rgba(255,255,255,0.4);">
           Cliquer pour filtrer
@@ -2856,7 +2856,7 @@ function generateChordStats(athleteIds, individualLinks, groups) {
     </div>
     <div class="social-stat-item">
       <span>D+ en groupe</span>
-      <span class="social-stat-value">${formatElevation(totalElev)} m</span>
+      <span class="social-stat-value">${formatElevation(totalElev)} m D+</span>
     </div>
     ${bigGroups > 0 ? `
     <div class="social-stat-item">

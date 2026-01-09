@@ -80,21 +80,17 @@ function updateChart() {
     const filteredData = getFilteredData();
 
     const rankingTableContainer = document.getElementById('rankingTableContainer');
-    const mapAndLegend = document.getElementById('map-and-legend');
-    const sankeyContainer = document.querySelector('.sankey-container');
-    const heatmapContainer = document.querySelector('.heatmap-container');
-    const ridgelineContainer = document.querySelector('.ridgeline-container');
-    const socialContainer = document.querySelector('.social-section');
-    const chartSection = document.querySelector('.chart-section');
     const mapSection = document.querySelector('.map-section');
     const sankeySection = document.querySelector('.sankey-section');
     const heatmapSection = document.querySelector('.heatmap-section');
+    const ridgelineContainer = document.querySelector('.ridgeline-container');
+    const socialContainer = document.querySelector('.social-section');
+    const chartSection = document.querySelector('.chart-section');
 
     updateStats(filteredData);
     showSportPieChart(filteredData);
     showMiniRanking(allData);
 
-    // Fonction pour renuméroter les sections visibles
     const renumberSections = () => {
       const visibleSections = document.querySelectorAll('section:not([style*="display: none"]):not([style*="display:none"])');
       let num = 1;
@@ -108,7 +104,6 @@ function updateChart() {
     };
 
     if (athleteValue === "classement") {
-      // Mode classement : masquer les sections inutiles entièrement
       rankingTableContainer.style.display = 'block';
       if (mapSection) mapSection.style.display = 'none';
       if (sankeySection) sankeySection.style.display = 'none';
@@ -116,7 +111,6 @@ function updateChart() {
       if (ridgelineContainer) ridgelineContainer.style.display = 'block';
       if (socialContainer) socialContainer.style.display = 'none';
       
-      // Réorganiser : tableau avant le graphique
       if (chartSection && rankingTableContainer) {
         chartSection.parentNode.insertBefore(rankingTableContainer, chartSection);
       }
@@ -125,7 +119,6 @@ function updateChart() {
       showRankingTable(allData);
       showRidgelineByAthlete(allData, sportValue);
       
-      // Renuméroter après affichage
       setTimeout(renumberSections, 50);
 
     } else if (athleteValue === "") {
@@ -162,7 +155,7 @@ function updateChart() {
       setTimeout(renumberSections, 50);
     }
   } catch (error) {
-    console.error('Erreur dans updateChart():', error);
+    console.error('Erreur dans updateChart:', error);
   }
 }
 
@@ -255,36 +248,40 @@ async function init() {
   try {
     // Masquer le contenu pendant le chargement
     document.body.style.overflow = 'hidden';
-    
-    // Charger les données pré-calculées de groupe en parallèle
+
+    const totalStartTime = performance.now();
+
+    // CHARGEMENT DES DONNÉES ===
     loadingText.textContent = 'Chargement des données...';
     const groupDataPromise = loadGroupActivities();
-    
+
     let rawData = await loadData();
-    console.log("Données brutes chargées:", rawData.length, "activités");
+    console.log("📊 Données brutes chargées:", rawData.length, "activités");
 
-    // Filtrer les sports exclus
-    loadingText.textContent = 'Traitement des activités...';
+    // FILTRAGE (rapide) ===
+    loadingText.textContent = 'Filtrage des activités...';
     rawData = filterValidActivities(rawData);
-    console.log("Après filtrage des sports exclus:", rawData.length, "activités");
+    console.log("✅ Après filtrage:", rawData.length, "activités");
 
-    // Normaliser les activités multi-jours
+    // NORMALISATION (potentiellement lente, maintenant en cache) ===
+    loadingText.textContent = 'Normalisation des données...';
     allData = normalizeMultiDayActivities(rawData);
-    console.log("Après normalisation multi-jours:", allData.length, "activités");
-    
-    // Récupérer les données de groupe pré-calculées
+    console.log("✅ Après normalisation:", allData.length, "activités");
+
+    // DONNÉES DE GROUPE ===
     loadingText.textContent = 'Chargement des données de groupe...';
     groupActivities = await groupDataPromise;
     if (groupActivities) {
-      console.log("Données de groupe pré-calculées:", groupActivities.length, "sorties");
+      console.log("✅ Données de groupe:", groupActivities.length, "sorties");
     }
 
     if (!allData || !Array.isArray(allData) || allData.length === 0) {
-      console.error("Données invalides ou vides.");
+      console.error("❌ Données invalides ou vides.");
       return;
     }
 
-    loadingText.textContent = 'Initialisation des composants...';
+    // INITIALISATION UI (très rapide) ===
+    loadingText.textContent = 'Préparation de l\'interface...';
     fillDropdowns(allData);
     initMap();
     setupFullscreen();
@@ -292,25 +289,41 @@ async function init() {
     document.getElementById('athleteSelect').addEventListener('change', updateChart);
     document.getElementById('sportSelect').addEventListener('change', updateChart);
 
-    // Afficher les données initiales
-    loadingText.textContent = 'Génération des graphiques...';
-    
+    // MASQUER L'ÉCRAN DE CHARGEMENT ===
+    // On masque AVANT de générer les graphiques pour un ressenti plus rapide
+    loadingText.textContent = 'Presque prêt...';
+
+    const totalTime = performance.now() - totalStartTime;
+    console.log(`⚡ Données prêtes en ${totalTime.toFixed(0)}ms`);
+
     // Petit délai pour permettre à l'UI de se mettre à jour
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
-    updateChart();
-    
-    // Masquer l'écran de chargement avec une transition
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 50));
+
+    // Masquer l'écran de chargement
     loadingScreen.classList.add('hidden');
     document.body.style.overflow = '';
-    
-    console.log("✅ Initialisation terminée avec succès");
+
+    // GÉNÉRATION DES GRAPHIQUES (après l'affichage) ===
+    // Utiliser requestAnimationFrame pour ne pas bloquer l'UI
+    requestAnimationFrame(() => {
+      console.log("🎨 Génération des graphiques...");
+      const chartsStartTime = performance.now();
+
+      updateChart();
+
+      const chartsTime = performance.now() - chartsStartTime;
+      const totalTimeWithCharts = performance.now() - totalStartTime;
+
+      console.log(`✅ Graphiques générés en ${chartsTime.toFixed(0)}ms`);
+      console.log(`🎉 Initialisation complète en ${totalTimeWithCharts.toFixed(0)}ms`);
+    });
+
   } catch (error) {
     console.error("❌ Erreur lors de l'initialisation:", error);
     loadingText.textContent = 'Erreur de chargement. Veuillez rafraîchir la page.';
     loadingText.style.color = '#ef4444';
   }
 }
+
 
 init();
