@@ -805,8 +805,8 @@ export function initMap() {
   if (!mapElement) return;
 
   map = L.map('map', {
-    center: [46.2276, 2.2137],
-    zoom: 6
+    center: [46.5, 2.5],  // Centre de la France
+    zoom: 5  // Zoom pour voir toute la France + pays limitrophes
   });
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
@@ -983,7 +983,10 @@ export function showMapChart(data, athleteId) {
 
   if (polylines.length > 0) {
     const group = L.featureGroup(polylines);
-    map.fitBounds(group.getBounds(), { padding: [30, 30] });
+    map.fitBounds(group.getBounds(), { 
+      padding: [30, 30],
+      maxZoom: 6  // Ne pas zoomer plus que niveau 6 pour garder une vue d'ensemble
+    });
     
     // Recalculer après fitBounds
     setTimeout(() => {
@@ -1872,9 +1875,11 @@ function calculateHourlyDistribution(data, groupBy = 'sport') {
 
   filteredData.forEach(activity => {
     // Utiliser start_date_local pour avoir l'heure locale de l'athlète
+    // Le format est "2025-01-15T08:30:00Z" - on extrait directement HH:MM
     const dateStr = activity.start_date_local || activity.start_date;
-    const date = new Date(dateStr);
-    const hour = date.getUTCHours() + date.getUTCMinutes() / 60; // UTC car start_date_local est déjà en local
+    const hourPart = parseInt(dateStr.substring(11, 13));
+    const minutePart = parseInt(dateStr.substring(14, 16));
+    const hour = hourPart + minutePart / 60;
     const duration = (activity.moving_time || 0) / 3600;
 
     let key;

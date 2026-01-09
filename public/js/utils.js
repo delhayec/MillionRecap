@@ -197,16 +197,16 @@ export function decodePolyline(encoded) {
 // SYSTÈME DE CACHE
 // ==============================
 
-// Clés pour le cache localStorage
+// Clés pour le cache sessionStorage (se vide à la fermeture du navigateur)
 const CACHE_KEY = 'recapmillion_activities_cache';
 const NORMALIZED_CACHE_KEY = 'recapmillion_normalized_cache';
 const CACHE_VERSION_KEY = 'recapmillion_cache_version';
-const CURRENT_CACHE_VERSION = '1.1';
+const CURRENT_CACHE_VERSION = '1.2';
 
 export async function loadData() {
   // Vérifier si le cache existe et est valide
-  const cachedVersion = localStorage.getItem(CACHE_VERSION_KEY);
-  const cachedData = localStorage.getItem(CACHE_KEY);
+  const cachedVersion = sessionStorage.getItem(CACHE_VERSION_KEY);
+  const cachedData = sessionStorage.getItem(CACHE_KEY);
 
   if (cachedVersion === CURRENT_CACHE_VERSION && cachedData) {
     try {
@@ -227,9 +227,9 @@ export async function loadData() {
       return activities;
     } catch (error) {
       console.warn('⚠️ Cache corrompu, rechargement depuis le serveur...', error);
-      localStorage.removeItem(CACHE_KEY);
-      localStorage.removeItem(NORMALIZED_CACHE_KEY);
-      localStorage.removeItem(CACHE_VERSION_KEY);
+      sessionStorage.removeItem(CACHE_KEY);
+      sessionStorage.removeItem(NORMALIZED_CACHE_KEY);
+      sessionStorage.removeItem(CACHE_VERSION_KEY);
     }
   }
 
@@ -265,8 +265,8 @@ export async function loadData() {
 
         // Sauvegarder dans le cache (toujours sauvegarder le tableau)
         try {
-          localStorage.setItem(CACHE_KEY, JSON.stringify(data));
-          localStorage.setItem(CACHE_VERSION_KEY, CURRENT_CACHE_VERSION);
+          sessionStorage.setItem(CACHE_KEY, JSON.stringify(data));
+          sessionStorage.setItem(CACHE_VERSION_KEY, CURRENT_CACHE_VERSION);
           console.log('💾 Données mises en cache');
         } catch (storageError) {
           console.warn('⚠️ Impossible de sauvegarder dans le cache:', storageError.message);
@@ -289,8 +289,8 @@ export async function loadGroupActivitiesWithCache() {
   const GROUPS_CACHE_KEY = 'recapmillion_groups_cache';
 
   // Vérifier le cache
-  const cachedVersion = localStorage.getItem(CACHE_VERSION_KEY);
-  const cachedGroups = localStorage.getItem(GROUPS_CACHE_KEY);
+  const cachedVersion = sessionStorage.getItem(CACHE_VERSION_KEY);
+  const cachedGroups = sessionStorage.getItem(GROUPS_CACHE_KEY);
 
   if (cachedVersion === CURRENT_CACHE_VERSION && cachedGroups) {
     try {
@@ -298,7 +298,7 @@ export async function loadGroupActivitiesWithCache() {
       console.log('✅ Données de groupe chargées depuis le cache');
       return data;
     } catch (error) {
-      localStorage.removeItem(GROUPS_CACHE_KEY);
+      sessionStorage.removeItem(GROUPS_CACHE_KEY);
     }
   }
 
@@ -310,7 +310,7 @@ export async function loadGroupActivitiesWithCache() {
 
     // Sauvegarder dans le cache
     try {
-      localStorage.setItem(GROUPS_CACHE_KEY, JSON.stringify(groups));
+      sessionStorage.setItem(GROUPS_CACHE_KEY, JSON.stringify(groups));
       console.log('💾 Données de groupe mises en cache');
     } catch (storageError) {
       console.warn('⚠️ Impossible de sauvegarder les groupes dans le cache');
@@ -329,8 +329,8 @@ export async function loadGroupActivitiesWithCache() {
 
 export function normalizeMultiDayActivities(data) {
   // Vérifier si on a une version normalisée en cache
-  const cachedVersion = localStorage.getItem(CACHE_VERSION_KEY);
-  const cachedNormalized = localStorage.getItem(NORMALIZED_CACHE_KEY);
+  const cachedVersion = sessionStorage.getItem(CACHE_VERSION_KEY);
+  const cachedNormalized = sessionStorage.getItem(NORMALIZED_CACHE_KEY);
 
   if (cachedVersion === CURRENT_CACHE_VERSION && cachedNormalized) {
     try {
@@ -340,7 +340,7 @@ export function normalizeMultiDayActivities(data) {
       return normalized;
     } catch (error) {
       console.warn('⚠️ Cache de normalisation corrompu');
-      localStorage.removeItem(NORMALIZED_CACHE_KEY);
+      sessionStorage.removeItem(NORMALIZED_CACHE_KEY);
     }
   }
 
@@ -395,7 +395,7 @@ export function normalizeMultiDayActivities(data) {
 
   // Sauvegarder dans le cache
   try {
-    localStorage.setItem(NORMALIZED_CACHE_KEY, JSON.stringify(normalizedData));
+    sessionStorage.setItem(NORMALIZED_CACHE_KEY, JSON.stringify(normalizedData));
     console.log('💾 Données normalisées mises en cache');
   } catch (error) {
     console.warn('⚠️ Impossible de mettre en cache les données normalisées');
@@ -406,26 +406,26 @@ export function normalizeMultiDayActivities(data) {
 
 // Fonction pour vider le cache (utile pour le développement)
 export function clearCache() {
-  localStorage.removeItem(CACHE_KEY);
-  localStorage.removeItem(NORMALIZED_CACHE_KEY);
-  localStorage.removeItem(CACHE_VERSION_KEY);
-  localStorage.removeItem('recapmillion_groups_cache');
+  sessionStorage.removeItem(CACHE_KEY);
+  sessionStorage.removeItem(NORMALIZED_CACHE_KEY);
+  sessionStorage.removeItem(CACHE_VERSION_KEY);
+  sessionStorage.removeItem('recapmillion_groups_cache');
   console.log('🗑️ Cache vidé');
 }
 
 // Fonction pour obtenir des infos sur le cache
 export function getCacheInfo() {
-  const hasCache = localStorage.getItem(CACHE_KEY) !== null;
-  const hasNormalized = localStorage.getItem(NORMALIZED_CACHE_KEY) !== null;
-  const version = localStorage.getItem(CACHE_VERSION_KEY);
+  const hasCache = sessionStorage.getItem(CACHE_KEY) !== null;
+  const hasNormalized = sessionStorage.getItem(NORMALIZED_CACHE_KEY) !== null;
+  const version = sessionStorage.getItem(CACHE_VERSION_KEY);
 
   if (!hasCache) {
     return { cached: false };
   }
 
   try {
-    const rawData = JSON.parse(localStorage.getItem(CACHE_KEY));
-    const size = new Blob([localStorage.getItem(CACHE_KEY)]).size;
+    const rawData = JSON.parse(sessionStorage.getItem(CACHE_KEY));
+    const size = new Blob([sessionStorage.getItem(CACHE_KEY)]).size;
     const sizeKB = (size / 1024).toFixed(2);
 
     // Gérer différents formats
@@ -441,8 +441,8 @@ export function getCacheInfo() {
     };
 
     if (hasNormalized) {
-      const normalizedData = JSON.parse(localStorage.getItem(NORMALIZED_CACHE_KEY));
-      const normalizedSize = new Blob([localStorage.getItem(NORMALIZED_CACHE_KEY)]).size;
+      const normalizedData = JSON.parse(sessionStorage.getItem(NORMALIZED_CACHE_KEY));
+      const normalizedSize = new Blob([sessionStorage.getItem(NORMALIZED_CACHE_KEY)]).size;
       info.normalizedActivities = normalizedData.length;
       info.normalizedSizeKB = (normalizedSize / 1024).toFixed(2);
     }

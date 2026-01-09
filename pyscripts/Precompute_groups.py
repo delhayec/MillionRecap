@@ -301,7 +301,7 @@ def normalize_activity(activity, use_online_geocoding=True):
         'athlete_name': athlete_name,
         'name': activity.get('name'),
         'sport_type': activity.get('sport_type'),
-        'start_date': activity.get('start_date'),
+        'start_date': activity.get('start_date_local'),
         'moving_time': activity.get('moving_time'),
         'distance': activity.get('distance'),
         'total_elevation_gain': activity.get('total_elevation_gain'),
