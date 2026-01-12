@@ -61871,6 +61871,1134 @@
       "country": "France",
       "kudos_count": 3,
       "comment_count": 0
+    },
+    {
+      "activity_id": 15960715585,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Canyon de la semine",
+      "sport_type": "Hike",
+      "start_date": "2025-09-27T10:18:10Z",
+      "moving_time": 10852,
+      "elapsed_time": 14325,
+      "distance": 12072.0,
+      "total_elevation_gain": 217.2,
+      "map": {
+        "id": "a15960715585",
+        "summary_polyline": "krhyGwvrb@x@B`BdA|DKb@JKd@l@_AKPZEBXQBPe@WJDrA]_@@P\\??c@FT^e@[RESPPKNeAZRBGnAl@RM[FYhAuBOj@Ck@c@\\MZYE`@NVUKf@KeAl@BSDj@g@m@dAq@?VMIMBS`@c@JCGb@fAs@eAfBBRtAo@z@?UtAs@CQG@PREb@Bq@\\NDxC{Ak@t@\\GEJV\\k@Zx@_@aAXHLU`@fBgAj@FCVR?SZNCD^F@d@i@JNiAbB^_@DWwAJRK[FNBIP\\Sh@w@y@n@v@Fi@TJG^NOv@`CW_@n@NBNVFXa@PzAPxB@s@XDX]n@\\LY\\dBSEPNVrAm@MZy@z@vAP?Vr@]CNf@JQb@VX\\Tn@UKDD\\d@j@p@CCT^Pp@UL\\LEHtCPPk@x@BVMJ\\_Ai@dARa@IKLbA@u@_Cf@j@SdALd@iADhCIiAU\\IK`@Gc@r@~@a@Bc@aAXPHKVl@e@s@p@RUHNpAsAq@l@j@Qo@VE]o@`@TAYGvAQVZZGIPJDWTDTUZR?Sp@PAIUGR~@OPm@?l@DYu@ABRd@Q`BdHO\\h@s@IrAc@l@f@NB\\UDJaAOD@W^NPu@m@rBKCAf@@_Ac@X`@JPKVi@G`AQBOc@OXG[WJ~@a@Eh@ThAu@s@?]Kb@OKREL@[XF}@A\\NCIQ@^s@t@PYJ\\EdAI]Fl@De@OGFIMAN@GCNIc@GLZEQV@XO[d@YqBQpANPKC|@b@w@{B^l@UPKs@XdAa@b@[|@Ff@[NFROZo@?Zn@KPAUFv@UKd@T_@AJIf@r@s@i@NRwBjKUXCb@HHR?UFA`Ab@]h@TQ`AHHULMj@PJMLBf@Eq@N?IUZLOAQl@PVX~AQf@JjAOFDSBNWBNGCd@MIRKKHTXUDX@UF@Cm@AtB~Ag@s@[EFPUH@xAS|@Hr@]nALtAMZ]AX@Lx@Y`BYVIj@@fAf@ZBfBWf@B|AK{@q@rBd@t@?hAGpAo@jGNd@GdAg@fAwBf@Hh@]rBFN[~@[TRDa@tAJnC]bADhAy@hC[`Ey@bDPlAjAvA`BhDX`AHdD`BtDBp@lAxB`@tAJfBIpC\\|Cc@xEFxDJl@e@hDk@zAo@bE@zAWPK`AFh@QHPz@]R",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.25,
+        5.84
+      ],
+      "country": "France",
+      "kudos_count": 2,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15734199202,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Marcelly pour voir l'eclipse de lune",
+      "sport_type": "Hike",
+      "start_date": "2025-09-07T18:44:11Z",
+      "moving_time": 2521,
+      "elapsed_time": 11552,
+      "distance": 2875.0,
+      "total_elevation_gain": 502.0,
+      "map": {
+        "id": "a15734199202",
+        "summary_polyline": "ecqxGotfg@L@b@a@JEJOd@e@NSFEPAVS\\GlAe@P@TC^Bl@ZF\\ADHVARMRSJAJSd@UPCLz@HLCT?PCP@d@GBDAJHT?JB@AHQLBTCRGL@LSRAPEFKFCACJG@SZOFONGr@QZAVINQNCb@GV]v@@JSt@?d@BNCFBPHTABDPDv@Zl@FXB^RZNl@APNZFX@l@GRBd@ALDj@Ax@Ep@Hd@ERB@@J?RDv@N^?ZDH@P@BHBHd@@z@DXEVBNN\\Ej@@HBFJ@@NAHHVAv@E`@KTC`@EDAPD`@HNAHJd@GR?BFHBLAXEVB~@ELC^HXHJ@ZDLBNCJFNAJBRGF@JGRHJEn@CHD\\EVF@BR@TCNDh@FFAd@EZFDDZHHDZHJBNDFFBR^@JCHDTFHABDZAZKPIFEXDXTl@CJ@HBHCZ@BBACVBA@JED?J@BANFA?DF@IJBBBHAD@DKN?PABBHBCJB?HEFENDHD@HC@NB?BFB?@BADd@]D@HH",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.13,
+        6.59
+      ],
+      "country": "France",
+      "kudos_count": 3,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15649789606,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "2eme jour de trek",
+      "sport_type": "Hike",
+      "start_date": "2025-08-31T07:58:43Z",
+      "moving_time": 17459,
+      "elapsed_time": 30090,
+      "distance": 17445.0,
+      "total_elevation_gain": 1298.0,
+      "map": {
+        "id": "a15649789606",
+        "summary_polyline": "}buvGsegf@yBuEMuCe@a@Go@^}@tB{@fAcAVkA@}FRc@sGaCqHcG{FmG_Bc@E[_@JM[{BAyA}@[e@CaAuBwDs@cDNw@_A}A@w@Mi@w@WAu@]k@s@i@yAe@mALa@m@s@DiB}BgB}@o@mBUIyC}I}BeCmBaBcBk@oBEqALoAtAsBkAeDl@g@b@qA`Dc@kAq@dBg@n@MScCdFQQMf@e@e@@WqAa@aEvBgCdEq@pDu@z@q@`@cDmD_Ew@^Oz@\\jAlDU`E\\^?x@~@pAWhAThBfAbAQ\\i@?HbAT`@`@AP|Bf@\\TlA{Az@g@SeAhAUrAzAnDx@FdAjDl@b@l@pCXfEdBfF|Bd@lAeAD\\rAZnE?hBuCdAg@KoBbCENX|B{@vBTz@q@f@LJy@Iw@JjDTHVfABpBzA|DOZgC^q@rAi@VCtAe@|@ElAZZj@zCbAjAJmBj@cAnECn@wEn@kBBeAlALxFnCpAU^s@`@h@b@S`BxBO\\d@LDbAOA?VVZc@rAKjBWPQvCV~Ew@?FbAy@Ts@d@Kf@JXFl@Ad@c@|@XL?l@f@p@o@ZBrAY^LJQjB`@fAfAnA?pBfAx@sAnBl@DVl@yA`Cq@LRz@tAzA?nBQVl@nAL|CP\\EhAOUA^PN?m@ZBjAr@EbBk@PK`@fCt@fCoA~@Jz@o@j@b@rCBn@l@T|@R?dAnCjB~AfClDxC@RO?QDj@x@w@pB]fERt@zAg@lAh@c@tAlBpAYf@z@p@LNa@JlBn@CD~Ap@ULfAlB?Xr@bBXhBdA@t@`AFSt@GC_A~@uBxDl@g@bBbA~CBjE{AzBkDb@qBvB{B|@uAEfAj@a@f@|AWbDkApHoBbEu@XRl@YJ?z@OdA_@p@h@DZK@rBa@d@eAnGrC`@jEtGxATv@fA`CxJG\\s@a@I`@z@hA`DfCtApEX`B@`E[xEf@bBrCfEpCStAzCnBnA|@{@|B{Fn@CtBtAfBsAtAa@TXlApEbDd@nCxHt@hAxBt@b@`Bp@n@dEBn@f@NvAaAvDLt@dFM^|@zAdB|@r@dCLpBrAnBkBrAjAfC}ARVH`B~@xBnAy@z@cArBvDnBIG`AkA^mBpBG|BaBhBE^Nt@YPDVhBzEfAjBtAbA{Ab@",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        45.82,
+        6.43
+      ],
+      "country": "France",
+      "kudos_count": 5,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15649785825,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "1er jour de trek",
+      "sport_type": "Hike",
+      "start_date": "2025-08-30T11:19:07Z",
+      "moving_time": 10810,
+      "elapsed_time": 20032,
+      "distance": 9727.0,
+      "total_elevation_gain": 1187.0,
+      "map": {
+        "id": "a15649785825",
+        "summary_polyline": "a}ovGgy}e@^`At@x@C\\[TaAFu@a@?Hi@Wi@u@g@{Ak@eAA]Yg@YcANQ@Q[sAn@aAHGDHt@{@EKD[Ko@JYEMl@g@f@YNa@NIlAq@JLUk@Gi@u@sC?mAq@c@M@]o@C_@Da@Ls@Ci@d@a@GSg@Ia@eAFa@YACq@Lm@Q[UHOKGJY]]Dq@o@?MOKRqAj@k@Ae@h@}@q@oAPy@e@YAe@EOQIIg@Ua@JY]aA{Br@aAMg@Te@MIL]e@BGy@AMg@Ny@Xs@TGBgAVo@?c@Kg@JwC]gB?y@MUPWBc@Xu@NeAPsDXg@Es@DqAW}ASUUAiDrBoAtAgAd@e@h@i@L[nAo@h@e@v@[JOKYs@]][o@g@kCI}@m@oBK}@IyDIq@@eC^m@p@eCd@gA@qC\\sBFkBEoAFw@ImA@WHEG?KwCOeANGA_ALOCINGj@{@?UTg@L@Tq@\\?z@c@\\XIWC[FGM}Ay@c@AYL_@@KIQLOGOHQKIPMLw@TSBYXi@KCTg@@WLKEGRKHSMe@E[D_@NSGMHAGMLMGWKSHICQL[Mo@c@SDg@{@AKO@[bB_B_@K\\e@_@SPOiAQ_BPn@aBgBXs@eAfBqCkAL_@IdGyDd@i@vBmAv@kAEGJ}AAUDEH{@FsABqAGsAFGI[EcBDe@[aAg@g@[k@iAaA]sACa@SGYm@G@CPJx@i@a@sAM{@VYEWRQEGPa@E?r@u@i@w@Cg@]_B[gAIqCHgBg@]@}@_@iA@aAT{AnAMXu@d@_AzAeAfAIVoAWy@Li@?[Wa@GMUaANIUi@AYLk@Bc@_@Ws@[YVELSCeADm@d@uAEc@Be@GQFe@G_AJg@Ma@H}BI_@q@}@}@q@k@Km@Ce@JWRc@DyAMg@HqAOi@XEX]`@iANo@p@M^]PWd@a@|AR^QZAv@a@TOV]LTx@H~@i@VQZ]GFt@RVAHw@YoCwA_BS}@Sq@}@}@[yAGo@Xw@Ag@TaAM}BgAy@B_AOe@SPgAKeA[w@WQSc@QoA_@w@QmAUo@WcA?c@R{@?{BMgAOsAMK[JOSScBm@aCSaB@_Ba@?[b@ODHhAb@Ta@JHl@GTIMb@~@",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        45.8,
+        6.38
+      ],
+      "country": "France",
+      "kudos_count": 2,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15626518359,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Canyon - belle inconnue",
+      "sport_type": "Hike",
+      "start_date": "2025-08-29T12:45:38Z",
+      "moving_time": 7603,
+      "elapsed_time": 9869,
+      "distance": 8050.0,
+      "total_elevation_gain": 366.0,
+      "map": {
+        "id": "a15626518359",
+        "summary_polyline": "kqcwG_uke@p@LMXPc@d@qBd@s@tDwA|@q@PEPH@XJAIDpAa@IVFBGVMTH`A\\I?FJBVIQ\\ALH@APa@pA?f@MVAZQR?PEROPD`@ERFTGJBJWx@?d@FFW`@Qr@PA?p@NGQr@Hp@AIQ|@[ZFXIDOjAELCx@JXQ\\DZKl@LD@LOhADJ?`@CJNX?RHDL`@IRHNIPJLDh@XNAPLA@SI_@NY?UNg@JM?WE?HG?c@LIBv@`@XKZBf@GZHBJV?VHJ`@XZCb@XBHRBPPt@@@PZHNLZj@\\RH^RJJd@XBDNRHV\\XJ\\r@ZJCFTN?L^P?LMGGLBHIf@FCIPw@LAJ_@FMNB?MZDF[IALVFYLFVMIHOH@CHESKCL?AJE?D@BEAHAEJGDJC@@JBCGADAOMRBGCQP@PWFHPJI_@RN^O@GLNKGCEFN@]@BCWII?]JF@GFDAe@QWRrABUERUB[IE@VLAKDFCG@NJK?BBP?QGPBaA@VNF?GOIHd@GMBPBM?_@JjA?GFs@C@U[HMMc@Th@F^M?HTSIGDJ@KTE@BCHFCGDNRf@L_@MnASg@BJDg@TSIESTKCFVFGBCOIC]FGEJICEE@IHc@Bf@BGLJG[HK?p@A?DHBWGGFDCEC`@UE@CHFEKLICACb@CGDJA}AHx@COB^CFF[@TA?DQBr@BEEHEEC_@FECR@SADGQBKSFILJENTVYBx@_@l@{@LBAXc@\\[BOIo@JFFI?BFNHTMEBBFM\\D?VcAMROb@c@Uz@HBLKHOOCPB?AMLSBSEE@OIDHd@U`@NEH@OSRYEH@Mg@@DWAR\\LLx@Yw@LC@r@WKQUILdAnA@b@WsEIMaCdFHDDII?MRGER@GFO[Z?BJ[BGIDGNFEABDEDIGF@EBFDG@?T@QL?BIEGLEPZGHHCOF?VGFBPC[MPFCJMJDO@?ZCWK@HBAHKOPGDJHQCDVFEg@H?Vc@uChNFwBRaB[SJHGMC{@Jo@VaAg@u@p@ZKHUSo@CNCCkAJVEb@KO@RMp@D@ILDB?ISIGSWDMa@CUQZE?@LKPYHKM?b@QKWD?JA[e@?MWGWOHGMBAOTMYa@MEYKG?YKk@OUFc@KQ?[OMAQ_@]@e@OOUgAg@wAk@oCOiE{@kDScBRe@PeAHGRq@JELeADk@CM_@A[kAWuFN_BAeAIYJo@Ec@@i@Jc@P[?]FEAF",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        45.9,
+        6.29
+      ],
+      "country": "France",
+      "kudos_count": 2,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15567205259,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Tour entre solaison et cenise",
+      "sport_type": "Hike",
+      "start_date": "2025-08-24T09:48:32Z",
+      "moving_time": 6817,
+      "elapsed_time": 7420,
+      "distance": 8725.0,
+      "total_elevation_gain": 532.0,
+      "map": {
+        "id": "a15567205259",
+        "summary_polyline": "}c~wGcxef@JhAXv@T^`GvEfAh@dAVlAt@P?RWZ_AXqCHg@~@y@lA_BXaADsAz@}@Z_AbAo@hAkCZsA@cDb@gBdAs@bAGlC\\\\\\TdALCDS_@?g@s@_Ba@wACQOQS?k@XSVA`AqBd@Ut@o@Jc@Zc@E@@KLG\\s@@KEIJ_@^YJUF@AQLa@Ms@@OTQFYVWZw@LiBPSR{AHQAMV_@Do@\\o@Fc@Pi@TQHk@HG?YNQC_@DEDWt@iANa@Do@FMGUEw@BSNGAQDOYcA?o@JCG{@GIHKGi@Jg@Hy@CGTQB_AJKPoA`@c@V}@XAJUH_@COFMh@SBa@RQN?j@s@JQ?g@L@FS|@k@v@WRYz@SR_@rAaAx@[n@o@^Cj@VRAPQn@`@r@@r@`@`BnBRl@rA~@j@RZXt@Tf@r@h@LXb@n@^n@x@T|@J|AEd@Nh@Kh@F^EXw@h@_Ad@cAz@]DAJHXGBIZWb@SLJbA\\jAr@`ANr@BXIb@An@u@`BSNWGWNE`@Ud@m@AILI^W`@Eh@KNGr@[x@a@BO[Wd@I~@Hp@GDAPJ`@ITEzAp@r@Jb@|@^R@j@j@TDHr@G`@e@p@EXIJC^BFT@XW\\EbAHj@b@^Dl@rATNj@r@Hf@Gf@BvAHFp@vBXb@D^RRZIb@`@St@@fAf@z@j@^V\\Rr@APOTPdBH\\Ix@LtALN?Pf@`Ad@f@\\hAJtALPJn@h@Zh@A\\RPXTJKbAIGWRa@Ge@d@O?s@OSQYo@g@Mu@j@@dAYTAL]JQxAKToAjAQ?WQi@?Yn@m@Xi@BMR[G]^i@?KJs@@c@NWCAOMGYPKG}@r@QCw@TO^SJSPGNY@c@XEJ]Oo@MQUa@@c@WWT[IEKU?q@]OACJ_@BWNa@?GLaAAa@P[Au@_@qAEq@QGUu@{@YW_@Go@q@SCSa@{@q@QYDk@Ee@L]y@s@a@u@OCa@e@ESi@oAs@Fe@f@{@d@qDFi@OmAF}AYUSMa@aAm@i@v@e@R[@{FoAUcAs@eFUcAMcBa@eB[mC@_@\\s@WiB?s@CQ]KKY_A}@_@Fs@bA?j@LLCXORKl@OF",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.03,
+        6.42
+      ],
+      "country": "France",
+      "kudos_count": 6,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15476905930,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Retour de passy",
+      "sport_type": "Ride",
+      "start_date": "2025-08-16T11:55:05Z",
+      "moving_time": 3160,
+      "elapsed_time": 3176,
+      "distance": 22458.0,
+      "total_elevation_gain": 128.0,
+      "map": {
+        "id": "a15476905930",
+        "summary_polyline": "mghwGaorg@Q?k@u@q@YCE?u@IASVK@_@a@WQq@u@}BcDQQSAORQd@_ApCmCzIwA|DiAfCcCfEiA`B{AjB{DbEuC`CeBlAcBdA{@r@WPgU|KkB~@q@d@mErByEjC_Br@}Ab@qCrAc@V[`@[PKGCG@KPU_@gACJkAn@uIzGiFfCkAZuG~@}A`@eAb@iAHcMhCsInBcJfByCv@gJjBaHdBcF~AgHvCuMbF_FtBsAd@YPKJw@`BWXi@Xk@P]D}BIoBx@i@NYR]l@WZg@Zy@H{@?kCKI@WRy@IIEOQCMA]RwDZoJM{AI{AW{BKm@Oe@_AmBWs@Ko@CkAEQWM{FgAeWwFaCYiADaC^mIjCwDbAkAb@e@\\o@h@_LpL}A|AgAr@kGhDi@^{Ad@cATmAJwCDkDE_ABmDZgEh@uADuCVoCn@eD~@qAVu@FCF?FDb@?XINgCLuCTcATgAJaEn@oACKHC^FhA?x@CLIFw@FwFr@gLjAeOjBkMrAgMnBeEjAaE~AkBbAcEfCgDlBwAp@mCbBs@r@O?SKEKWcA]gBEMSUa@GsBf@}@BWISOm@}@SEI@oAh@sC`BiJ~GeAl@u@AyDhAu@^}DhC_Bz@_A`@qFfAeFzAqB`@{ARiAX}CdAgEbAmA^m@Zw@p@uDxD[T]Lk@Lm@DsCNuB@cBSgJqBaCm@oAWqAQyE_@oAAsAPeA`@s@d@o@l@m@t@g@x@kEfIa@z@m@pBa@rBOpAWz@CPHbBA`@eAzOe@`FSfAWl@g@t@a@^g@Xg@Nw@D}GSuAHiATgA`@cAl@YTiAjAuBjCgAjBeXrj@sAjDw@~B[nA{@xE[vBY~Cg@nHG^Wj@CPAPHt@Af@a@bEs@rPC~ABlGGpAQbB]fBi@|Aa@`Aw@jAk@l@sC~B}@l@{@Xc@Vu@Vu@BmAIS@YLy@l@gAn@m@h@SJ_@FcAOcAEIUGq@KK{DXuBZmAH_CHgAEIIEU@mAHgC?a@CKGGS@_Cj@qARg@VMZARTpDBpB?bAANEH_@NeJd@{D^yCLKDo@`AsAvCOPy@dBoA|Bm@zA_@v@cAjBWl@kA|BeNrXqBrEyAxCm@vAaA~AgCjFuDlHoAtC[h@y@xBkG|LkCpFe@x@wBvEu@vA_ApBs@lAqA~COb@?LBLxCvExB~FBZ?RMpDE~BS~BGJQ@_Bo@",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        45.92,
+        6.65
+      ],
+      "country": "France",
+      "kudos_count": 2,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15476065147,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Aller vers le lac de passy",
+      "sport_type": "Ride",
+      "start_date": "2025-08-16T09:35:50Z",
+      "moving_time": 4062,
+      "elapsed_time": 4151,
+      "distance": 28910.0,
+      "total_elevation_gain": 195.0,
+      "map": {
+        "id": "a15476065147",
+        "summary_polyline": "grfxGyw~f@T^~Ar@^HRIRkAF}@N{HWeAmBoFoCgE?a@t@gBtCuFhWmh@rCkFvDiHt@iB\\mAhAeCbFqKtNwYzBgEp@gBxEcJxAaCv@_@bAaBl@]~K}BrCGxBYf@AxAP~BF`Hm@hBDfAOLBP\\Al@HT?^FF^MxAKl@AhAXlF[z@YNSTw@lAqA`CuBbDwBj@{@l@uAt@uCReATsBFgDPsAz@uSHoEJkALYRQnBMLSFYD}AISIEU@]b@e@T[DYMI_@?_BL}BXqCt@mGfAiFpAmEp@cBlDkHfEoIr@oAlKuT~AiCrA}A~AcBr@g@fCaAfCY|HZh@Ip@]b@a@h@s@f@qATaBdBuWTuA@_BLkATiAZiAp@iBnDsGjBsCz@{@f@[dAc@hAQhCBdGn@jPpDvB\\pBC|AQ^QvBMx@_@zBaCjB_BbBy@`L{CnBUdBe@l@GtE}AzFgApJiFnHqC|JgHlE_Cl@QZP^l@l@Zd@?vB[ZBTPh@dAh@hB`@`CF`BHVl@\\tArBpG|HtA|@nB\\tBYlJ{F|Au@zF_E\\SR?RJTl@zArGrCxGOg@qAmCiA}Cw@qCa@mB]_A}@oE_A_Dm@_A}CsCg@[[CkClAaCxASVK^EhAP|@T\\VPpHvCn@hBb@rB@V[^gBfA}ElC{AdAkAd@qAR_AEoAYcAs@eEyEmCkDs@oAg@qAKq@Bo@Ne@f@e@hRoKdEmBpCcAjCq@bLqB`u@_INGZa@c@yBH[D??[DEx@Pp@CrCg@pGu@jDKPU@cAJMtDi@jBs@lCo@pRiBzFHjCG|D_ArHeEtA_A`CwBxLgMjCmA`HcBfCgAtCi@`BKtCVlFtA`KtBlEhArE`AFL@vAFf@Pj@zAlDR`BVpDDtBg@jOL`@NLrABxCWhCQl@i@j@eAtD{Ad@NhAFlAWj@YX]|@iBt@e@pW}JxDmBzGwBdG}A`XqFlD_ApN{CxFiAr@C`Aa@zBg@`Gw@hBi@lE_CdFiEfDyB|Am@jCeBzNmHnKgF`CuAnKkFvF}ClBsAnDkD|DiExCeEdCeFbD_JjA_EzAsGl@eBf@yBhKo`@pA_GtEgZlDuS\\qAr@aEJQHAPZZfCV|@`CjDb@lAJnBG`Am@tECnAFnARhA\\`AT`@zA`BF`@Ol@aCzE{BhGsFdQmAjEkBjFeInWo@vCa@|@G`@DPHFb@GFLW`C@V`@L`BYXl@F@EEB?",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.08,
+        6.55
+      ],
+      "country": "France",
+      "kudos_count": 3,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15407437712,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Larroz en VTT + tour d'orchez (VTT+rando)",
+      "sport_type": "MountainBikeRide",
+      "start_date": "2025-08-10T08:29:37Z",
+      "moving_time": 6877,
+      "elapsed_time": 8663,
+      "distance": 21203.0,
+      "total_elevation_gain": 1140.0,
+      "map": {
+        "id": "a15407437712",
+        "summary_polyline": "_sfxGkw~f@cBm@a@`CUVgDs@kC@oAe@c@yBoATmB{@sDsI~AcFZkBu@{DBoDaAmDmBy@{GxMsE~QKrBRfIu@pHWJa@eAQyAs@_CYyCkAq@qA`B_@tBiAtCUNMS@g@Ys@@gB~@gEnAcNfAyD~@wFTqDn@sCBcAUcExDgLSqCTkEC_Gi@qFSaG|@iB\\qGt@qBnBwBh@qAj@wHzAiDd@_Dk@yAuCu@kA{AS_BDuCMoAaDmIY}Ik@_Fo@{@}BiAgAp@iAxCu@fD_AfA}FdDmBR{B_Aa@\\Hj@dAtArAv@vBf@xBvAxALtBk@`Ax@bArExAnNTxD~@`E[nCk@rBcCdE_AxC_AfBqBnJeBhB}DnGo@jBs@jGOpDy@jETdARFOAOrA~A`BXx@L|AY~AVpAUp@B`ENjDLEq@v@yD~JoBbDqArEKpHcAdFRpE|@jFy@xKo@|@kDpJYAW_Ds@ViBAu@f@wAUgAx@q@lAKvBgAzCe@d@YdAMxBgAnCwDpBb@}ADaGyBzD[s@g@iB}@B]RcBzCqC~BaC|Fg@g@BgASoAwCiC]mA?}@kAkCrB}IByAOoGmBqCi@wByBkBqAmFF}Bz@eBJaAPt@`@o@BnAZTH`AMDFHl@}@Ie@TAAi@^}@TI@ZTUFt@^m@@a@j@zCbCh@n@[t@S\\w@`@Ow@DSSDOO@aAuAXmB\\WDw@nCUhAe@l@j@vAFl@v@Ij@?a@]i@{Bi@qAh@kCHg@z@WhBL\\v@VJbA~@Bm@|@g@@y@j@USwA`@u@c@GcA]wAAb@[n@[y@O\\Gc@a@t@Gl@IIHC@n@m@dAe@yB?{@Yt@e@{@KHFQYPk@~DDrAr@tBTvBjClBz@pCtArBK~DP|AIpBY|Aw@jBU|BhA|BHtAZbAlC|BJhC\\n@XM|CeGbC}BvAaCh@[lAFJZGz@`@x@pBsDOfG[zApDuBhAuCd@kDtAwBp@_Fh@_AxA}@bAT`Ac@hCKvDkBdBqEj@uIBmAq@_C]eIjAaH@{DlAyEzA{BxEmLl@{@HnA_@dJv@xLa@bDCpBbCoArAcBf@SfErC~@gB`@wBhA_BXC`Ap@bB`Kh@~@^eBTmDD{CQkGVeCfEgPzGwMpBz@~@~CAlEt@|DiBdGObAtDtItB|@bAS\\bBp@j@dIx@h@Ql@qCzBr@IS",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.08,
+        6.55
+      ],
+      "country": "France",
+      "kudos_count": 3,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15277940216,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Canyon du foron",
+      "sport_type": "Hike",
+      "start_date": "2025-07-29T18:11:44Z",
+      "moving_time": 5827,
+      "elapsed_time": 6632,
+      "distance": 5736.0,
+      "total_elevation_gain": 144.0,
+      "map": {
+        "id": "a15277940216",
+        "summary_polyline": "_`uxG_jjg@Ea@@iAQ}@?]M[@]KQCWQc@Ee@Ia@c@y@A_@IUiA{AMa@KA@EMa@OMOc@OIsA}AcCeBwAiBoE_CISIE?OJEAGNCAJVKNPFNHCv@VLIPHR?LHHNREPRRDVMNFLT?JLGLDQLFr@NDRM@HRCLHCHHNPB?LGHFFRWV`@FMAEb@e@QDHHIJ@EAFB@NQKXOEF?GE?MHSBHEHDHGDNHCBLHE@FADHSLV}APCAECTa@d@ETXO@DEHJGADFD@JP?CJf@g@CJD@QX?ZD@Xa@ROG?QPCPn@u@N?I~@ILG^MS@KUMPHJMFF?\\a@HEHACBQBDBQDFBMBDNQS@M\\XIFQCEBB?c@BCBFAd@uAb@GGbAYGIBPC_@BQXIBDCJBKITFHMf@M]@L@SECRQDRIVXTO@OULDGCJCEGFD@EM[FBC?JDG?BFOKD?EBI]DERBENJLAHND]P]?JA?EPPDGAGLDIEAGHQCIBLC@JNGJ?JLAI@BFAMC@HLHMDHMDDBCNHAGi@FQO@CH?IBB_@l@DMRAFBJMFKEEDIOAHKJ?HBSZB@CEEF?TGBB[C?FGHXPVCDC@MO@BI@DGHPBC?MJMCSGFEKj@bACW@SQK?F@BACFG@KHICCBFPGNHFG@BGJB@LEIJBBOD^IBLHEi@RREF@AJE?`Ba@WOqAp@W@PGFJCJHK?DD@?H?GGDDAAPCAH?CB@S]b@G?XQAQFKMAH??DC?JQQR@E?LGLCON@AOYKLXG?@HB@DYABBCDPBUGRDHCBAKDKGPGKJMDFKNLSCB?GK^DU@HFEH[IPDDEJHOZMBTLDCZTF@BEABJIIFAE?@QEDMIIFEEZ{@k@d@Xw@QZXe@Ir@HK?^ADGCDDELBMHCXDKJII[TBBGFDDh@@K@@GSVI[C@HH?OFTD?LKb@?CEBGQAq@UBHMCEHBCGMLLHAC@DFC?DFQCEKFPSAJAI@@GZCRBCFIC?FJ@HYA`@IM@IF?CKBC?JRH?GMKBODD?EKHBXHCAHa@OHCRVBMOHGIAHCQF^JFFEASNC?GEA@PGIBCBLIk@@DEEDADPCBDJJG@URHGJ@FJBDMEB@EBH?LHJ?EEh@FMRG@NJARHBBAFFODLJCR`@R@LRF??NBIVFCPGBLc@Hn@g@t@EABKJGCHFf@S~@S@?TEEFEI?JCBBO@MPM\\CZSTCPDFIVARMLICBz@F??FIr@BTIL?LBLSJMl@IL@RG`@W?JA?J",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.15,
+        6.61
+      ],
+      "country": "France",
+      "kudos_count": 4,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15266002637,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Canyon de balme",
+      "sport_type": "Hike",
+      "start_date": "2025-07-28T17:50:40Z",
+      "moving_time": 5766,
+      "elapsed_time": 6939,
+      "distance": 6121.0,
+      "total_elevation_gain": 236.3,
+      "map": {
+        "id": "a15266002637",
+        "summary_polyline": "gr`xGmyjg@SGSAQLQAe@YYIC@@DCI[PLDULDIZLACHEL?\\NIRb@O?DAIC@FOKf@?`@IDJO@LESD@HUYJJQSP@BACBKJ?OBAOP?EEHK?DFCHHHGE@CPGDp@I[?KRnAn@SLHUPOULPc@Ub@Pa@KEYTLC]h@FEBGSH@DNEDJEHT_@EDCDPOB?OHQTJEZs@EDADNUGHBEC@LKBCKJPUi@t@YHlIhOQNLKCHFBEFgCnDjAeAEMDIKCAKn@SRPH?JMIB\\I?GW@`@WHBLSWZC@LUx@s@LF]Pc@j@ElAQD?q@^]RG?EMDUUUFRDvAGND?FFCuAQKLBGHKBh@UPQETe@ETBDBKEUHKPfBM@pDmB[SSTADDMDNINFGEEBHIJ@\\FJGCAKFCTLRC?EJFEk@PV?G@FSUI?V??FMATBKDF@E[DZEOECVFOg@CQB?KSBDKi@FTz@fAACKGLt@Xx@?KECDs@U_A^CDV]a@FTB`@KGBHADCABLJDBR@IEa@SCLFFK^f@UkA`@f@GEFC?ILCMGBPFFEA@BHPAOFCBOBACDBB]U?KIMF@CO@HCCDD?GMQJNKEBFP@@KABB@Fb@D?JVBECQIIJN@Ec@i@KC[i@Nd@@GGSLLLAGHDNDBDAKUjAXe@Qk@q@Vt@LC@KJGLFQGJ@MKAKBTBGJVKI?FDCIG?KT@HNAGHBK?@B@MGCBFHCHLAQQCBUEHBLGI?FFEHDOg@HRBKC?B@FQFFECDFC?ACBCBAIg@ISX~@AEj@o@OAGFAPJW@LEB?GOGEHDMBJKEFEDf@FSB?~@LSTAQCA@Vo@q@AZD??DMDAHCA@ECLSHBFGL[VCABPE?D@ADCIS\\F?SNALGBMZ_@NEGBJMVACWRMDO?COUM@PD@DJC?CKXDW?APCEFD?JOg@BWDIHAFLJ?ADAKDBHIAOVLHXA?@LCAHOVK@IDFKOIACFDl@IOCQXQ?Q@Dk@s@CLHJ`@@NJ@IIWPD@TKIAQV{@C@Tl@GKQC@EDFAHLZBEGCGOXIGUNOLTY?D@BTO[BKLD@JQWF?NOHWFAODHb@i@g@PBN^D@IEH?CIB?Dc@VeAAp@CRH\\AMn@EJROWK@c@wBDTPVL^HDDGA[PZADYHKT@NKBMVI?_@^O??GA^KFGC@IBBAEAZICEZAGD@?IEC?EBKKMHIAIDEFN?`AEHS?c@j@QEINK?CHOJ?JILa@@_@[MWMo@Bi@FKBWHMNANS",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.05,
+        6.61
+      ],
+      "country": "France",
+      "kudos_count": 1,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15242103534,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Tour des 4 tetes",
+      "sport_type": "Hike",
+      "start_date": "2025-07-26T08:53:22Z",
+      "moving_time": 15713,
+      "elapsed_time": 23659,
+      "distance": 16614.0,
+      "total_elevation_gain": 1532.0,
+      "map": {
+        "id": "a15242103534",
+        "summary_polyline": "m_owGw_jg@NYjBLbAm@r@?Nv@v@dAOf@p@p@d@@ATp@b@OoAPYDp@p@vAQs@XFH_AbCJrAmAX\\jAq@|A~@PUO~@?fATfAW^[xBFr@_@`@FTW|@g@b@?jA[j@{@^?l@_@ZVf@cAp@YrAhEqAvIKd@WVVVjAXC^hAnAB^dA\\jDd@@lCzCnAl@rA|DlBzCAhDkArBg@rBEvB`ACXpAnAhB~BvAf@lAvAt@|@rBZfGw@lE?rBWp@D`@i@l@qCjJIvBeAjAkAt@}A_@iEhBeAvBuDpA}@~C`@vDv@rCn@bBr@`@zA|BrDpAbCbDKhGf@rBJbA[bGNp@a@TFj@pAd@`@fFUFBvASb@YN?^QCFxAs@k@UAuAz@_AxFd@z@xATTjAp@z@f@xAFdC`BfDAfA^NpAlENxAIvDT|AQt@hA|AnB`Ax@xBTtBx@|CFzCr@fDv@rAPGv@fBnBnBd@bA@jAc@v@HpBe@hAPbC^`AEpA?~@\\h@m@lA^`AObBi@^H~@]n@a@VzAn@~@?LdAf@`Au@bDMdEkA|BkAPs@bDWC@a@ULGkAcBiD[wBq@q@FKeAEgAcAU^Q[u@\\kBc@i@k@_@_CmAmAsA{BEqCc@uAO{CV[^Dy@}B_@oCgAtByBEc@m@sDwBiBiBgAqBc@}Ae@qDR]Lk@e@qHN_@~@e@^oAIWa@@G_@k@e@sA]kAvAeBLsBdAIqBeAgBOcBc@@CXWVYEc@d@UMYj@W?Kp@aCOcAFaA_ASu@cAWC]qABq@m@e@?Sq@oAiAyC{A@Sk@s@W{@cCgCeAOqGkDKmAiAeA}@oAyAqDQoA_Ak@OaAiAwAc@{Bm@gBa@_@m@gAQuEqB{DCyDc@[iAqCVGLw@c@}Du@uAU_BqBcFk@uEiBcF?c@Zk@e@u@[_DuBaCQ_Cs@oCg@AK`@l@u@c@}@TgBh@oA^yC^m@s@wDAkAXuBGmAw@_DD{Fl@eAnDS{@W}@qAj@g@Bc@}AeAG[v@Am@oAk@o@tCEx@RpB`Af@gAd@En@j@]aAuAgAfD_@aD_BEWnDgBnEI~@c@xDcCbFwDbBcDxAo@DUUYsAC[k@j@W\\cAnA[B}ALwCToAfBmCbBaGlDeEb@uBZcD|AqCfCqBrB}@^R",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        45.96,
+        6.61
+      ],
+      "country": "France",
+      "kudos_count": 6,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15178170789,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Canyon du foron",
+      "sport_type": "Hike",
+      "start_date": "2025-07-20T15:03:40Z",
+      "moving_time": 6692,
+      "elapsed_time": 8115,
+      "distance": 7732.0,
+      "total_elevation_gain": 124.6,
+      "map": {
+        "id": "a15178170789",
+        "summary_polyline": "gvuxGsmkg@D^AOi@YeA]gAPg@mBBT^AKFHJh@JBMAFHAdAQBJRBBPXCJPb@Pd@QNDDTV?NVj@?NK^\\VLEXJAw@?NNH^JD?TFBFKGANMBHG?hASNRVOELBF\\SSx@FBXc@O^PJo@VXEERAUHDHSHFp@YKNd@q@a@\\PMMTNWODIZHIMJGX\\IMb@DGQIRb@Za@P?BPK`@ULhA}@?VMAQd@UP?ODP\\w@FCS@CTVWECAPHFGUU@L]E`@K]F??LhAw@CN}AbBHG@[L]YP?Nn@E?IA`@EDFAGG@U[?TMEAWp@Re@LCQBE`@Zc@CGBA[HD@FCIEO\\FHCUBHJOEDh@?s@Pf@KTc@KCUp@?\\GHRc@NWXFWIIZIIQJFGBLIFPBBGAMdA@YFs@KH@CCnAMg@PEEOLIGCJF@FSGSKLHF@QBHFe@BNGAAPHNBUDEMFJCBO?NJE?JCLGHGKDCL|AGUnBRk@ADq@GH@TbAc@BWKB@K@T[b@PS?S?R?MHAHLFXVBGM?PMDHc@CPNj@IUI?J_@Ga@DTC^@WEAPn@d@I?PROOH@DFMOBDEb@BI?JDBGOFFWc@FAPGKJGASFG@HFAAP?GGBJNKZRGQf@TS?MKf@R]E@JEBDBK@JEKBSXGWt@L?@MKNVANRw@j@FBHQMB?Hb@CCFBINECJJDGDJCh@c@@QOf@IEELJEAL@DO\\GIBIRe@MJYFKTFOG?l@Wj@l@HGJFFQL`@AZJ?j@}@DBAMHMl@]VF\\GPTTWBUNGLa@RDHN?RFSXW?LP?^g@\\OF[PS\\LFSHB@JRMHJr@YLSFF`@g@XI@NNEVa@^WFBPc@HNFWP@Z_@HURNNK@Ll@]j@CXJ^]ZC|@nAl@?JOJHR_@NJNOh@ENVJWJPALVw@XHTWT@NSVCPa@d@WfAJlAo@p@Kh@k@L@`@aAr@mA^e@POzAm@p@G\\a@h@Wb@s@F[G]`@m@Dk@ZOT]\\GTo@?e@^m@b@a@Pk@X[Fk@p@gAH@b@y@^Qn@CLOT@HKTBRPd@@@RKt@HIDPBEKu@DTEz@G@@}@?b@KF@L?OALCEBLGQDKBLPHWH^AOCAG@CEVMCB[Pk@Cg@LIAJb@|@ZTX@ZGTURg@RMzCqAv@Hf@h@GVaBXkExC_AhAwBbEwArAu@pA",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.16,
+        6.62
+      ],
+      "country": "France",
+      "kudos_count": 3,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15175394850,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Canyon nant bargat",
+      "sport_type": "Hike",
+      "start_date": "2025-07-20T10:44:11Z",
+      "moving_time": 6993,
+      "elapsed_time": 9151,
+      "distance": 7669.0,
+      "total_elevation_gain": 829.0,
+      "map": {
+        "id": "a15175394850",
+        "summary_polyline": "_lyvGibbf@?n@BQPWNRJ[i@l@_@pAIx@J@FaAJa@NSN@Nv@?p@Jv@KjA`AdADlBSxA_@tAIbAaAbCCvBz@OVm@CCl@O@Jb@DBb@CVt@AOXa@TSbAm@lAA`@Fb@CTBYR[HTCZJd@Dc@P`@In@JNKb@DHIJ?d@j@nAL@@TTHVd@VB\\j@FKj@?Th@EOXSBFGLPLBe@PQCIX@H\\GKTQITb@HD]d@`@X?JMGMBQW{@G?Kg@JSCQViA^Ub@Gb@_A?[J[`CqAAMHKGGHILC?MAPCSKAFK?\\?OL??REDGWD?G?BDED@KRHKOO?FKHHFUYh@FF]BA^WCH^SOOC_@ROO[HCKQK[h@ICNFBWDDBI?RAWNLLCd@h@YMLPd@HCCL@cAMOEVCiAUTPOBMUKE]PEMU?RJDOW?IQBj@Ch@XPDCEUJKU?LMGQb@a@m@@OKTVBRa@EJQK@TWICRWGLD@ANf@`@a@@VLDXMFm@][AAKd@WCWg@Y`@SI^L?_@Po@E@U^z@Q?q@cAIZh@KVBAHNIDs@UFOVAMIGB??MLGGLEMGDJUMND?Cf@Jq@GGENCC?JJACPMw@YZ@\\HQEGNHGDBXOJHGEADWJAHH@H?OYONQ?J`@H]VH]GG@CFEICHLSNTAAJUd@EQ?THAIW@c@OECVNOE\\CKEDHc@PQN?DM?NINFNYAJ[@k@[RERHx@FOGOIb@NMEGXJJ[PKKDKZAx@@M[c@SP@Yb@d@FUAo@E?Nr@RK^BH_@Ea@MDm@dACKMH?[?LECe@^@MPIHXGPL_@FcA@y@\\Ab@`@TGi@rB{BPm@c@`@BrB}BMPAPRb@\\UTFi@dADC\\g@IEDW`@w@i@l@|Au@BEe@Np@a@WDJYi@rAFIKBHGKE@^JEQXGAPGGGI@YT?KIDDBa@HFEEE@NINPALEWHENOH?NOPTS?H@K^]GL`@YW`@@Mo@LIVHKOGX[C^a@@Z@FAc@??KGDDKOCKFNAZD?WDAM@DGIA{@^N??IELM@f@GQNPNCNR]VOO?FHCMQGXBCPK?RAgHkCm@v@uBdAiAvAEe@t@{@Ra@AO^k@H}@QaAFuB`@_@ZwANOLk@IUDYb@a@Iw@HCGUW_@i@SB_@JGCs@Os@JSIcBYKS?",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        45.85,
+        6.41
+      ],
+      "country": "France",
+      "kudos_count": 2,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15144780520,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Canyon du foron",
+      "sport_type": "Hike",
+      "start_date": "2025-07-16T10:51:34Z",
+      "moving_time": 5637,
+      "elapsed_time": 7095,
+      "distance": 4786.0,
+      "total_elevation_gain": 45.5,
+      "map": {
+        "id": "a15144780520",
+        "summary_polyline": "c}uxGeqkg@JXJ?@DLABHRCDDNATUDBBERBJEFNB?HKDFADBIHRF?NIBBDZP?NFPIFFFABFJCLDFFRHDHLEHFVCBBF?NTRBBLAZ@D?BFH[[J?EBDHR?FBR`@DB?DF?FXBIBADBHL?QJNH@BB?EBHHDNE@DCCLMFRREFBBFB?GIEF?EMEED?JKECJF?@GAMBBtBd@^|@FPCB?D@CiA{CBG@D@?HNF^lAdAOeAN^h@TH?B\\fDdE`A]@EJBSKBAI@FA@DAFBG?GNAI@Q\\EC?ECDBBAS@[@XBBHCECBAK@AHD?KDKJFFHGID?GCALEFIDMBN@CGBADAEDGAEE@IGDB@IHVDFBAGSAD@OEIE@RGKBKNCICJKNDHAACe@BKB?BDC?CI?EHBCB?LFPEK?EKEBYEMC@AECA@CIEEJKCBNF?C@?B@AA??ICB?EOCRJKBDA@DD@B?BC\\RFGEG@KNCF@E@AA@EF?D@ADBBC@ABVAFDn@NEL@LBCCVDDADH@LF\\ID@?PGFLDHNVHHLD@FCAD@DCCNMH?BENCBCJER@KQGABCXE\\URCF@ADFGJEPAHTB?FG@GVM@GBBAHCEKDADAGADACDGF?TJCCB?KGBQGADEAGBGJQB?TXJBBCD@DRBIIi@@E`@G@DB@FCJGJQD@?C@DGCCHB@FGC?DKEANJF?LGLFFAC@@FAD\\CDK?WHKDCRHCA@EF?DQDBFC?ERADIRACA@ETMCELIBO@FHBCS@CTJD?HO\\HACBi@JJL@DGf@MHQH?DD@KHFDIDBFKHEAEJAVQN?LNKSD?DMGAH?RLTK@CZXJDJ?ABBB^?FFJDDCPCLDDA?ELAJG`@HCKBCJAFDBKj@D\\CFICEOGFEB@FEMAFGNERDHEJMHCDG?EBCLEFFH??SAC@KPQF?@DFCV?LFN@DAFGFDRARODQHMPDTGFGF?NEDGNGFDBQHG@KPOF?HG?MFEDKH@BE?SJABUF@RGBMF?FQFAFSV@BAHU`@KDIZGFGACF?HEJKRGFGJ?AEPUIAB@HGLALGFQFED]?EFO@QLa@Hc@BCDIFGXIJBBCDM?QNK@QF@BCBe@Li@FE@MF?HSZOF_@BCBIFC@IPMFUAEF??FE?NSBYHCLKJ@BC?EFA@MHAJKFCDK?IDABBHEPQHSHGp@ABK\\?RF\\GRP@F?FKf@H@KKKCNBB@BHp@\\q@?EIM?HFAQ@KEKFYCC@EA?DGD@@D?EBFBAIOE?F?",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.16,
+        6.62
+      ],
+      "country": "France",
+      "kudos_count": 3,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15121632155,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Canyon de clevieux",
+      "sport_type": "Hike",
+      "start_date": "2025-07-15T12:35:11Z",
+      "moving_time": 3121,
+      "elapsed_time": 3978,
+      "distance": 2332.0,
+      "total_elevation_gain": 530.0,
+      "map": {
+        "id": "a15121632155",
+        "summary_polyline": "aikxGw`dh@QBc@aAL^EAOOC?AJ@DOGEGANKN?FSJAHEFKCC@ENEFCAQLKAALABAPE?ECGU_@BQEK?EBAC@EKOAKGA?GFCJODACKOWIEEIMEI?QOQAC@UC]DMEQ@GAEGO?MCEBMGEPYKEDO@SOBBE?QPE?ADIAOGGDADIAIBICSDIEK@[QMM?FOFO@GGWEYMEJC@MGOOOKMAODC?GSIECAMDMAIYIMCAE?CEMCKQGYICMFK?GIG@HOJ@JDDE@ED?DH?LFJHHLB@DH?DBNT?EFFPHHALTBH_@REFMCIDW^K@GCG@CC?KODCB?HHDF`@@EECB@BCDBCABCK@GC?D?EAD@CLE@AM?EDADB?@??GBAHDBCAELBC@DEABCA@IBBAEC?EFAJ?EB?ECIODAQUGCEGF?NNC?CB?HACCBEEBAJFBC?GD?LHHCPFHE@EFAFHPNjANHFBHGFGRESGGILBBGIOIWQH?DFRAg@OSMR?IE@JNFHNxTvDhAsB",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.1,
+        6.74
+      ],
+      "country": "France",
+      "kudos_count": 1,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15097565158,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Reprise tranquille avec le P",
+      "sport_type": "Hike",
+      "start_date": "2025-07-13T10:22:15Z",
+      "moving_time": 2841,
+      "elapsed_time": 3287,
+      "distance": 3037.7,
+      "total_elevation_gain": 62.5,
+      "map": {
+        "id": "a15097565158",
+        "summary_polyline": "}b~wGetef@cF`EOFIf@IZa@v@QFKNIRAVHP^f@Rl@?\\@DHDDC\\VDFJnADHLNLTALBRXx@NL@CB??CJFp@r@DFH\\TXLVXXLTAGVl@PX@JHLHTBDPJPXTl@`@R\\b@VHTXDAF@?CRCFG@OX?HEVe@F_@DGH@JH?FR@@@?BAABAFDBCJg@PYFUN]Da@Re@FUD@?GOM@KCCFe@AY@]PmAH[TSBQAOBAC@E_@Qc@Gk@A[@o@Eo@?UGSA_@BIDGVGJFPBDJAABAPAl@FlA^TLZFb@CJDDA\\WZs@HC@BAEF[Zo@F@?EFBHGBe@FSFGA@P?NMB?HS@s@BS?ML[BOAYCI@W@ICO@MDE?ICC@@AOBWEMBI?UDUHKCCB?HKFSCSEIAKA?B@BEHGLe@LO@OCKBUAGCDBBAAQDQHGIG?WFGA]HEBm@KOSEAAGDILGRc@@BQ`@SRETELq@VAFMRUz@IH]NMREPAp@Ef@Of@A@?C]j@]b@C?QNUZ]RIN@PGLCb@]xBY`AYb@IGBGCB@ASOgAs@KCA@IGU?_Bw@sEiDKABBCMIEg@u@Sy@GEEKAUAcAA?AKHi@@cARw@HKTOf@Ch@UHO@IAIPk@FKD?@BC@GJB@BC?KHACB",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.03,
+        6.42
+      ],
+      "country": "France",
+      "kudos_count": 4,
+      "comment_count": 1
+    },
+    {
+      "activity_id": 15089317197,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Balade a agy",
+      "sport_type": "Hike",
+      "start_date": "2025-07-12T10:07:41Z",
+      "moving_time": 6070,
+      "elapsed_time": 8171,
+      "distance": 7366.0,
+      "total_elevation_gain": 208.0,
+      "map": {
+        "id": "a15089317197",
+        "summary_polyline": "_wfxG{jlg@EADAEW@EES?KFMBc@XcBAQH}@B?Ag@LcADaAJy@FU?WJ_A`@gBLu@ZoDL_AJ_@NUN]H]Bc@Ry@NQr@w@HE^e@t@]`@[j@o@Zq@@K\\aAH]HeA`@gBL_@PuAJc@Fq@DYHOXiAJyAJ[^_ADm@BoAFOLs@j@oAV[JE^_@Rk@PUB?Rk@LMHYTe@HOJGv@qA~AqDfAaBJ_@RiAz@}A`@_Al@y@r@y@bAcBd@i@l@m@Ze@RcAZo@LSAMTQRWJ[He@Xi@TeAL[VyAVYLc@d@eAh@{@dAwBTW^KLQXINCROXCRML?XQj@KfAo@h@g@d@MH?p@_@LCFCf@ENJXBFGJLHB@DD?LNL@VLZ?XKPKHK\\SPEFEVAFGREv@k@JCFORKX[h@]ZKFOPKAGX_@VMLUD?LQ\\Ql@m@RW`@SAEDCNC\\YRI`A?JERUTEl@JLCJKH?LKPET?NELBRKNAr@Yv@E^INDJGD@PEHGRCFDb@EXKVORCNIPCH@LGLMTMPQXORUPIJATQLEPLVBHDHXKAAOCTBHE^Cf@ETMVMLGNc@ZOFwAz@ODSBUC_@JGDKTML[LYTSD]^a@p@CHq@x@GLSNe@j@WRY`@e@d@ABGBCJGBKRi@\\SDONc@Ja@\\UJIFm@\\a@l@IDI?[J]DOHELID]DYRQFY@s@VUPINo@`@KRKBGHc@Ti@Ha@RIASOO@a@OUCIDMLIRYZ_@Fq@DKDAFWZODi@d@GPOBc@`@CHSXMXQLi@|@s@~@KTADBVAVFDDL?LQl@?XJVJB@TJBBLLNETLDGMU@KXMRa@\\]p@MPIFO^GFWHOLYj@Yr@C@Wg@OAGEQLy@DKFYVG@CFs@`@MVUZQFOAQKKAGBQb@Md@Yf@Ux@Wt@w@pAOL]j@GBMRI@KJm@p@[Po@t@}@nAWTYh@WLOd@Kt@_@jAWr@U^CPAECBQZSp@AJk@fBIDGPWXMR]\\EFc@`@[Z[f@Up@Ix@GPM~@MPI^IP[b@Oj@ARCHWd@MJOZANI\\?RGLA^KXGDLTKPMLa@nBYv@Yj@CP?PCXKd@QZSJKPM@MJ]LIJAPDXDNR\\FZBZIb@Wn@SLGL{@dBM`@ADDNERy@bBWr@I\\MPIb@IJCTQT?ZO`@OPYH_@Vs@ZM?GMKGI@GL?n@ENC?",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.08,
+        6.62
+      ],
+      "country": "France",
+      "kudos_count": 4,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15079932540,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Carroz",
+      "sport_type": "MountainBikeRide",
+      "start_date": "2025-07-11T14:17:01Z",
+      "moving_time": 7663,
+      "elapsed_time": 10158,
+      "distance": 36047.0,
+      "total_elevation_gain": 3532.3,
+      "map": {
+        "id": "a15079932540",
+        "summary_polyline": "{i~wGostg@u@b@Vh@UvCrBhCyAxApBfAc@|@`DlCrAtG|AlC\\fGc@fBjH~E_@h@dBVkAv@vApArApDx@k@|Cr@aAb@dM`IhKrDpDvE\\pFsA[ExAu@NcAvDRfBw@p@jA`ALtAfFxEg@Vh@Ih@`BXEcEg_A_DubA]XJxAzAVK|Fi@pAn@DMZFx@pAf@BlAt@x@Mn@~I`L~EhLeJSDh@o@G[r@uDB}GgBgEAhAdAcHHu@l@WvA}HnAv@`AK\\mGfA|A~Ar@zCtAWlDNw@nAfChBhDhAu@L|@`CrHlBjGbF}@lAIrAsBY`@lFo@Wu@bClAxChAXvAhBNhAzGrI_JwbC_@MA`B|Ah@SpAVvBzAz@HrAn@z@[`GvDpDvOvWsAxA{@IZ~Be@j@kAc@eFDqFbByCiAy@nAUdAmPo@^tB_CQkAdCuALnBj@d@lA|@?dFtDlJbDnE~Fh@`FsASGdBs@F[tCc@VHdBm@j@xArCxF`GR~A\\AmDgbA{Dk_A_@W_AzE}DrD{IhD[hBrBdFiAlB[vEkM_G_BfHqCpC}BnGzAtAIXzEjCYv@bBVo@|@pApA~@fD`FQIl@o@N|AZ|@lBp@WjFhEbKvD|D`Fd@dF{A_@?fBaAb@UrBi@l@TxAw@r@tAfAnFxHb@rBXGwE_lALwBs@yPa@yCLmCuAkFCcPYKcAfFkExDoI|Cw@~D}GWA|AaBF?jBe@b@_ArGeDbDoBtG`AhB~EjC]t@fBNgAfAzAlA~@nChAUfD?Bb@{@r@vCxB|EvCdMtEjD~Ef@bFeAOI`Bo@Ne@~Cg@XN|Aq@f@tH`Kl@jBb@Aa@QkIebC_@Py@`E_BtAx@rDIpApA\\A|A`B~AJz@gCz@d@pE}AXjAtDoCtBu@Rb@rCaI^Xv@iAd@G~@wI~Ap@fBcG`ApAlAvAlDzEQGj@_ATpCvBdDrA]`@bBnCdGpAdGxEu@rC{BKh@jFiBZEnAhAvCjAl@JbAxFnGtCv@o@X@dA^DaJeaCEk@[FJ`BxAPC~Fi@rAn@NIrAdA^HrAt@z@Kv@bExDtJpQtC~DoArA}@ORhCc@f@wEFeAa@wFpAsBm@Wn@s@Ac@rAeOy@s@V\\jBsBMqAdC{ARxBf@f@lAt@OhS|KtCxDl@jFuASC|Aq@Le@nCg@^\\`B{@r@`A`AL|@jDfE|Cx@Au@yCu@Bg@n@E",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.04,
+        6.66
+      ],
+      "country": "France",
+      "kudos_count": 3,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15058688379,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Salève",
+      "sport_type": "MountainBikeRide",
+      "start_date": "2025-07-09T16:50:34Z",
+      "moving_time": 2562,
+      "elapsed_time": 2930,
+      "distance": 12779.0,
+      "total_elevation_gain": 328.0,
+      "map": {
+        "id": "a15058688379",
+        "summary_polyline": "qnuxGwvxd@H?I]Bw@EWb@[l@s@^_Ar@WbBaBn@wA?qAVs@n@g@x@}@tGsDz@y@`A}AAqAWaB{@mCXwBo@o@s@cAo@qBKw@Wa@Ew@GYcAuAO?e@k@KgAaA]w@qAKCMLUoA]k@_@_@oAwCG_@D{@Ie@Uq@m@mAGq@Hi@@k@CSMa@V_B@iAHa@DkACG[AS^]T{@OQm@k@i@]k@[UOa@OsBIo@By@Mk@?WCCKNUHYs@ByBg@YZgCCe@Bu@\\yBa@eB?uAk@kBE_B{@iBq@mC{@aA]QODg@h@a@Sm@m@M@_@z@q@jCi@fD[vCKV_@FyAUuBCMS{@yDy@wB_@}Ba@eHD_CC]W]q@Y_@YYGo@i@qCJyDbAgB?uAUsDj@s@b@eCd@uB|Ay@Xo@n@_BRgBbAU\\Sx@Dh@l@hAhB|@^d@l@|Bj@fAj@r@Dd@L^bAbAZl@JZDr@Rx@|AdDHZ@~BVlAOhAHl@K|@@fATt@X`@Ph@X\\zADZH\\SZcBn@yAJa@By@IeAkA_Ek@g@kAEs@]]o@K}@kAsA[o@Qu@]k@_@uBAk@UiBg@iBi@cAMy@]{@w@cFUi@Ai@Uc@Mm@Bq@YcBc@kAQ?iBnAqAQe@@WPg@nASVWSUc@g@mC{@cCQqAi@iASu@KMK?KWIs@Sc@M_A_@s@A_@Sa@_@_@gAg@k@g@EQMiB?{@k@cB[i@cAUWOYe@Uy@g@iAg@mCJYAk@[o@Nc@Bw@Ym@m@s@O_@CqAV_ABe@CWa@{@@c@Ja@k@C{@\\Yr@W`BWZCTWGo@\\MLI`@[`@QJME]aAa@F]]SCK]D}@Em@[@_@PGECUFs@_@AK{@KDuAdBSr@Bh@j@hCB~@Lp@v@`Bb@~Cj@n@BNKDeAw@?h@a@xB@TZp@pAbBpBbDj@~Av@nDRbCBjKGdARVxClH@b@Lb@`BfEhElKrDfIbA|CRbAN`BDlBE|C@pCX~Ct@xCrFnO|AbG`Gn]LbAAvA\\hAxAvGr@dErAtIZhC@dCy@~GIdCjAtJXxFFDZk@rBsApAqAZw@RoANWbAm@x@YtAT|AGj@J|@EVNrBdFC\\y@t@",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.15,
+        6.19
+      ],
+      "country": "France",
+      "kudos_count": 2,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 15025606241,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Mb race enduro",
+      "sport_type": "MountainBikeRide",
+      "start_date": "2025-07-06T08:08:09Z",
+      "moving_time": 7799,
+      "elapsed_time": 25741,
+      "distance": 29918.0,
+      "total_elevation_gain": 2256.6,
+      "map": {
+        "id": "a15025606241",
+        "summary_polyline": "{g|vGi~kg@MR[D_@c@qCkGQcDiAqBi@Lo@vBqD~Dj@bE_D~If@n@U`AL[Nr@sA~CqAhGmYt_BDAIxGaJvIqF~CaCpI_DbDcDjBiGdAg@z@i@{Cm@?qCfFgAtIsBfFmBtDjm@tYpEmInEeGjAsDKqB~BAnBgDnDwDcExMMfF}@Zpa@lqBZV\\yAtBoC~@eCUoP`A}FLmD]kJ]yBQCh@Tk@]U_BhEkNv@q@RgDx@{AfAs@v@cF]kBdAoEZiCMiBt@wEr@_CpC{AMkDuBcGsD}F_@aB{@vAc@@k@mD|@_KHeEn@mBdAgANgAw@QiDrA}Ci@aA|@BuAj@uBs@uDVmLdEoJZNFfBb@d@bDe@fBhBbB?\\e@PgCUmEZq@vBe@lAzCt@aAtAd@^sGdBqB^_CsDuIcEqIWwBLcD{AaAeFoJmAsCoBaKoHwIuCsFwEkFmA}C]P}CvIv@n@aA`DiSliAeAjESOZpAwAbK}BrJ[lCN`C_J`JuF~CcBlGhB{GdEuBtCyCFlC?oAt@fB~Do@E_JrDsExBu@vCqE|A@`B}A?_@yA{@pBgCb@gBzD{@_BgHkAiBmAW_@k@bAw@@y@nAk@bA{Aw@sD^{A_@cAaAg@KiAd@]iAqBp@eApJrBbEnCzBxE`@rChDrFlApGg@rKqBzI_BxEgGzJo@|H{@vCsBlEcGtJiA^[nFkBlFsGhJeCNHbB_ArDqEbG_F`J_@O|@kFW{@}@lBwD|EWnBpAnJk@zCqAfBeB_@t@uCc@uBi@m@qEiAkCrAcA]IaGaAyIr@cJg@qD|@sCReCwAyJbAkBD{AkB}Bc@aDiAlAmBxDa@jF_A`DqEhJc@P?\\C]EGn@~AkAeBh@x@?_@Vh@_@s@`@pAY{@i@Mj@R~@_Bh@Fp@tB`BDt@vBdAQd@u@BpChApAn@IXn@dCaBj@jAdB?fFpCd@Kx@tBlANbBuBn@C@aAb@w@dI}CnAiA`@L?nAd@\\VCgCrDgAj@eFfJQQr@qEGmA[?_CzD_@CfAeFO{AlAsAvC}GTmDs@kGdB_DfCmBTaAEaCaAkGGeD`EcJu@eMbE_FrBm@bAeArAmCdBEfAoAhDMx@oA|@kDo@oEbBsFo@eCw@YUuD`@cEv@_@w@yCoBsBaBiDVw@c@UQsBPuAg@s@r@q@KmDs@y@XXV_@rAkHeBgAdB_B?eAh@?O{@l@k@b@aEt@Y",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        45.86,
+        6.62
+      ],
+      "country": "France",
+      "kudos_count": 6,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 14933447027,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Pass'portes 2025",
+      "sport_type": "MountainBikeRide",
+      "start_date": "2025-06-27T08:17:39Z",
+      "moving_time": 21835,
+      "elapsed_time": 33419,
+      "distance": 108627.0,
+      "total_elevation_gain": 6437.6,
+      "map": {
+        "id": "a14933447027",
+        "summary_polyline": "o`~xGwehh@yF`gAbQ}Jo@|CdE`E?`J_TbnArPjVvBpR`Qzl@_FjKpBfAo@nBbEy@cC`GpDsBmEfJqO|EeJxJkDdZ~CmFnDdPbDja@bCeBVjHfDcId@pNdDgHpA|CyAfNhGcFoB|H~EaCgM|T|CsBo@xEjMiMbG~JK~GbMeGvTge@dUqM~GyMiAxNoMtHjArDkBtEdCqCbeAj_ApAvAu@xG{KjBj@xPrOdK~Qh@rPfJfQcGnJhDxMhUtBnQvLbNaFpH`EtBnGtKBmCyEO_A_GcEgBqDnMgJhQpBe@lgAm_DiDhKkIhOd@nHyAjAdBjAoHpF}FrTiOmFdAlMmGdUkB?BpMlD`ByEvHbH_@aIz@wKzRuBbI}TqInWfMfhAoaDwT`HiI}JcPnBaFsDxCu@VwEqFM|EcD_DuD|AeBcCVfMuMSqVoTjJ{XuEyLaFkIaPip@~G{s@``@wG_MwAf@f@uDiHlIwq@s~AnD]me@mzAb@kNaNgq@qAqSjFdYjVpa@pJz\\_@|h@_H~NpBz@i@rBbEg@sBlFlDaC}EnJuZbRcD|VdB_CvAz@`D|NnCz`@`CaCv@tHxCuHj@tOhDuIlAzEkBhLnG}EuBfI|EgCkMpTjFGlI_JbGbK?tG~LcGdT{d@lUkMxHkMwBlNaMbHwDpLsIyO{h@_nAhD_@od@}wACoRoZqo@wE}q@BsXhI}[_CyCNgSiCqJx@yNuVy@q@kLrAeOdE{Hf@aYfSsh@bFs@z@mJsU~AgLhLeQfc@dAtHq[qkA{B[|BmItLkXgNtCuUna@@qEcD`D_E_DnB}NwNa@k@gDyAbAcHbMm^nWmXdAoHmBwQkKkAkC|z@agABmEqJxAlDpZ{AoCwSnEwI}F_CuHaQAwFyIVwNoCmIy[}JgOuV{ByIfE{P}J_DqFgU~CkTeRcGiI_JmDuTiYop@uFuEcj@}FaNvC~Jh@rQlPtI?xXje@eY{e@kI@uR{PkMw@lC_DqG`EbAvCjSiHnq@vHvScV}T_Fhh@cCvTaFtL}D`B{HjIoGhW~ItTbDk@oEfC|B_@wIkHi[wAmThmAcVpP}A~J`R`HwAhEuHnc@lp@g@cGjKkK`Ed@`KsK|GJcN_GxCmDyF?eAcJqEsFnObDsUuY~ZtCm@ab@qC_OpHpLdIla@pHbE|HbPjQCvOoGrFxSSxP|Ibl@dHrM|CnWjJrKqAbUtJtMlH|@jD~LlBqDt@hBmu@fyB`Fx@|MwMuL}EuFyQo[hLgClTzB~NkIxGdGle@gIv\\y]`r@wIzCoJzLaBdHvFvCaSbC_DzEiNhr@ta@iSV~R",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.2,
+        6.76
+      ],
+      "country": "France",
+      "kudos_count": 6,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 14893152158,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Via ferrata + canyon bellevaux",
+      "sport_type": "Hike",
+      "start_date": "2025-06-23T18:57:13Z",
+      "moving_time": 1904,
+      "elapsed_time": 3752,
+      "distance": 1524.0,
+      "total_elevation_gain": 56.5,
+      "map": {
+        "id": "a14893152158",
+        "summary_polyline": "snhyGk`{f@FVNXCC?FKK@C?DIA@CLFFGEY@GHGCCCBAGBCC??GC?AEECG??SEEDB?I?DC?BDEGABB?C?@CC@BBC@?CBKRDC\\Fo@DAENGDAAC@@ECBEGF?IJADBNDGICAM@DCE?FGEH@COBAAHH?BFF?FDBA@BACCTB@C?Jn@EBEIEAFBBEDAC@B@?BEBE?JIAVD?C@AD@BAEDC?EGABCF?B@_@FJAFJFC@CPGSFE?ACDAADHFN?IBC?BCG?F@?FG@AE_@BTJRYSDuAAl@MSA\\FH^Ef@OMD?JHBCIWHX@NB@ASBABIUEE@BHGAECHFECJ@DFAVIAGPG`@AEB?NNS@FKIS@BFIDVB@E@AVq@KB@LOCCBB@JKG?Iu@g@DBBJTJDL^^@DCLBPM^W\\Qx@GLETc@p@?JICAPF?GJOQDAJDKC@QAE?DBC",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.25,
+        6.53
+      ],
+      "country": "France",
+      "kudos_count": 5,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 14860342475,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Canyon de clevieux",
+      "sport_type": "Hike",
+      "start_date": "2025-06-20T14:37:11Z",
+      "moving_time": 1730,
+      "elapsed_time": 4356,
+      "distance": 1541.0,
+      "total_elevation_gain": 277.0,
+      "map": {
+        "id": "a14860342475",
+        "summary_polyline": "qhlxG}bdh@KNDi@KJB@BLABCEAJAGK?BKOCD?JD@TFONaAc@HC?JFBAB@?XGZCAv@@TZFRjPfDEHD?MU@YAW?e@CFDGE?P?JH?DAEI@OJAD@DHICDCCFGFO`@OPCCBCHGDEAHJCBGVGX@D@BJUBABH?NDNBMNLBN@GD?FJB?@OCVREJDFEBKJCCSMc@B@CK@EH@McAHIJFFMFFBAH]D@JAFJB??CF@FOBAH@XI?CGEEGE]JBF[HK",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.11,
+        6.74
+      ],
+      "country": "France",
+      "kudos_count": 4,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 14743702787,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Lac d'anterne",
+      "sport_type": "Hike",
+      "start_date": "2025-06-09T09:17:17Z",
+      "moving_time": 12808,
+      "elapsed_time": 17467,
+      "distance": 15624.8,
+      "total_elevation_gain": 1087.2,
+      "map": {
+        "id": "a14743702787",
+        "summary_polyline": "kl{wGywhh@pAfBZjBzAHnEpEjBHv@n@NvAn@z@vBz@`ArBvCpAXfB`BnChA@Ow@R_@tBrCnBdAl@bCpBv@Hx@a@_AZ}@nAp@^MThAHoBcAoDFqAaDwBwBkGA}@WYHo@w@WWkAYETaAp@_@r@PMc@t@Kk@{As@o@}BOLQUkAZ_@gAsBOmA|@q@kAeH[u@He@YiAX@WkA_@P[oAyAa@m@}BLg@[iAl@UBy@a@WUaCL_@o@mAB_BU[OyCc@yBn@sGv@mCaAiAy@{C_@GROg@r@~AoBgApAx@nAjCbCtDBTq@h@?|@eAnANH^x@a@nBDt@g@tAiD@{@hA{@Rs@XVn@wAjBgAb@yAvCqC`A}CfA[xDTlCqBhDiB^q@FgAy@oAGqAfAaAnAOlCcEV?^yBbAmA~AyDEy@QCGwD|@yCb@wBhASv@{A`@BUy@|@v@?}@fARpDrAXj@Du@PR_AmHI{FPeC\\IKy@NcAo@iBHcBvAn@p@Mm@iCViATLAi@b@KnBZrCE|A_AvAwB~@BMkAh@Y@cBh@_BtASxAhBIa@`A[m@JGZn@zAfAzH?hAb@TDp@QRuKyIcARoCbDeB?e@o@k@n@aBDSDQQ?h@UMUr@p@hDuCm@DrBn@hBUj@JlAe@SEhCFhFj@jBKdAf@xC[AId@[w@sDs@kAi@Lt@[Z?t@cAe@m@|@gAR_AtCK|@M|Df@pAIn@y@n@QzAkB|BWbB}CjEwAHu@j@EnAjAfBc@jBqBbBgB`@wB~AwFC@d@aApCo@XoAhB[A]`BgB~@Qr@uC|Bo@rCsAnBuATiE[w@bAe@?Un@wDOg@n@i@nAw@dIpAdIK`A~@dBShAz@jBWx@g@JZp@GnAx@pBrA\\?`@h@l@TSR~Ac@K^xAQXj@f@@`Bb@hAGx@f@fAeAh@~ApE[bA^@Ah@bAGn@XPj@`@B\\dBs@IFj@iAKi@x@@p@f@FBnAv@JOt@XX?l@n@fC|@|BpDrC[f@XF`A|F_Ax@F_BkAVMk@Ju@a@`BE|AEa@[ABe@wAkA{@uAQ_Ao@FMw@iAi@CcA_AFGq@Gv@VbAwAYyB{FsDcBgAyBsAIyAsDqAaAiA?mBqAOf@h@g@Ga@YFs@sA{AQa@_BkAiBAuA",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.02,
+        6.77
+      ],
+      "country": "France",
+      "kudos_count": 4,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 14733450326,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Pointe des Arbennes",
+      "sport_type": "Hike",
+      "start_date": "2025-06-08T08:58:42Z",
+      "moving_time": 13740,
+      "elapsed_time": 18334,
+      "distance": 16417.8,
+      "total_elevation_gain": 1237.0,
+      "map": {
+        "id": "a14733450326",
+        "summary_polyline": "cozwGsm`g@vBKtAl@vAi@pAh@n@|A|ABtBlAVh@zAp@?zAXr@Ol@`AvApBmAR_CQ_ATbAfAf@hAtBfB`BPx@t@Ti@dCPXfADRrDVK^qCZg@X`@IxAr@bB@p@LcBb@{BLFEbAd@vCLMPsD|@tCFSS_A^g@f@rBxA[b@nBLhClA\\h@b@FOm@uAL[\\r@JGa@gBZv@j@b@pBh@hAx@XyAXWj@IlBTl@~@`Bf@L^n@\\jALxClBLUk@oASsBm@m@FOnCf@x@hAnGxBdT\\dJeApBw@|@gDt@mB`CwBNmAo@`@a@k@VuEw@MgEdEyAHW[KsA}@k@Zy@s@DcBWmCmA{AeBiBaAZaA}@GwA{ARBAe@hAiFfGiTPyAKuCNQYKWmAfDuB~AsCtDuENBBc@^S\\}@nBc@v@gBrBs@\\[Jc@l@ADa@TJ`AgCb@@Ze@Tn@lAfAxF~BxE|@`G|BlBDLVzDsDhC}InBgEXMIo@jAJUiAPACi@h@BHiA`AqC?_BTw@NO\\n@L[fAO\\`@ZMDa@\\OBs@L@H{BO?LEM?D|ASvAe@l@_AQ_@d@][e@t@MUSNOhB[xAe@r@ElAYJGp@a@H?p@S@cAdB{BpEgAnEc@f@Lv@O`@o@t@uAv@s@N_As@oFcAyFuCk@`@iFyBkBsBSt@[r@_@e@UfASCIh@QUKf@OOa@XC^[IE`@SKCXmAj@eAfBqChBi@@Gt@{B|BaDzE}C`C@QeC}@gBQsBgBwCi@?fAZ~AlAxCZlEjAdGc@JSfAUAOtBeATS~ALn@_@Ha@|AYGg@P[d@Er@WDk@dCi@`@i@EB`CF`AtAz@Bt@p@pAh@|AUx@|@hB|C|@xIfAG~B|@F\\f@dAxDf@ZVlAsR?q@HiEq@oBqAkA@{AaBsA]cAN@\\l@j@dAnDGZuDyBoASaBkAsAaBmAZ_AW[No@|AqDeBqAqAt@|AeAW|@|AST_CaAWaD]gA]Q_A`@a@}BSlCs@_DOzBY~@i@eFQh@BlAm@dBGmAe@kBEeBs@nEc@DK[FcA[sAw@QMa@b@gCy@Ww@qAaAs@kA_Cu@c@U_AKNJ|C_@j@aAx@g@?e@k@GcALeAo@qCaFuBsAKy@oBuAQyAb@}@oAaBr@mBM",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.02,
+        6.56
+      ],
+      "country": "France",
+      "kudos_count": 6,
+      "comment_count": 1
+    },
+    {
+      "activity_id": 14446572730,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Sortie VTT le matin",
+      "sport_type": "EBikeRide",
+      "start_date": "2025-05-11T10:25:34Z",
+      "moving_time": 12956,
+      "elapsed_time": 16418,
+      "distance": 39970.0,
+      "total_elevation_gain": 1452.0,
+      "map": {
+        "id": "a14446572730",
+        "summary_polyline": "ceaoG}eoYhBu@tFXjBtBiAzUeBrDdAbFiAfG_ArAXuAaCe@sJdAuCwBiBKoAnD}@dAgHa@}@qBoAyKqBYkCxAyEcJf@`BUqAbBu@`BaGoBFb@i@dA`@zA[t@kAdD}@nCiBbBiE}DoA{B{FF{Bw@{ByBgCeBCYyAvFuBvHhHxLaExCbDlDbAEhCb@z@xBlArFT{G~C}@~As@fEDvNcCtE}BsEmFrDiAvVsHYmCiOmB[qCvAeEwIbDNR}ApIaFhGxAvAiA`I_LbD_IjBmGqDhFlBeBpAeD[eAeoCpYoByEHx@kCcAsByBOkAfD`@gCW?mJUyCqA_BeAnGn@eFeBbBmBaIp@iEa@uBb@{Bi@oBj@uB?yDlAeHnC_EsFrEkA|HwChI{EjB}DjCa@`@n@x@oCFeCjDiDlBy@~CmBE_BmBlAAbC_HrFmJoEfEmFh@iR{R}AiGuAgB{NoJqFwG[eCaBAy@kCcEq@vCTpBrCIsHkBkOsDcHuDoD_KcC{EzJaIwHgFy@J`AiBKBbB}AvAeDS[`AoDbA}B|BaAlEx@aC|@~AlBDfB~AtAi@pDHEzAx@vA|BWzAjC~@_BAoHfIbI~ErGdKvAzHw@|Br@bAjBGeH{BsP_FiIeD{BcJqAqEtJxA~Hq@b@qGcFcBz@Gz@zOdQtJzAhHy@`Cb@xAxBIgHiBiO{HqLkLcDaFzJkDmEwFqCmBcC~B`DmCm@cFRtAhCbGpExAxGfDnEbClAnDpFdEbBdQUlBp@v@jBTkFzAjK|F~GdOhJvD|H|GdBtGzElGl@pFcCxHVdHkBfDgDz@eEjGqFnGqXoFxU{D|IfHaFvD}NpHmIfAa@VxA`APpG_GoA|IuAx@wAdEwDlBzFn@jAdBBnAkCo@gFvGfClAiB`GE`EmHjAsBtEAfPx@~EfDlDhHAqGiO^cA_EeBmAzA]}@EqBy@n@eCiIwF_BbBwNfHoFjA_DfC{JjI_Jd@CzAbBlGwF{@nHoB`BgAdEiDxB|DPlBbC@fA{B_AuAxC}CpC`C~@cBtFCtEgHdAiB|BUdBDhQj@lDpDvDlGP\\t@s@~NyG\\yA{CuEkCq@sA^mCQiGYaDoAwAoB`DyB{Hh@}E]sCd@}As@}Bt@{GhBqIxBqCoFhFmAdHaDbIqL|GlAr@HhC_Ac@FhBm@e@wA|C|@dEtAt@p@~BArH`@JDiEpA{C_@ZS\\~ACx@`By@cBiDa@P~Jt@sIlBaArD|ADvCtA`GfGtDh@e@iDmHDsAlDmQfA]pCjAp@gF@xEz@hExC`DjH|@QtL]bBo@D",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        44.58,
+        4.34
+      ],
+      "country": "France",
+      "kudos_count": 5,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 14437244277,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Sortie VTT dans l'après-midi",
+      "sport_type": "EMountainBikeRide",
+      "start_date": "2025-05-10T13:11:20Z",
+      "moving_time": 10573,
+      "elapsed_time": 13728,
+      "distance": 34133.0,
+      "total_elevation_gain": 1648.0,
+      "map": {
+        "id": "a14437244277",
+        "summary_polyline": "}jsoGmbsYk@w@LoB~@g@@iC}@oAD}ArGWbFgBAcBlEiGQwC}DnAcFyBzI{ALkEgD}PB{AbFzFbCThDlEhEj@|BiAu@mE}BmAeBsEqHmDaA{IqD_B}A}ClBb@nCwCnLsC`G`IG`Nn@pALlEwDyG|BxD{@aGM}IqDoK|BqDtD}@bPc@a@fB`@\\y@zAjAxFI`D|@MNx@wBnEdBhCeA`@eKgFGdA`BlD{AnCCzGiC_C]{BJnAe@YmAkIEiHuDcK|B{D`J}ArFd@|GwC\\aBfD?wCAJlAm@Zf@QUv@nDrIp@vDOhBvCpGhBj@j@dFa@vCTvCaE\\kAvCXbBiAjBv@XlC`I`@}@MaBxAqBdEv@hBqCiDeCzAUcBaB\\aCcDuBmA_FoAl@gCq@_BgD_D~@k@hBe@BcDcAaGkD?lAzA~CcB~CJxFe@XyC{CaBmJ@sHaE{JnB{B@w@lEmAzDWrCVjAfEfCdEClBeAl@@rBcDz@HzBmDy@A`AdBtD}AdCBnGaDkBmAkCg@uO{B{G|DjEZbCa@bIt@vAF|DsAaDi@cOsDiKhC{DbEcAtCMlF^tGwCbFzK`@vC[zAhD`HrAJt@nEMzI{DT}@nCVlAa@hC`A|E~AbCBkCdByBzDx@pBqCqDgCfB_@mBuAHgDiDgBu@cEoEIiBgDyC|@}AlB_L{FClAbBpDaBhCTnDYvByGyHkBaHoA~DaEg@gCbB_AoIqDkBeBgDjBj@pCuCfCe@ClDi@`AwDo@Y}@qFxBjAjBQnDtC`CZvIxBnHz@vI}AzDTsDoDwQL}AjBbDrCtBlB?`E`F|FJd@gBq@{C}ByAgBuEyHmDKrA`A`CQpF`C|CfCpBrFAl@s@m@{DgCmB{AgEyHwDu@kIyDoBeBsCpB^~CaDbKwB`CsBZuArDaA|OKWlA`@b@aAzApAtFGtClAN@t@qAtCeAIFt@{DM|BrC|D^ShA`E~FpDf@QpDBhAZA[jBzBbJr@HAmCxAyB~Dx@nByCmD}BzAWiBcBXqCaD}AkA_FyAh@wBs@oBiDkEhDs@HiKsFM`AfBxD{AfCLzFm@`@eD}DqAgIKiHqD}Ju@f@BvChDrI}@xAmAnDuDs@uBtBkAmI}D{BaBaDpBb@~BiCjLsClC_E`EcAhFUjD^fHaD`EpJl@nESxAxCzGjBr@l@nE]~CV`BYhAeDFmApCXpAsAtFd@zEvApCm@dBcG|BwFJi@pDsBpA_N\\_DtA}BuGgG~FcTrCWvAv@jAH~CoAdCzAfB",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        44.67,
+        4.36
+      ],
+      "country": "France",
+      "kudos_count": 5,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 14427163069,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Sortie VTT dans l'après-midi",
+      "sport_type": "EBikeRide",
+      "start_date": "2025-05-09T17:23:25Z",
+      "moving_time": 4006,
+      "elapsed_time": 4225,
+      "distance": 18947.0,
+      "total_elevation_gain": 650.0,
+      "map": {
+        "id": "a14427163069",
+        "summary_polyline": "yykrGiotZf@G^w@~@e@vAk@p@AhAaAnBaAh@s@Rk@AUgC@xBFDi@Ii@}BwAAWbC^~@gAf@ShBj@f@E|@u@PyAe@yD_A}@S^QnAOCe@gA_@eCa@aAcFwF{AyBy@yBc@sBuCuGm@{@iBcEFWG?@m@p@}@Fa@cAoIOk@n@bEVkBKwCU}@u@m@VqGIcBQo@cAqAyBBEMTKSF[YA}@VuBWyEYmB{@_DWyB[gAmCyCaAmGy@kD_@eCqAeEZSZH[{ADq@\\sABwEo@oC@wA\\_BC{AeAkC}@qCeAaCi@kBe@sDo@sBDi@d@yAp@oF]oCGeB^sH`@mNYwD{@kIUkAy@u@aBCtBNSWqASGM`@iFGqAOw@mCgGs@gCeAcBw@iBTCPWj@kCe@q@YqBgC{GW_A?a@F?ELIKq@iBG{Ad@}Aw@s@W_Ak@kDHmBo@oAg@{AOsBNkB?gCIG{EhAkAGyA_CsA{DqAmCs@m@gC}@i@c@o@qAiAuAuBqEyBiA}EoEcCuAwAoBYQgAg@mCe@sBu@wCwAw@y@_DRqAu@{AkBD`@n@~AfBvBlBtF\\pCt@zBhArG~@|CdApFOfAyC`EwBlAmDrCSj@[nCN\\PDnBy@|@Cp@j@bAtB|AbILxF^hAdA~AT|AEzCXpF?hIOx@kA|CEjARb@`@JdDaA~@EfA\\j@l@X`BAfEIbC[lDXl@fCjAVz@[fDAzQYdBeAtCaAjAyBpAsExAcDrCo@hA}@bEmB~EGh@Dj@l@h@^Cf@[`BcB`A}BdAeB~@g@dARp@tAp@j@|Gb@h@f@\\pALhCf@pEpBfFbBrCt@p@fAb@dDl@b@QL[?gAg@kCEoANiBj@kBj@q@pAw@fA_BhGuM~@_@n@NVXrBrId@nFQjCsA~FKnDXjBzBvG|@lBFbAKp@}AlCcBpEeBtCcE`L}BrEUv@LjAb@jA\\ZfDVlBn@pCtD|@r@f@C`@]~B_ExAm@|BCjB\\jA~@r@~@fCbFtBtDb@jBFv@@fFRl@rBxCd@jBJ`CgA|KAtAn@`ApCr@p@^f@nAPlBE`Ds@lFp@pCHzALd@bBlA`AxBj@b@p@CdDmBt@Hl@z@z@hCZRnBPrEhH~CvBVn@AlAs@pA_CfAgA`As@FgCdAu@~@_EJwE_@M?ERWa@iBq@@u@",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        45.12,
+        4.53
+      ],
+      "country": "France",
+      "kudos_count": 4,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 14426093559,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Sortie VTT dans l'après-midi",
+      "sport_type": "EBikeRide",
+      "start_date": "2025-05-09T13:40:35Z",
+      "moving_time": 8485,
+      "elapsed_time": 10108,
+      "distance": 44533.0,
+      "total_elevation_gain": 1213.0,
+      "map": {
+        "id": "a14426093559",
+        "summary_polyline": "uhlrGiqtZrNv@hFgC_ApEvBlDBdB_DjDy@hDmGlI_@xGbLCzFdIzDoGpE~ApBxCfA`Gk@nPrC{Hp@_Io@kIvAsA|CvBzB`FSuB|@pBhHhG~C~FhA|G`AvA~FBbHyD`BlDdBjAtLXfA{ABsDg@cDx@eQc@iBuBiA|D{MmDyFfA}CJmEcC_Pb@aFUwOhAgMv@LjEhL`JxJrE{Zi@cAfEwE~CyF|GgWUwIo@{DlEbK|Av@bBg@dOoWdBoGL_F}AsDcP{FkB{AgBhJkBhAaJlAwIwCQdK{HyLgFaN_AeGGqK_C}BQaBi@n@qBKmI{BaBwAiAsCsA{NqBeKdAsDpBy@j@}Am@_PY{@}CeAuCeF|@gXe@qAJuH{AiFd@c@nBt@pCdFvDsFlDyAdAsFjGcFzBWrEwEbCh@pFtG`LeAtCmFZkD`ALfEuBrEe@fIlB^_Ew@wGGqQw@iCwHwLY}Ow@sGbCcSvAmBlAsEi@{HaC{MBaJiA_AbAhADrJpC|NZxG}AvEmAxAi@nHmArFhAj[~IfOb@rFc@lIx@rGAlDkApB_HgCcEj@iE`Cw@xLeCzIgAnKMvDzAxM{FbKsAlEgGfBaFre@aEbRmArNp@gKQrBTiAnAhClBKlHcDGuC|ByAHy@f@jAv@e@rA_F`CcDzDhCdA?n@{EbKcTjF_GfFUjAgCbCqBtA{DnEwDpBmD_Ax@`@u@xEaAzC^h@rDfAfBV_EU}Ct@o@tFh@h@VT~An@g@bC_IpB{AfAiGhCoDtBgA`EHt@iAzFpCq@kDjAyMb@VNfCdCg@j@kNdAiCfA_@JmDqCgIUwEiAdAgA{@y@gNsBiGv@uDDkKeBwHcBsC`AeHCsJvCiH`EcEfAaNqDcO}BkBFeCrAqF}BwI?iCyAcHp@iHkBaIb@}CrF_L|@}Ke@cC}EgEaJfF_HiChFjWcApJc@x_@{@rA}ItCg@x@h@lBnClCvAfIN`Lx@bFoCfKyBFkJaJUuPoAmB}@RuFjFkFmBwAoDyAmAoC^}@~Dm@f@oJiAeAdAvCjd@{DlI}@vMRzIjCbIlAnHfFfHxAve@oBhFqAlAoJ_FcHpDk@vKcCvBsEvNOdC|A|IOlC}D|FqC`H}En@u@hA}Ebg@qD~OiAvKj@dK?rLtApJhBbEb@|EbCfHCtGnK~KhE~MExGiAfDTnEyBxDy@lFyBl@qHmF{DbDkFIyH{BgG}DyH~FeGzBi@}@McGeA_GwAkBaF~FiCd@iEq@uCdD_FpAYhBNjKbBrLm@bEsArBwIxB}A|BcL~F{Lc@oAe@WkA",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        45.12,
+        4.53
+      ],
+      "country": "France",
+      "kudos_count": 4,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 13898202222,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Tour dans les Aravis",
+      "sport_type": "BackcountrySki",
+      "start_date": "2025-03-16T10:00:52Z",
+      "moving_time": 9848,
+      "elapsed_time": 13505,
+      "distance": 9998.0,
+      "total_elevation_gain": 1199.0,
+      "map": {
+        "id": "a13898202222",
+        "summary_polyline": "gehwGcoqf@v@eA^s@dBoFH[?UIc@i@oAk@wCCy@XqA@uAKoASyGASIM@c@YgB?m@O}@B]Nc@GeALiA?YOs@Ya@c@_Be@g@?Ub@gAk@m@`@u@IMi@_@l@g@USp@U?_@VH?_@PH\\EIa@bALJGC{@XKJe@A]VMOqAf@?v@\\dBBA_@_@cBGqADa@Bw@XLl@JEOM}@j@LZ\\v@RBIO]Gw@^?VN]sAZAVFTTKKGg@j@ZJLLb@AaAh@n@R\\XFBk@\\N?UB@VTLr@d@O@i@`@Ht@Wv@CIe@m@e@GS^EKOCyAWgBd@NIwAQYIo@As@Ki@b@LSoB[{@JGP@]q@PGQQJEKQNGQUPKUYAKHOQM?CZUZAa@e@HKXKVHTE@OHKi@o@g@a@eAQl@u@KC`@m@o@Bd@o@i@Bd@g@]@Z_@a@CVc@]@T_@c@Br@o@c@EL[ZQo@C^s@_@BDMVUa@FZi@S@NSNE]C@Eb@Oc@?\\Y]G@IVMc@@Z]c@GDMVKCAs@JKG?OJSXUM@b@o@WBP[Q@JYIA@Qc@MqBPM\\yA`BGXRJCZKHc@@I{@CgCc@kEAa@JGGMYaCA}@[iAc@aA_@m@MIO?EKCiAWiAHgAbAoBn@oBnAw@t@UVFw@m@?Cj@]Oc@QUpAs@a@k@TUxAu@KUs@YHQZKdBKRLRp@Tg@b@`@f@FFo@v@]IsAQtAsABYAKMaFv@QRHt@SbA]jAKLWpAuAbBq@pAl@j@s@|Ac@nB?\\M~Ak@\\cAg@SDkAbAe@~AQD]h@iAxDa@f@gAEGDWpAi@h@K?AHPt@eAd@w@jB]JCDJhAZdBEHDl@q@NSV?z@k@j@Jn@[x@wAo@cAHq@p@s@Vs@`Am@f@_Ah@aADwARJlBX~BIn@h@pAAhBBPv@vBOv@@hAm@x@Cj@XJHv@EJE`Af@|AVdCGHiAAM^o@@GJ[jAKHk@bBu@rCO~BMXUN]FMTJvAGbBTf@h@f@fBh@X^Rb@|@|Cf@|Bj@jAzAp@h@d@^JfBNb@Vn@LRRhAnBLJrB`@tBhAnCbCtDfGFd@YlA?b@H`@CJX`ALbAf@l@Xl@@TsChIaBtBo@Z[Z",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        45.92,
+        6.48
+      ],
+      "country": "France",
+      "kudos_count": 7,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 13757110434,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Solaison + andey avec le P",
+      "sport_type": "Hike",
+      "start_date": "2025-03-01T09:23:16Z",
+      "moving_time": 5845,
+      "elapsed_time": 6685,
+      "distance": 6810.0,
+      "total_elevation_gain": 459.0,
+      "map": {
+        "id": "a13757110434",
+        "summary_polyline": "wa~wGk_ff@?LC?II_@FOV?b@GVAl@C^?n@HbAHd@Vn@TVf@ZZ`@LB`@\\h@ZXZv@h@fAl@~@Tz@f@NRn@`@BDFfADdBJz@?x@Kx@@DITCPW`AAv@GPQXENCz@@z@DX\\d@P^PNDJ@x@LxAt@`EHDJVHBJNNHHLXp@J`@Nd@B?FHFWPFBEBg@BEBAXHNC\\UTa@b@e@f@[P?ZRJ@R`@@LATOv@CZIRALGNCT@JLPR@JHVj@Vx@RXJTLJPV^Zp@Rt@d@f@`@JBTILOLC?CBCPGPOVIFId@UDMTMJKPCnA~Av@\\TG?EFEJWNQVIF@FOX_@JUHAFSDAPYTUBI^c@BIRQNe@EOUa@EQ]UWKMM]MYAk@L]Cq@U[UIQMKOQUk@Mg@K{@U{@Mw@]}@[e@QOeAq@m@q@q@YMMDWJSJIV@ZJbAj@f@P\\VpAtA`@r@NDN?TMRa@FYDa@Uy@_@a@AISYKa@AQQe@u@g@UUk@UWSgBo@[COMe@QUWOE_@a@w@MY?SQWKSOU_@uAsAO[a@kAQOOC_@D_@L]AkD}@k@EW@s@CSKg@k@_@Mq@Mc@UMIEI{AcAw@c@aA}@{@k@Q[Yq@Iq@KEi@LOLgAj@gA`@g@BWI]@[LW@QHc@LS@UA]Q[Ey@FMIQLWKAKIGEGMBGJWSG?KJKZC??JQd@MHW`@YLYIIDY`@GBC\\IDKZKHGN[ZEJGB?DE?GNK@CTKCGXEAIRC?KNAJGJGDMAGTICINYFGHAAKPG?GBUVEAIHIBEFYFc@l@G?EFQHQ?K\\IFGPODIHG?KP]PQNB\\a@Nk@`@AB@DLZFXu@Jc@ZQf@?DHDBF@x@LX?JKd@KTGV?HH[IJ?CJWJi@?[QQ_@GGEAGPQz@c@EM?GPc@j@o@DUVm@TOHWPc@VUJOHYXSXGLQRG\\e@Vm@H[HM`@Kl@i@ZHV?JJH@HQFADGFABIFMVQF[HKFABIF?HMB?BIFCDMP?@UNG?ELIFMHq@DC?EBC@EJCTa@DMB?d@g@J@FELYFS`@e@BIFEJQVIRYNKHDNXj@]VWJWb@MNIZ_@Pe@^oBBa@FS\\g@LIX_@|@s@HU^g@b@WR@LTf@\\NRTP^n@NDJAFr@HXTb@VJH?\\EVK",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.03,
+        6.43
+      ],
+      "country": "France",
+      "kudos_count": 10,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 13631530370,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Tête de la sallaz avec Païko",
+      "sport_type": "BackcountrySki",
+      "start_date": "2025-02-15T09:18:34Z",
+      "moving_time": 6538,
+      "elapsed_time": 7904,
+      "distance": 8000.0,
+      "total_elevation_gain": 765.0,
+      "map": {
+        "id": "a13631530370",
+        "summary_polyline": "mx|wG_{bg@z@i@PSJQBD?DCAPIj@_@LOz@aBVYv@YTOtAkAT[h@c@`@g@h@Ud@WNQl@M`@GNFNPHb@BDJFdA?b@@BAGDgBCMO?JRF~@Ep@DPAAK[G{@a@IMGc@A{@MUk@a@k@QKI]c@Q]AS?sAJcABIDCbATDGEa@As@FCXBh@LAq@DAf@H^Cp@@UeA?i@NsAPc@B?JNf@h@Xd@\\ZPL`@NDEQMUq@Im@Ms@AWGSLkAH[JQf@[L[Z]DSPe@?e@@CGa@IQMKEWHy@CU@u@BQIgAOe@Ay@MeACw@MuA@_@No@Du@JYjAw@X]t@e@FMDQTYL[HEF?LGHUNMRCRXLXPHNPA~@GREZQt@HhAEb@@ZQtAH`@@p@I~AHj@H\\NPRb@RLNPVNh@t@Db@LS?CEg@IYHDPCXBBB?EB??KB?NTD@BJJDLX@|@GZ_@h@QL?BBLr@m@Pc@DAJLKd@e@bAa@ZERDXZ`@PL`@JP?|@O`@ANN\\d@\\V\\Nt@LXPXLa@kA?QNKp@EVGd@?b@Iz@?HCt@BZER?\\Cv@B`@D`@?\\BNcAFQXIdA?nA`Ar@L`BMb@Lj@BXQ`@Kn@ETF`@`@HDT@LAND\\GN@PLd@j@RJT^N_@Nm@LUXYh@a@j@cAHYXYVc@d@]b@Ab@HTPHRDl@AdA_@lA_@`AUnAMpAMPCL[`CCYX}A?QXm@PcBAYDaAGUMVAFi@IYM{BEKL_@n@MJ_BfAsA`@g@f@]@_BV}Af@K?e@Wc@EOPy@lBMP_Ap@m@bAO?wAZQHo@p@UjBQCwAZIAEFc@B[f@I@UXUd@g@T_@d@AFMP_@Li@K@TKKQ@Y\\MA?BCA@AI?GFK@@@YCq@HaA|@MBo@f@w@xBy@TYh@GBFHUFENCb@CACDU?CBFbAKD?DIBIVIBw@?SHAT]CI@]Yo@FGAiBa@}@Im@BQKs@U]S_As@q@WYC[QUC]M]Ga@FcAGs@Fs@EaANYNq@DOHUAUJcALEDSHWTSZq@Pu@^S\\kAp@DTBINI~CqAr@_@hDkA^Sr@OlAEbFJjAXpBt@|@b@n@`@f@n@",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.03,
+        6.57
+      ],
+      "country": "France",
+      "kudos_count": 8,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 13630283076,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Trou de la mouche avec Morgan",
+      "sport_type": "BackcountrySki",
+      "start_date": "2025-02-14T13:28:07Z",
+      "moving_time": 7724,
+      "elapsed_time": 9589,
+      "distance": 9051.0,
+      "total_elevation_gain": 1072.0,
+      "map": {
+        "id": "a13630283076",
+        "summary_polyline": "eihwGijqf@b@CBCIA@Cj@Y`@YVc@b@U`@]~@wAP]@q@JcA^sBFu@Uq@o@iAs@iD?QFi@X{@Ae@DYCgCGcCOkA?SS_AIu@Kk@@e@FUEk@A_AGM?w@Ik@[_@Uk@K]GkAQg@?MRc@De@_@e@GO@Kf@u@?Om@QEGCS\\_@m@e@GQ|@c@f@A[g@ZCXLH?WiA?a@JG\\AHIPEV?A[ZEUgAMa@h@MTOKg@FKh@GE_@SY?Gd@Ab@Zr@XHD@DB[EwAFi@HDd@j@NFBEIcARBZ`@E}@?gALDt@n@ZDK}@`@AC[PBFOJLCWQm@HARHj@f@Hj@hAlABK?m@FYNDLJRr@RLr@]f@Mn@B`A^r@j@h@LR[^K\\??E?k@K[_@c@KsApALCQKWTDTT?KEMLJJXB]B@DL@RFPFDDGReAAWZDRe@^Cb@y@Oq@Ui@E_@bAiA?Sk@y@QKEK?SL_@?GKGMk@WO[Em@FGCGYNm@NWhAiAr@YO_@Ic@k@kAMu@@QJOXiAJ}@DcBJa@PUa@q@OOAMd@i@t@SCIa@WWYg@a@Xg@b@i@PA@GSgAJMXEAKO[WOp@e@i@WZSj@ENDl@^PMDOQc@CULs@B_AHe@M@Bq@RaBFOi@@PqAkAJYNh@oBcALFm@`@}@gAFVw@o@NCCBKHUCA_@NO\\C?EQQLINK?BUEDSEMHPWIJJUMTC@EFFIQXT_@KLER@D@EC?BAONTg@Fe@ACWNEAkArAAJDCCGHBUFWOIMoAsByAsCIGOZUyASUsAu@cAEBZCLw@T{CAWVmAnCCTArAEd@Qb@e@TM?QG_BcAq@K_DzAMPk@~AQ^qBxAe@HWN}@pCiAzA@VU`AIAQ~ABxBA\\WnBC`@PnCGZMjB?XSrAAC]BMJ{@jAqAfCIj@IxEBpBLn@Md@GrALdACHFNTzADtBS`BDxBA~@O~@Cj@IHAh@K~@EtA]dBEf@LFHRAFWRSB[l@YtBa@fBk@d@u@TK?QXK`BLNf@dCJNx@p@hAb@Zh@RNjABRLv@LtAJJN@JLRX`ANTdAn@ZBdCz@hAd@LJNPl@`Aj@n@l@xAdAxAj@rAOLQj@C^Bb@Ld@Bj@ZxA^j@FB^l@@HETc@hAs@hAYlAaA|Bw@~@GRA\\q@Xa@X?D",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        45.92,
+        6.48
+      ],
+      "country": "France",
+      "kudos_count": 5,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 13571572360,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Tour a Saint Gervais avec Mylène et Julien",
+      "sport_type": "Hike",
+      "start_date": "2025-02-08T10:43:45Z",
+      "moving_time": 6481,
+      "elapsed_time": 6860,
+      "distance": 8464.0,
+      "total_elevation_gain": 502.0,
+      "map": {
+        "id": "a13571572360",
+        "summary_polyline": "uk`wGwu~g@LOPJH`APVHf@Hx@Wl@?h@~@rAn@P\\Zn@hAd@j@DLANEJiAnAuBxCUb@HNNERk@l@o@p@UV[ZDRAROLa@TQh@PBh@F\\?XV^b@Pv@Ob@?RQReAZUJQl@]Zg@j@U\\S@INQTIT]PIb@q@^k@IYXc@IC`@]Ca@Jq@ZIb@?LOZ@`Aa@h@TVAJPF@RMTLRCVVDRZB@KLEP_@h@UF_@d@i@TY?Mh@k@Nc@RYjBqAd@APi@h@OLe@XSf@{@Fg@~@oBLCNYXCTOb@_@Ry@?Kf@wCLcBAo@`@kAAGPg@TMAg@DKGe@OEWX[@m@ZSTo@`A]t@Qp@[NQI@QXe@`@iAZg@j@uAd@o@NEFSFGh@?\\k@p@GbBi@PU@UPSZL`@Mx@i@^IVYrAg@VYVG`Ai@VaAv@uAh@cBHOb@cBLwANw@Xg@ZgARc@t@sDo@c@M@g@a@u@O{@Fq@MMD_@Gk@H_@Ri@BMT[AISDYJEHOh@[EO@EKVMA@DOD]@i@IQMu@G]MADIAe@PGNQGUHOLS?MKo@DMTq@EQJEVYSWPUCQMEL@DIGi@D?FYJ[AA@AEDQCi@JEEG_@FWCKN]Jg@KSOWA[RQCEPYNAJKEKZKC?Do@]GBAHAINMCEs@GKN?DOC@BKDMVMEAWA?@DKJ?LM@QPUGKHa@DON?NkAg@y@FYK@`@OBeAIAYIIe@@UMEIEFMGIJWCAI\\u@t@m@a@Jg@CKLcAh@c@Ba@P_@Vg@r@{@\\KN_AHmAr@MNMj@c@TGLSlAK@Wt@OLQ@kAdAaAr@?TNKLWfAW\\BFKNDFJMZWVIVg@ZSh@Kh@]JITE?KLc@HIVaAfA[R[d@e@Ra@`@GAa@l@ICQPs@B_@b@c@Xk@p@qAx@KVK@Y^Q^kAl@WY]G]V}@HWVGC_@T_@Ak@Xm@BHPf@Db@XDNANKNs@HaA@g@ESLWCY@OJk@FMEc@HOXi@CILFAf@h@nBHPVREVJ`@A^ZTBNNLAJLf@Lx@d@t@RPVELy@Zw@z@_AJYR@NFFfAf@`BJ~@Pv@^TETLpARdCGn@WdAOzBDbE[fBBhAQ~ARTR?LGR[VaCjA_@p@yAfBq@d@wAPy@VKRANL\\?N{@j@",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        45.88,
+        6.72
+      ],
+      "country": "France",
+      "kudos_count": 3,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 13565545696,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Roc de tavaneuse et descente par le couloir NW",
+      "sport_type": "BackcountrySki",
+      "start_date": "2025-02-07T13:44:27Z",
+      "moving_time": 8161,
+      "elapsed_time": 12710,
+      "distance": 8450.0,
+      "total_elevation_gain": 1085.0,
+      "map": {
+        "id": "a13565545696",
+        "summary_polyline": "e_hyG}{_h@R?NMvAIRLN?HHJ`@^f@FRJz@A|@K|@Af@OtACp@Mt@AZBfA^tA?f@BXl@PhA~AzAnA`@l@HBb@\\Z`@RbA^TJAHIJ@FPAB@EDDAJC?JPCLFHN`@@LLJCNRRBZ?TXC@BClAr@Ej@i@IUE_@V]j@e@FKXGHQFBHIBWNQ@QCC?`@Yl@g@RO?IT_@\\Er@D`@EDAB?MIYH_APSLE?ER_@RDHKTE\\s@AMJUxAFVN@Cj@LHMP\\D_@NW?S`@_@IU?QFy@D@@EA_@@[Rk@HCJVFTB[FOFEDDBPLLFPPLFf@XCJz@Pq@FIRj@DGFsAC[DGCIBIBADF?MPRNHFQHHDE@OEg@DOB?RZD_@BA@DVc@BJCVBHJWB@Fh@NT@PF[AQDI@?Tv@?`@Gn@TW?b@LOJDBr@\\nABRFAJUDUJOHR@^Mp@BBh@]FHAVDf@PTXRVFpAKBD?RUbBENXDr@YAj@E\\GNBFR?NKEz@IZHDTSBLOxCCVYdAK@YNYj@k@t@g@|AS`AF`@PCNXZZHRXXNd@LJJRBx@FfANv@Dl@ANU\\QHHTIHF\\Ep@]TFNHbAAJJL\\NcAxATJFFKVQp@Q`@[^_Ah@a@^JTODT^k@VPP\\Pv@@PPLBj@ANVXGCTLCADb@OEXP@CFBDJ?BZZBFH@BEHAHDLVHlA?DH@RVCATl@NENd@GdAo@pAmBJGXo@VYBAEd@`Ae@?NGZYf@Cb@@Kl@e@b@kAAc@DCBKTeC^yAtBqDb@gBv@w@Vi@?Oe@s@Ui@k@e@IM_AoEKoAGKAA?DMPCEG^C?DBE?MR]VKBGHm@D]ZGAWNsAzAm@JUCyAiAMY[}BbBmBBi@@qFCiAOcAMwJKU{@_BQQ}@wAqBs@MOw@{A{@_AM]eAiBcA}@m@?s@r@Gn@k@lAa@Aa@d@u@\\GFOj@e@COh@Al@CDUIMLc@Lu@Fk@@]MYHS~@Bd@FGACSHMf@K`AWv@[`BOZIFSZMXETY^MF[tAMR@XETaCvBeAdAy@f@gA@o@OCI{@]aAcAw@mACOF_CRw@FEDm@CMGGBa@PSDADKZgB?i@P[DUZQ?WsAw@}AmBs@yAAYy@{ASSm@}BEa@JqC\\yC@c@?uCO]{AkBWCcBPa@x@CE?E",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.25,
+        6.72
+      ],
+      "country": "France",
+      "kudos_count": 7,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 13516557761,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Balade a agy avec Païko",
+      "sport_type": "Hike",
+      "start_date": "2025-02-02T09:17:09Z",
+      "moving_time": 5009,
+      "elapsed_time": 5440,
+      "distance": 7265.2,
+      "total_elevation_gain": 197.3,
+      "map": {
+        "id": "a13516557761",
+        "summary_polyline": "srfxGwnlg@POPu@@a@COD]HM?KRS\\cABBCAFO`@a@b@aANMXm@H{@Ic@^KIFHQt@WPYRo@BMEYk@aB?QFMx@Yl@_@LUCAFQEBPk@LQfAc@b@s@z@{@R_@BSJEp@s@N[TML_@j@w@VK\\[FSf@m@Nm@VWRa@n@{@ZOLQLi@C@?Ej@q@FQh@e@`@s@v@a@TSP[TGp@c@d@i@|@e@NQ@MJERk@f@ULY~@oAFSZSRQHSf@_@Xq@DWPW`@W^g@n@e@FQF?z@aAh@W\\]`@{@\\Sr@iA`@e@Zu@JOBSD?T[DWp@iATo@Jg@Vc@x@]TSh@w@\\UV?hAc@vAU^U@Ib@Iz@e@xAiAx@IHDh@KZJNAr@m@R[HGz@Md@e@PF\\?b@RVQFk@DGd@WJKT_ANiAFMRUZgACQFQAQHK?SDSbAw@Rw@NULIPq@LQJ?R]Fo@J]Ta@LEF_@TQDMNAJGN[HEFW\\m@Jc@Z_@HUJGJoAd@]f@iAJOZOBOAg@HOLe@hAuBb@i@F]d@w@FeAi@FYKe@^EH@XC^Yb@_Av@ACM^KH_Br@_@v@]^iAb@s@n@e@`Am@`@aAjAg@|@qA~@Yh@iA~@OVUn@QBk@CWPO?]RMCc@Pq@Ky@X[Ec@NY@Y`@I?MIWRSZ[J[Vi@NWCMHi@@AJMFBTDBADGBIIMHa@DGRGvADXIDOTE^a@VMR]JIHAJUAMLFNB^UZSLEROBEHE@s@fBCPEDSEk@PGN?BB?@KOPMd@Y\\KJKRq@d@Yn@WVM^m@XSRUz@MRI?GHVPFPTT@HYVGNOFWp@u@jAg@f@_AvA[VcApASPU^q@l@Yj@[Z]h@iAt@SNEJe@VeDvDOHsAzAKRm@h@UH_@Xa@DKHUf@c@d@]l@i@^o@v@U`@Ux@?XKh@@TI^]j@Md@c@`AGn@S^QVCCOVK^BJHBEFESIAUr@Ov@?z@GlAOd@[f@Wn@a@|BORUBSLk@NM`@@OGT@Jb@~@Hb@@\\CRc@r@[Nw@zBINFZAEC@I^e@r@Qf@?\\UVERIFCLOVIV@L[n@?v@SPKXKFUSW@WNYJk@@@NINRZF@BGIFDG",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.08,
+        6.62
+      ],
+      "country": "France",
+      "kudos_count": 8,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 13517375677,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "pointe de blonnière et pointe de merdassier avec steph",
+      "sport_type": "BackcountrySki",
+      "start_date": "2025-02-01T10:37:58Z",
+      "moving_time": 11140,
+      "elapsed_time": 17850,
+      "distance": 13672.5,
+      "total_elevation_gain": 1567.4,
+      "map": {
+        "id": "a13517375677",
+        "summary_polyline": "umzvGgkcf@GB}@wBkA}AWgAk@GQY^wCUsCDsAMqAWw@@_A]qA_@s@BO]UFGIDXDVb@GbBUh@i@`DIjCYJMY@gAo@kEGuEWoB@cAPaDs@eEEaAD_@aFey@eAjAwApAe@pASGKcBHkCZy@d@i@?u@g@}AW^mAn@W`@EEH}BIsCLeBQ{DYi@GsABSb@g@ZwCyAj@QMb@eE^I^Rr@Op@ZZ]Qu@jAMR_@yAqBj@S?[\\@_AiBZ?EYZJB_@]w@G{@_AgAcAo@J_AG_@d@WtAb@PKOo@?m@Xe@x@Ez@Z`BMUg@d@SwAqBCmA~ACa@cALMYiAoAsDE{@b@Oe@{@DUKe@b@MM[VOC_@RBGc@XGI{A^@m@qA~@WVLt@jATLTUEsCYsAEoAN]bAD?gA[WJa@BwAJ_@`@YJ[MUCi@oAF[eAO{BRcBKkABcCyA\\\\{A_AVV_BaC`A{GkD}@?o@TLu@{@?d@KNPhCVfDrACdABf@tA~@pAhG?t@TjBa@hA@XXJBjAb@fBPNN|@@fA\\p@Bd@KjAOd@]PiCf@aBBqD`AEXOLe@DwAxB{@\\e@dASdDf@tDd@t@@l@^`BYpCv@dCQbBG~CBRVANPF`@E~ASx@HTMbFIv@Uh@WJ?g@UFAe@u@RBs@Rm@[O\\k@NeAQs@cA]b@iB]EFuA_@MZu@y@YNc@WOaBJ^qB?eAo@@J_Bi@AAkAa@CIgAo@i@G_@YCUm@KoAm@Ga@mC`AcBaBaB^sA_Ae@|@}@oDyBJ_@e@IDq@y@YBs@Z[_@WSm@SMg@LCw@Lk@u@Ck@v@I_@pAw@fAF\\JrDhC~A`G~@zADb@Ij@^|B@lCJj@Xb@RlAQpATfABn@zCbDt@|B|@zAHhAC`Aq@zFNr@f@n@VbAWvDBv@V@n@d@X\\Rz@r@LDj@z@@ATR`@VJ?R_@\\I\\F~@Xx@LpCGbDD`BjAP@d@x@[d@jCEd@k@v@Mb@KvCHzAz@sBhCiCV?C|CZ|A?zBf@HRj@VlHd@bAK`A\\nBHnCM`BTrAOlB@xBp@tHEnAp@hDJdAKFDhBQjAZ|CBlDh@vEA`BJNJMFkC^iC^oAOeBH]fArBXhB\\pK[nCRVh@UVr@LhAj@j@DZ`BxC",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        45.85,
+        6.41
+      ],
+      "country": "France",
+      "kudos_count": 6,
+      "comment_count": 2
+    },
+    {
+      "activity_id": 13486309712,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Journée peuf",
+      "sport_type": "Snowboard",
+      "start_date": "2025-01-29T09:43:43Z",
+      "moving_time": 19557,
+      "elapsed_time": 25886,
+      "distance": 81830.0,
+      "total_elevation_gain": 9466.8,
+      "map": {
+        "id": "a13486309712",
+        "summary_polyline": "yo~xG}plh@lb@co@AtAkCzAuBxEmRtUGfGts@p^eI~IcIrO{AvIsFnNkHpE}E|IwIoC_ApDoDT_GiJwLf@cBuDqHcFTaGdAkCuBgDG{BtBcEfgA{`BqFjKqRlUw@zCbAdDhr@x\\gBhDyBi@_AeCmB@a@eIuDcBaLlAsFkGkCkH_Cg@`o@~]wCpDuACaAwDsBe@CgHwEW[iAuJx@yCyBeC}JuE_Bxd@hTpIjG_@fB}GpG}ItQyAbLgB|EdJ|IlWoGpH_EjA}Ec@_Pj@aA~gByOT`JoGdNw@vKhE?|BtBdDrIZlGwAxEyKbKqB~Dc@zDl@jN}C~TqMjIgAq@wEtAsExFmDl@FbB{ERqI~E{NbNcKlCwKuC_DcH^q@i@k@x@HaB[pAXVzAZ}XrCsX~Bce@MkLnA_YcBtEa@yTb@mEpgBcPx@nGkAlGyErHo@xJt@pAcFtGuCdPiDfEo@`FuSjOsCvK}JwB_CtFqEvD_J~MaB{@PnE~CtAcGxKTzFeF|EcJnGwAy@kCaHX}@vAz@Oub@vAqO~D}fAy@p@JuYnhBsOPxIkGnMy@lLxFVpBzBlCbIpB~R_H~L_ExV}DpK_JlJmHtC{Da@uHbIsCGkApEuHOsChEwT`QoFXg@eAeKw@wCoHn@c@_Bs@bCaH\\yEvEenAj@aXaANj@a[vgBsOXhJsGhMy@lLvEFpCjCvCxHvB~RsCfEuF|SaAvPcOlOqGfC{@tBuLrBmAdBqAi@_BrAyAbDsE]}V`UsKdAaK}@gDaJrDJqD{@xCmQG}StEcmAp@aByAS@{Uh@eCdgBuOZtJsGxMu@vKtEFvCdDvCtJ|AdRiAvIeHfLkApQePvPqHzEwCfAmHh@g@xCuBkBcB`B]vC_DWiElBeEjCeQ~NmFn@mK_BmEwIfAJ?yj@|CyBhB}Me@{Nv@mML}w@ngBaPf@jCUtGaGbLu@dL|EJxCnCdCtHzB|Oo@zOuHbIsAxNuJnKsAfDaGtDuCYgHxCqDjE]zB}AmBaCfDoJuB}C`EiDrJsHxGcI|BaNaB}DmI|@^rGchB`@eOq@}@t@wMg@cJbhBaQXnJgG`M{@vLxEBfC`CbD~IrApLQbO_IxMk@rMaGfGuJrCiGpFsCh@{InNaBiBeBdB_@pCqIZ_W~TgHjAuJkBuEqIxAo@kBEl@Hh@oC|AeYfEaxAiAg@t@iImAiVsg@vVgGxPkHzC{CrG_B`AcA_A_AjAi@wAqCo@sCrFyCsBcEwHsKrAwEnJmCxB}BxH}@eBIiFyEh@qB}D_DzA{BiAuCjNo@`Co@JjAvBKjCuGhQqBr@",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.2,
+        6.79
+      ],
+      "country": "France",
+      "kudos_count": 7,
+      "comment_count": 1
+    },
+    {
+      "activity_id": 13456459920,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Tête de lindars",
+      "sport_type": "BackcountrySki",
+      "start_date": "2025-01-26T09:21:18Z",
+      "moving_time": 9085,
+      "elapsed_time": 11841,
+      "distance": 10564.0,
+      "total_elevation_gain": 1225.0,
+      "map": {
+        "id": "a13456459920",
+        "summary_polyline": "e|wwGqgzg@h@a@L[@QLMPCLp@LP`@]HXHSVATSH?Ba@FFN[j@YF@Vx@PZD?H\\HIBNXDNOHFNj@PURm@Zk@V{A`AwANBZ}@D[pA_AHQBOTa@Li@Xc@VAFZJKHXTk@d@[HD@\\RbAHJLGr@wBTcBD{@NiADgAKu@BKIWBOLUF_@JX@E@w@Lg@VaC^g@Vs@NkAPa@@w@^_@HJNODNDOD?TbAJZTBDTXQD?PX\\Cv@d@VfANzANZJ`@JLb@cAh@{@t@gBPLTEb@]R]HX~@mCl@y@\\nANBNGTa@\\_B^_AZb@\\\\l@Ft@wCXg@b@@l@r@RLJAFa@XcA`@DHGN_@p@oAj@k@f@[p@{@p@qAJ@PT^i@l@kAZ_@^CHIL?TIRS\\n@^k@JGN\\D?\\c@JCNJb@YjBc@pCY\\?DF^c@p@WhBFxAQVKnB_BT]Rk@FAIs@[gAJWh@[N@lAbAL@F?DMP}@VFXXJ@`@c@NCJDP`@n@Nd@[d@RVc@h@XVa@PBHEPc@BAXTVk@JCLSP@PIRWl@Y`BYn@H^ILKHSD_@NIVBDR?Pf@VLPDLMXpChB?Ly@~@gAlBl@V|@h@RTHTIVUX}@fBER?PFTf@x@dAvDr@vARr@TjAl@lBDPFpBNb@j@bCGb@\\HFLIZl@d@M^f@^Sd@^RO\\TNK^\\TS^?F\\TAJMNRFAZ^d@l@b@Zh@~@n@eAq@e@sAm@aAkAaD_@wAYe@}@cDa@oB}@iA]h@MhBGN_A^}AJa@I{BgAeA{AWo@kAqA]oASB}@[kC_BwBw@eByAe@kAQGyAPw@ZMPo@RaCqC_FyD}A_@c@CAEQnAChALh@Xl@Ob@sApAQVk@pA{DzGm@tAo@lBKnA@f@VlBBrBAPgAbGy@hCg@nBw@`BqAl@]WQ?k@l@k@VeDnCuA`@UTmAlBk@zByBfD_AtBuCfBu@zAMAa@bBm@jA_@dACTm@b@KK}AFwAB_A_@CK_@O}@XFMU[e@SMFc@tAUjBIzA}@hJe@rCQ^iBxB}BfBSD}@yAEaAK[Wm@y@cA{@yCG_@RoDa@aCU^u@r@g@Pa@Ca@e@oB{C{@m@i@U_@]i@gAs@eCy@sAo@cB",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.0,
+        6.69
+      ],
+      "country": "France",
+      "kudos_count": 7,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 13450059120,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Aup de véran par le passage de grenier",
+      "sport_type": "BackcountrySki",
+      "start_date": "2025-01-25T14:45:39Z",
+      "moving_time": 8101,
+      "elapsed_time": 10175,
+      "distance": 10478.0,
+      "total_elevation_gain": 895.2,
+      "map": {
+        "id": "a13450059120",
+        "summary_polyline": "acxwGy_zg@VQpACP~@Hz@f@fAc@hAFnAVTLGNJRQLDPPDLAh@^\\ARj@HAPPRAj@VWXADNEj@PlA^ZZGDKCe@LG\\X?PHIHT@N~@n@\\IZNCj@k@nAG~@Qb@ObEP|@Kp@ZCCLTZ?f@Tz@CXTEHb@H|@Q^Jn@ONHr@Ps@v@NBVH@SPJRVO?Qj@A?SFEDZEh@_@XFt@EQILATd@h@B]Za@^w@FBAd@JTDSGYLQR?HZf@EIjAPf@E~@Dh@P\\Bp@L`@`@dAPL?VZKJRDh@ChAJx@LD?\\t@hBrApABRNCJZp@Hb@lANs@jAi@v@o@p@iAhAl@DQ\\MX_Ap@c@dAKJt@v@bAR_ARDP\\^FLMNDh@c@Ta@h@LECdAqB`@DbBmBdA?^]H{BCuAPoBJwFKcAUuFk@yEZCGSCsAR{C`@kCj@eBl@kDd@yE?g@`A_CN_C\\sB?a@JaAb@o@P}@d@aAhA{Fv@aAf@GCFJBLK|@yBJu@\\yHRcJOq@EsCJ@Zl@M_AR\\AgA\\KHuA`@sAt@gALi@`@U\\g@Ty@vAqBh@a@^u@V@PMt@XDRJGl@Gf@Xd@ERTr@DV`@Ql@Zx@GX`AAb@b@Pn@Bt@]^X^@ZTl@CXPDq@OAPDTRJBZTHNv@cAI]_@Y^kDd@o@r@NAHV@tDL`AHaAJWT_@HH?PJIVdB~AdEpAzDZpBRb@z@lLXpBAzAJlAEd@DG@LAKW@u@|@k@Y[}@STY[g@BWSSf@m@Qa@LWGS_@[LESUd@W?mAf@a@}@KuAtAwBDe@Oa@iAFUNeA~A[VUQO@u@ZgBTg@_@q@BeAr@[Ae@Zm@N_AYe@Js@`A[?ILu@tBy@pDiA`C[Ze@QFB_@vBkAhDe@t@c@Hi@h@]pASHk@t@Ix@K_@ED@f@l@xADRGJa@[}@Q]p@iAJu@[kBaCKc@aA_AYs@u@u@yAm@Sy@Ai@PeAWQ?YOc@?e@YQYcAg@b@k@Kq@fAs@jCgArLMzB]lBo@jBYF]r@]T_@EsAl@q@~@ODMEIc@N{AE[Wo@o@m@Yk@qA}El@mFScASQo@vAg@|@{@N[a@k@{A[a@wAyAaB}@]iAw@iB_A}Aq@eBc@OJE",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.0,
+        6.69
+      ],
+      "country": "France",
+      "kudos_count": 8,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 13395087261,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "rando au lac benit",
+      "sport_type": "Hike",
+      "start_date": "2025-01-19T09:37:05Z",
+      "moving_time": 5668,
+      "elapsed_time": 6750,
+      "distance": 6997.5,
+      "total_elevation_gain": 451.3,
+      "map": {
+        "id": "a13395087261",
+        "summary_polyline": "km_xGecrf@OCJB?EGIE]IECKG@[KCBGACE@]HSNKFOPCBIFG?KDC?GHKNCHQAAKHSGi@CCAIWOKa@w@YGSWCKSg@Ee@DUFKJE?GFIVKHYFGN]?ECCi@ECKIMEU?WFUHMRk@NUDSDI@MJ]N[VYFc@DM?OPW@GHGHc@Na@?MECKs@@KDQ@KASEQJa@RM?QCUBE?INM?OHQHE@KP[\\]BUJIBKCCf@a@KEWg@G]?SGWDe@DI?YDUNQT@BEXA`@LFFn@RTLBA]WAE@CAIIMDs@HUNaAJQLc@XcAFc@d@eAZeA^w@^g@zAiCn@o@NGt@OlEiBt@Ol@S|EwBh@Q`Ae@l@Q|Ao@b@W`@O^WFBh@m@Zi@d@g@Zw@FGVEzATjBNb@P^Vl@JRHRAPKNQNE\\Wb@QfAy@XIP?FEHSIi@ByAVg@JK^aAJa@B_@?e@IsAPKb@?b@EZQHIVEJM@IBCIIAKLARKLLp@J@FH@?PF?Fd@N@FD?JJRBLFBBJH?DLLTF?@VCRJBLXDRCXFA?JB@NB?JCNCB@JBD?PL@?LNJPd@@PDPDt@FT@b@YvAMHD?F^?PIt@D^ATDV\\h@Hh@LR?FFFJDNPBJJFBVHNH@JH@PDNALFHBJp@D@LETBPW^ADG@ILMDC@MMKNMJ@VBB@JFBNVH`@DFD\\SZs@DDNC@HVCPFJL@b@RJCx@@\\E@EI_@HREBZPHEDH[e@MJCCGDIEKFILEAF@C@BJD?LO@EEZCj@CHYDc@GKQEHEA_@_@QQWk@s@k@MUiAa@SOOS[Iy@]_@Aq@S}AQe@]{@sAkA{A[Yi@s@e@g@OWWQOSk@a@KKqCcBo@s@}@m@u@o@]Dc@CQDQPIRDNSVSPEEIDi@v@[^YNaCv@_@RK?_@RaBj@mEnBo@TwBj@qAn@kA^u@b@{@Vu@n@gAnAyArCg@fAc@pAFp@Ef@y@p@mBdAKP@\\MPBLAT@j@JjALl@RZCJGNYPc@^GZSTGPCJ?LEPAv@GDK`@Kx@?XOT@r@AN?ZOVOd@MPE\\Mf@EZCBKVC@G\\e@bAMb@ILCP?LH\\PRVNBH?HENILi@p@C?KPQLCRJv@DLRNVHJXH@PTLFJLJ`@@t@FJBLCHa@d@ANJNd@NHDBF@LEZDf@EQDH?FD?",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.04,
+        6.49
+      ],
+      "country": "France",
+      "kudos_count": 6,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 13391711031,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "aup de veran par le passage du grenier",
+      "sport_type": "BackcountrySki",
+      "start_date": "2025-01-18T14:52:26Z",
+      "moving_time": 6229,
+      "elapsed_time": 8820,
+      "distance": 8733.3,
+      "total_elevation_gain": 842.5,
+      "map": {
+        "id": "a13391711031",
+        "summary_polyline": "{`xwGi`zg@VEv@l@BTEfAp@b@PX`@`AT`An@|ARPn@Nl@d@T\\n@f@Tp@\\|@PVXNZ`@VCNo@`@q@N}@XITTRdAQdAEz@QZEnA\\^?VDFHx@LPT`Ad@`AZlARNCDBj@BXGX?ZNLRC\\m@\\a@fAk@\\@BMNK\\o@b@a@j@cBLQT{A?e@Jq@AKZwBDI?_@LgA@}@Ns@BkB`@kAAMZiARYb@Qp@FHNJDX]PoAAgA]oBAs@]w@C}ARAr@[^`@TSJ@n@l@^n@FTH@Pq@X}AZc@Rq@r@kATOV[\\y@Z{Av@gAp@mAVWJ_@^k@Rm@ZKTWJ?Fc@JSH@HZLWJs@HFb@`An@cAPi@PUDq@LMRo@b@@VUJTLWt@UX}@n@qAXI\\_@bA]ROf@iAr@[JQPaA?SCBEi@?eBRcANWPGD[dBJO{@REd@m@JXF@b@u@`@c@\\UVe@ROb@{@~AgB`@Mh@LREz@eAJCdA\\r@@^Jf@Bt@d@FLCp@Nn@^fAZ`@XlAn@lBH^[B`@|@Jj@KLu@CWOELKBoDl@[VM^CVBL`@x@^vBbAtBr@|@Vf@n@|Bl@dATbAV|ABx@T|AVtERtBLt@B~AF|@?vA?x@Mb@HwA?]EKKLWx@o@NQMUw@Y?O[IAMT[WUBq@a@Mb@u@HYUSq@IDe@bBQCSL[@c@c@WPK?KSEa@B{@Hc@f@o@b@w@F_@Kc@EA]Ls@z@m@\\CKKEOAQLa@YM@o@VcDr@o@?{@r@m@?gAl@q@W_@Fy@KE?Y`@i@Y[?END~@[xAEn@{@~CYlA]X[HUAGLYDQv@IPw@h@c@lAe@b@KBKAQWKAWp@m@v@SLi@Cu@c@MHEVQXw@sAWWEZJ|AONiAs@a@g@_@s@]?YHUJuA?MM?c@Ui@UYa@IEk@ISYMQi@[IYBYZc@v@Wx@]fCe@tFSvAMdCWtAw@dCgArAaBh@gBrAKEKc@FuBIy@KWs@{@O]}@iDEa@?eBZsB?w@EMIOKCURe@~@a@f@i@PSG[c@u@uAeC}Bm@U_@]yAcEu@cAaA}BKCEPIDEIQDCK",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.0,
+        6.69
+      ],
+      "country": "France",
+      "kudos_count": 5,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 13403442327,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "balade à Agy avec le P",
+      "sport_type": "Hike",
+      "start_date": "2025-01-18T09:16:27Z",
+      "moving_time": 4425,
+      "elapsed_time": 4856,
+      "distance": 6945.5,
+      "total_elevation_gain": 193.1,
+      "map": {
+        "id": "a13403442327",
+        "summary_polyline": "cvfxGqllg@GRXOFId@]FBNKX?RSLo@Dq@L}@R[Vm@F]Xc@^c@V_AC_@Ky@@WH[LOVKj@Ab@GFEXe@H]@WIg@_@eAAMFWv@]f@a@LQJ[Hc@FKxAo@Xa@f@e@`@_At@}@P[POBKZYBK^_@\\e@XOLWHYRE?Eb@y@BM`@s@b@g@?GLKFOVQLUBQZ[DKXQNSNO@QNWVMLWJEFKLGZ_@p@QTKRO\\a@TMFMPIDIHGNGVg@@INGFUNGPOBSNSRUJGNWFABKPO@WZWJUJGNc@HGNULIDKn@]X[FOPKLOXKPOFIBSPSpAiAFIHWNSLEDEl@gAZ[d@q@^_A`A_BRy@JMNi@R_@PAVO\\K@UHMXYPWPOLC^Cl@MVATBd@[LGZUr@O^]JGVGXUp@w@JAh@DVGZ?f@G^U@ENMFIVSPET@l@_@HA@CN@BCLAVBRF`@@BC?_@HSJO`@_@NWLiADOPUPODSFGFO?IDY?_@Ha@CY?OPQLCHS\\GPi@^e@?YJKJa@LQDST[DANgAPO?OTQFKFAFG@IFIHWTUBQDCFU?[DCF[DEB?@GBCFULYHILCFEBE@SDKVUBSDE`@[N]BOBE@YCy@BWDA?EGm@Do@AEKAEBCB@FY\\_@DADE@S^ONEJQR_@Vw@VGDe@r@Sn@MTUNUV_@ZIBUZQHs@dAWVOF_@^]T[JYDWHQ^g@p@c@^WHWLu@R[?]MGB]DGFWEEHi@T[DYZKB@HI`@WLONIF]r@CLC@S?WK_@FKC[YWDGFQ@UJALGLS|@@TQf@C`@IHOFQPO@AJBP?FQ\\m@l@MEKDQ^QRKHQFAJQVIj@KJm@^IJYTM^YVQ`@q@j@QTO\\a@f@GL]ZQHMNe@hAMNTTFPBNCZGTu@jAKTSRKRe@h@q@bAmBbCw@|@k@d@cAdBWX[Tg@R_@\\OJEHWRKLQHW^u@n@c@n@wA~A]d@IDe@d@MJWHo@FgAzAYf@w@t@q@t@]`AEx@Qv@ARYd@Ob@UTUxAMVUTKPQh@KNSl@Ml@@t@E`AWdAQ\\Qb@_@dBOVa@b@QLUFc@X?^L`@Vp@BN@ZET_@v@KFYJGTCPYn@Kb@KNCJAXQb@KLM`@U`@Qr@i@lAGZOT@ZIXIJOLUXEBW?QJGEm@NSCKDBPMnAEL?LB@",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.08,
+        6.62
+      ],
+      "country": "France",
+      "kudos_count": 2,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 13380453754,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Sallaz avant la nuit",
+      "sport_type": "Hike",
+      "start_date": "2025-01-17T15:11:55Z",
+      "moving_time": 7605,
+      "elapsed_time": 8368,
+      "distance": 9162.0,
+      "total_elevation_gain": 732.0,
+      "map": {
+        "id": "a13380453754",
+        "summary_polyline": "}r|wGs_cg@~@}AbBy@FQtAuAVIf@q@vAcAn@Kz@@NJXx@`A?RIx@@IG]Lo@YQS?c@Ok@?k@IMDAg@k@m@OY]I]OKMm@KSCy@@sAbBl@HKh@^TDa@_AAiAl@ZVEZBOc@EaAh@REo@RHCi@B{@TUFShAf@z@t@V^b@NSq@IMIiAMc@Gq@Dy@Pw@j@m@h@u@N]LGJs@Om@YKMa@Lo@DaAEc@BQCa@]sA@]Q_A?iAMc@AgATu@J_AT]jAk@JOtAi@Pa@RQL_@TCB[PMJ?Hn@f@`@BZMz@Uj@Cd@Hb@@h@ARKJAdAQh@TxAEv@BlAb@|@r@p@P`@n@l@F`@LEBWWeAi@a@OW?SDKF?LR^?|@Vp@xADPM|AS\\UNANH@FOt@o@JSHDA\\Qd@a@p@i@d@?XHNf@h@r@PhBMl@z@bA^f@@n@b@BKSYOg@@KXI`A@\\Q^BpD_@vAFfBSl@HfASbFj@RJpAIn@Op@B`@JDGR^r@RjBQ?R\\`AVeBZo@FAHT\\U^kAp@qAAMJW^c@r@Sz@Fd@^X~@?f@Q~@}A|D_AjG[|@GQl@}Ab@iCPcBn@kDVu@d@q@Qi@i@k@UMk@@s@Ts@`Au@dBYdAQLMSQXa@Sa@p@yAOa@D}Ac@}@@yAXk@BWKgBKgB[m@DWJu@MgALSCUJ{AA{A\\oB?a@TmA?KHTZNd@INg@]mAWg@c@Ua@UC_AVmAWk@y@A]j@s@d@iADWGC[f@a@XQC?GRUNq@Fu@Gc@[w@S_@iAQSYCAELPb@\\PLRPhAEZKBQg@g@u@sAoAQ[Ia@@i@EcBQy@T{@C_@J}AGgATq@B_B[_@Gg@GCWl@UPu@fAiAd@aBhAMTK~@M^Cv@Lh@AxAPfAB|@Rp@HlABt@MbAJVNJNTFl@Kn@YXo@jAs@b@UdADnAZfAJt@T`@CNq@Ws@s@OCS_@{AjA?`AeAkAE\\Sb@I|@GAELGbAa@^o@B]p@AtBNJ\\j@n@Fz@t@R^KjAR^fAb@JPCLm@Ki@Jk@GIGE]U_@i@VEEkA\\[Za@Lq@d@g@r@qBvAcA`@[\\cAlBoAbA",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.03,
+        6.57
+      ],
+      "country": "France",
+      "kudos_count": 6,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 13264451800,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Ski de rando a la chapelle d'abondance",
+      "sport_type": "BackcountrySki",
+      "start_date": "2025-01-04T10:55:43Z",
+      "moving_time": 6082,
+      "elapsed_time": 12613,
+      "distance": 9307.0,
+      "total_elevation_gain": 955.0,
+      "map": {
+        "id": "a13264451800",
+        "summary_polyline": "ommyGw{jh@BAOK?DZJJHN\\TL`@A\\DCCVa@P?@DDAHO\\UHQ^UZc@h@c@TKp@o@LQPCJEd@BHCPDH?LHLPFCDo@H@NJV^DZEP?JDDGON[FSAEDO?g@NFRNLbAHPPLb@JDPFH@UGy@DUP[FCFXPV`@LLJTLHH@IIa@DAj@XT@\\GJGN@BHE^Ff@T]La@J^NHNNHP^sAHGdAxCJhADTJ_@F]\\eDFaB?c@Eu@JFXd@L`@Xp@CiAGkAEUAi@dAnAXJJHHN@A?e@CQIUA[BANBDA^a@@QFMf@a@z@e@P[Xy@Zm@|@wAj@k@LUF@b@~@^o@FIDPTj@f@u@N`@FXVi@Nb@N[B@H^LUB@H^HKPe@P|@Vk@Rz@Vn@XgANULl@Ne@Lh@J[B?Ph@H]@QHHBJR?D]JZDW\\@DMTBBFIPoAv@MDw@JeBAmAc@U@cBO}A_Ba@{@sAaCYIcBTiBbAgC~AQVi@dAYJWB{B~C[\\q@zASJoAHCAFKHEC?CEJKSZaApCSNyAVJACCHSFDZGJ?B@JAG?k@bAMDqA~@]f@mAVK?iC|@SBcAd@k@EJLBACJm@d@GBMCIIPDIDOBeAIIDs@FIAq@@QGkAo@KUEiACGBAAD?ECCBB@CLEF@C@@CACCBAJTL@AFHJf@XFP?@C^FFYJMRKRPA?BKd@]FOb@_@DOLMz@a@FMJGJSRGJMN@HIp@CHET@HDJNB?JQCCBUF?NTJDHT?n@@JFDBUJSDW?q@BAJ@JHJVDv@RJ@DC?H@QL^Ab@JC?HZ@KKcADQDETi@Xd@EF@B`@PXTLODMNFNJF?JBXBp@AFjADKXWCHGUU?{Ap@MLg@dAC@a@AUDcBd@S@k@_@@D{AWQD{@ACL]r@m@Dg@XwAPqADoBSUGwBw@gBMkBz@MPoAdCa@l@URo@Rc@TiArAwAnAoAjBqBnBSBcA?SC]QWQ{@{@}@qAQOwAq@e@Qq@c@cAcAqAy@SQQWm@mASo@e@_EOU{Ao@SH}@|Ae@hECJIH]nDKnDz@fDGVmA~@OTq@xBAfD@v@AJ}@rAqAzAsCvAu@xAEPWj@M@iAQgDwGmAoBMKe@_Aw@gFs@}Do@qFQ_Ek@kHM_C@kBDe@Fe@l@qC?][kC@kCCQ?[HLGG",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        46.28,
+        6.78
+      ],
+      "country": "France",
+      "kudos_count": 1,
+      "comment_count": 0
+    },
+    {
+      "activity_id": 13255242982,
+      "athlete_id": 25332977,
+      "athlete_name": "25332977",
+      "name": "Paccally avec steph",
+      "sport_type": "BackcountrySki",
+      "start_date": "2025-01-03T11:45:57Z",
+      "moving_time": 7640,
+      "elapsed_time": 12714,
+      "distance": 9160.0,
+      "total_elevation_gain": 1103.0,
+      "map": {
+        "id": "a13255242982",
+        "summary_polyline": "wjhwG{hqf@SJ@Gl@c@d@Mh@EXSp@kAn@k@`@c@v@oAPk@PgBd@aC@SAKIWy@iAOc@c@eCAw@Hm@?o@Ga@Yo@QYWU[k@OS_@Yo@w@GWAa@EKMQ]YQGWE_@Sm@u@OMQEq@Hy@BOI_AuBa@a@WOyAe@wAMc@Ic@[yCkCu@sDo@oBmEeE@gCKcCYiCTcBGa@JMx@c@lAWhABR{@j@Z|@JPgB?wBDgBS}AgAs@gAuBeAgBGkBXeAGs@F[_@aBLy@Xa@Gm@hAiAY_AfA}@TF~@JtAf@hAj@j@Jv@I`@^XFn@aADc@tAeA`@u@\\yAf@iAr@}@bB@`@]p@^MsAn@QUmA?{AV[LkAn@gAVQr@G\\R\\^ZId@GZl@b@k@\\l@rAcEbA{@\\Gd@BTa@_A_Hm@eCEyCt@uBdBgBGm@Le@e@q@l@s@Jw@Bo@Jc@p@a@Xa@g@a@^]`A]\\Yd@KJ}@Zs@v@c@^nAr@\\TkAJNCK{AFeEzBuEfHgA`UaGxCoP~b@}DnEh@fOmQ~TeChJGDEh@PfDd@lAz@^|@h@`AbAlAdHvCdA`AjAxAH~@t@lAZh@fAlMrJlB`FI~Bd@nB`AfBwDpLuA~CmC|@qCfDlJxAvKlNVR",
+        "resource_state": 2
+      },
+      "start_latlng": [
+        45.92,
+        6.48
+      ],
+      "country": "France",
+      "kudos_count": 1,
+      "comment_count": 0
     }
   ],
   "group_activities": [
@@ -62717,7 +63845,27 @@
       "country": "France"
     },
     {
-      "id": "group_2025-07-15_41",
+      "id": "group_2025-07-20_41",
+      "date": "2025-07-20",
+      "athletes": [
+        19523416,
+        25332977
+      ],
+      "activity_ids": [
+        15181022608,
+        15175394850
+      ],
+      "sport": "Hike",
+      "sport_category": "Hike",
+      "name": "Canyon de nant bargat",
+      "elevation": 592,
+      "duration": 5790,
+      "distance": 5790,
+      "athlete_count": 2,
+      "country": "France"
+    },
+    {
+      "id": "group_2025-07-15_42",
       "date": "2025-07-15",
       "athletes": [
         3762537,
@@ -62737,7 +63885,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-07-09_42",
+      "id": "group_2025-07-09_43",
       "date": "2025-07-09",
       "athletes": [
         5231535,
@@ -62757,7 +63905,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-07-09_43",
+      "id": "group_2025-07-09_44",
       "date": "2025-07-09",
       "athletes": [
         110979265,
@@ -62777,7 +63925,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-07-06_44",
+      "id": "group_2025-07-06_45",
       "date": "2025-07-06",
       "athletes": [
         110979265,
@@ -62797,7 +63945,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-06-17_45",
+      "id": "group_2025-06-17_46",
       "date": "2025-06-17",
       "athletes": [
         3953180,
@@ -62819,7 +63967,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-06-17_46",
+      "id": "group_2025-06-17_47",
       "date": "2025-06-17",
       "athletes": [
         119310419,
@@ -62841,7 +63989,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-06-17_47",
+      "id": "group_2025-06-17_48",
       "date": "2025-06-17",
       "athletes": [
         5231535,
@@ -62861,7 +64009,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-05-19_48",
+      "id": "group_2025-05-19_49",
       "date": "2025-05-19",
       "athletes": [
         3953180,
@@ -62881,7 +64029,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-05-19_49",
+      "id": "group_2025-05-19_50",
       "date": "2025-05-19",
       "athletes": [
         6635902,
@@ -62901,7 +64049,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-05-14_50",
+      "id": "group_2025-05-14_51",
       "date": "2025-05-14",
       "athletes": [
         119310419,
@@ -62921,7 +64069,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-04-30_51",
+      "id": "group_2025-04-30_52",
       "date": "2025-04-30",
       "athletes": [
         3762537,
@@ -62941,7 +64089,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-04-29_52",
+      "id": "group_2025-04-29_53",
       "date": "2025-04-29",
       "athletes": [
         3953180,
@@ -62963,7 +64111,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-04-29_53",
+      "id": "group_2025-04-29_54",
       "date": "2025-04-29",
       "athletes": [
         6635902,
@@ -62983,7 +64131,7 @@
       "country": "Népal"
     },
     {
-      "id": "group_2025-04-28_54",
+      "id": "group_2025-04-28_55",
       "date": "2025-04-28",
       "athletes": [
         6635902,
@@ -63005,7 +64153,7 @@
       "country": "Népal"
     },
     {
-      "id": "group_2025-04-23_55",
+      "id": "group_2025-04-23_56",
       "date": "2025-04-23",
       "athletes": [
         119310419,
@@ -63027,7 +64175,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-04-20_56",
+      "id": "group_2025-04-20_57",
       "date": "2025-04-20",
       "athletes": [
         1841009,
@@ -63047,7 +64195,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-04-15_57",
+      "id": "group_2025-04-15_58",
       "date": "2025-04-15",
       "athletes": [
         110979265,
@@ -63067,7 +64215,7 @@
       "country": null
     },
     {
-      "id": "group_2025-04-14_58",
+      "id": "group_2025-04-14_59",
       "date": "2025-04-14",
       "athletes": [
         3762537,
@@ -63089,7 +64237,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-04-10_59",
+      "id": "group_2025-04-10_60",
       "date": "2025-04-10",
       "athletes": [
         3762537,
@@ -63109,7 +64257,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-04-09_60",
+      "id": "group_2025-04-09_61",
       "date": "2025-04-09",
       "athletes": [
         119310419,
@@ -63129,7 +64277,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-04-08_61",
+      "id": "group_2025-04-08_62",
       "date": "2025-04-08",
       "athletes": [
         119310419,
@@ -63149,7 +64297,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-04-06_62",
+      "id": "group_2025-04-06_63",
       "date": "2025-04-06",
       "athletes": [
         6635902,
@@ -63169,7 +64317,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-04-06_63",
+      "id": "group_2025-04-06_64",
       "date": "2025-04-06",
       "athletes": [
         110979265,
@@ -63189,7 +64337,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-04-03_64",
+      "id": "group_2025-04-03_65",
       "date": "2025-04-03",
       "athletes": [
         68391361,
@@ -63209,7 +64357,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-04-03_65",
+      "id": "group_2025-04-03_66",
       "date": "2025-04-03",
       "athletes": [
         1841009,
@@ -63229,7 +64377,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-04-01_66",
+      "id": "group_2025-04-01_67",
       "date": "2025-04-01",
       "athletes": [
         119310419,
@@ -63249,7 +64397,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-03-31_67",
+      "id": "group_2025-03-31_68",
       "date": "2025-03-31",
       "athletes": [
         3953180,
@@ -63271,7 +64419,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-03-29_68",
+      "id": "group_2025-03-29_69",
       "date": "2025-03-29",
       "athletes": [
         19523416,
@@ -63291,7 +64439,7 @@
       "country": "Suisse"
     },
     {
-      "id": "group_2025-03-16_69",
+      "id": "group_2025-03-16_70",
       "date": "2025-03-16",
       "athletes": [
         3953180,
@@ -63311,7 +64459,27 @@
       "country": "France"
     },
     {
-      "id": "group_2025-03-08_70",
+      "id": "group_2025-03-16_71",
+      "date": "2025-03-16",
+      "athletes": [
+        19523416,
+        25332977
+      ],
+      "activity_ids": [
+        13898070322,
+        13898202222
+      ],
+      "sport": "BackcountrySki",
+      "sport_category": "Ski mountaineering",
+      "name": "Ski de randonnée le matin",
+      "elevation": 1186,
+      "duration": 9060,
+      "distance": 10202,
+      "athlete_count": 2,
+      "country": "France"
+    },
+    {
+      "id": "group_2025-03-08_72",
       "date": "2025-03-08",
       "athletes": [
         6635902,
@@ -63331,7 +64499,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-03-03_71",
+      "id": "group_2025-03-03_73",
       "date": "2025-03-03",
       "athletes": [
         3953180,
@@ -63351,7 +64519,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-03-02_72",
+      "id": "group_2025-03-02_74",
       "date": "2025-03-02",
       "athletes": [
         6635902,
@@ -63371,7 +64539,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-03-02_73",
+      "id": "group_2025-03-02_75",
       "date": "2025-03-02",
       "athletes": [
         1841009,
@@ -63391,7 +64559,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-03-01_74",
+      "id": "group_2025-03-01_76",
       "date": "2025-03-01",
       "athletes": [
         3953180,
@@ -63411,7 +64579,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-02-27_75",
+      "id": "group_2025-02-27_77",
       "date": "2025-02-27",
       "athletes": [
         5231535,
@@ -63431,7 +64599,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-02-22_76",
+      "id": "group_2025-02-22_78",
       "date": "2025-02-22",
       "athletes": [
         1841009,
@@ -63453,7 +64621,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-02-20_77",
+      "id": "group_2025-02-20_79",
       "date": "2025-02-20",
       "athletes": [
         3953180,
@@ -63473,7 +64641,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-02-20_78",
+      "id": "group_2025-02-20_80",
       "date": "2025-02-20",
       "athletes": [
         119310419,
@@ -63493,7 +64661,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-02-09_79",
+      "id": "group_2025-02-09_81",
       "date": "2025-02-09",
       "athletes": [
         68391361,
@@ -63517,7 +64685,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-02-09_80",
+      "id": "group_2025-02-09_82",
       "date": "2025-02-09",
       "athletes": [
         3953180,
@@ -63537,7 +64705,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-02-09_81",
+      "id": "group_2025-02-09_83",
       "date": "2025-02-09",
       "athletes": [
         3953180,
@@ -63557,7 +64725,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-02-09_82",
+      "id": "group_2025-02-09_84",
       "date": "2025-02-09",
       "athletes": [
         68391361,
@@ -63577,7 +64745,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-02-08_83",
+      "id": "group_2025-02-08_85",
       "date": "2025-02-08",
       "athletes": [
         3953180,
@@ -63597,7 +64765,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-02-02_84",
+      "id": "group_2025-02-02_86",
       "date": "2025-02-02",
       "athletes": [
         3953180,
@@ -63619,7 +64787,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-18_85",
+      "id": "group_2025-01-18_87",
       "date": "2025-01-18",
       "athletes": [
         110979265,
@@ -63641,7 +64809,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-18_86",
+      "id": "group_2025-01-18_88",
       "date": "2025-01-18",
       "athletes": [
         68391361,
@@ -63661,7 +64829,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-12_87",
+      "id": "group_2025-01-12_89",
       "date": "2025-01-12",
       "athletes": [
         68391361,
@@ -63681,7 +64849,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-11_88",
+      "id": "group_2025-01-11_90",
       "date": "2025-01-11",
       "athletes": [
         3953180,
@@ -63701,27 +64869,29 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-04_89",
+      "id": "group_2025-01-04_91",
       "date": "2025-01-04",
       "athletes": [
+        25332977,
         3953180,
         19523416
       ],
       "activity_ids": [
+        13264451800,
         13263767309,
         13263913783
       ],
       "sport": "BackcountrySki",
       "sport_category": "Ski mountaineering",
-      "name": "Chablais powpow",
-      "elevation": 1048,
-      "duration": 6652,
-      "distance": 10549,
-      "athlete_count": 2,
+      "name": "Ski de rando a la chapelle d'abondance",
+      "elevation": 1017,
+      "duration": 6462,
+      "distance": 10135,
+      "athlete_count": 3,
       "country": "France"
     },
     {
-      "id": "group_2025-01-04_90",
+      "id": "group_2025-01-04_92",
       "date": "2025-01-04",
       "athletes": [
         1841009,
@@ -63741,7 +64911,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-01_91",
+      "id": "group_2025-01-01_93",
       "date": "2025-01-01",
       "athletes": [
         1841009,
@@ -63765,7 +64935,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-12-28_92",
+      "id": "group_2025-12-28_94",
       "date": "2025-12-28",
       "athletes": [
         6635902,
@@ -63785,7 +64955,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-12-26_93",
+      "id": "group_2025-12-26_95",
       "date": "2025-12-26",
       "athletes": [
         6635902,
@@ -63805,7 +64975,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-12-26_94",
+      "id": "group_2025-12-26_96",
       "date": "2025-12-26",
       "athletes": [
         1841009,
@@ -63825,7 +64995,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-12-25_95",
+      "id": "group_2025-12-25_97",
       "date": "2025-12-25",
       "athletes": [
         6635902,
@@ -63845,7 +65015,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-12-21_96",
+      "id": "group_2025-12-21_98",
       "date": "2025-12-21",
       "athletes": [
         68391361,
@@ -63865,7 +65035,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-12-20_97",
+      "id": "group_2025-12-20_99",
       "date": "2025-12-20",
       "athletes": [
         6635902,
@@ -63885,7 +65055,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-12-18_98",
+      "id": "group_2025-12-18_100",
       "date": "2025-12-18",
       "athletes": [
         110979265,
@@ -63905,7 +65075,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-12-14_99",
+      "id": "group_2025-12-14_101",
       "date": "2025-12-14",
       "athletes": [
         6635902,
@@ -63925,7 +65095,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-12-09_100",
+      "id": "group_2025-12-09_102",
       "date": "2025-12-09",
       "athletes": [
         87904944,
@@ -63945,7 +65115,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-12-08_101",
+      "id": "group_2025-12-08_103",
       "date": "2025-12-08",
       "athletes": [
         6635902,
@@ -63965,7 +65135,7 @@
       "country": null
     },
     {
-      "id": "group_2025-12-04_102",
+      "id": "group_2025-12-04_104",
       "date": "2025-12-04",
       "athletes": [
         110979265,
@@ -63987,7 +65157,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-11-08_103",
+      "id": "group_2025-11-08_105",
       "date": "2025-11-08",
       "athletes": [
         6635902,
@@ -64007,7 +65177,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-11-02_104",
+      "id": "group_2025-11-02_106",
       "date": "2025-11-02",
       "athletes": [
         68391361,
@@ -64027,7 +65197,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-11-02_105",
+      "id": "group_2025-11-02_107",
       "date": "2025-11-02",
       "athletes": [
         110979265,
@@ -64047,7 +65217,7 @@
       "country": "Salvador"
     },
     {
-      "id": "group_2025-10-22_106",
+      "id": "group_2025-10-22_108",
       "date": "2025-10-22",
       "athletes": [
         3762537,
@@ -64067,7 +65237,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-10-22_107",
+      "id": "group_2025-10-22_109",
       "date": "2025-10-22",
       "athletes": [
         1841009,
@@ -64087,7 +65257,7 @@
       "country": "Salvador"
     },
     {
-      "id": "group_2025-10-12_108",
+      "id": "group_2025-10-12_110",
       "date": "2025-10-12",
       "athletes": [
         68391361,
@@ -64109,7 +65279,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-10-11_109",
+      "id": "group_2025-10-11_111",
       "date": "2025-10-11",
       "athletes": [
         68391361,
@@ -64129,7 +65299,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-10-10_110",
+      "id": "group_2025-10-10_112",
       "date": "2025-10-10",
       "athletes": [
         19523416,
@@ -64149,7 +65319,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-10-03_111",
+      "id": "group_2025-10-03_113",
       "date": "2025-10-03",
       "athletes": [
         110979265,
@@ -64169,7 +65339,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-09-27_112",
+      "id": "group_2025-09-27_114",
       "date": "2025-09-27",
       "athletes": [
         6635902,
@@ -64189,7 +65359,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-09-27_113",
+      "id": "group_2025-09-27_115",
       "date": "2025-09-27",
       "athletes": [
         110979265,
@@ -64209,7 +65379,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-09-24_114",
+      "id": "group_2025-09-24_116",
       "date": "2025-09-24",
       "athletes": [
         87904944,
@@ -64229,7 +65399,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-09-11_115",
+      "id": "group_2025-09-11_117",
       "date": "2025-09-11",
       "athletes": [
         68391361,
@@ -64249,7 +65419,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-09-11_116",
+      "id": "group_2025-09-11_118",
       "date": "2025-09-11",
       "athletes": [
         119310419,
@@ -64269,7 +65439,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-09-07_117",
+      "id": "group_2025-09-07_119",
       "date": "2025-09-07",
       "athletes": [
         6635902,
@@ -64289,7 +65459,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-09-07_118",
+      "id": "group_2025-09-07_120",
       "date": "2025-09-07",
       "athletes": [
         1841009,
@@ -64309,7 +65479,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-08-25_119",
+      "id": "group_2025-08-25_121",
       "date": "2025-08-25",
       "athletes": [
         6635902,
@@ -64329,7 +65499,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-08-25_120",
+      "id": "group_2025-08-25_122",
       "date": "2025-08-25",
       "athletes": [
         3762537,
@@ -64349,7 +65519,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-08-25_121",
+      "id": "group_2025-08-25_123",
       "date": "2025-08-25",
       "athletes": [
         3762537,
@@ -64369,7 +65539,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-08-21_122",
+      "id": "group_2025-08-21_124",
       "date": "2025-08-21",
       "athletes": [
         6635902,
@@ -64389,7 +65559,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-08-10_123",
+      "id": "group_2025-08-10_125",
       "date": "2025-08-10",
       "athletes": [
         1841009,
@@ -64411,7 +65581,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-08-10_124",
+      "id": "group_2025-08-10_126",
       "date": "2025-08-10",
       "athletes": [
         68391361,
@@ -64431,7 +65601,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-07-13_125",
+      "id": "group_2025-07-13_127",
       "date": "2025-07-13",
       "athletes": [
         6635902,
@@ -64451,7 +65621,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-07-05_126",
+      "id": "group_2025-07-05_128",
       "date": "2025-07-05",
       "athletes": [
         110979265,
@@ -64471,7 +65641,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-06-29_127",
+      "id": "group_2025-06-29_129",
       "date": "2025-06-29",
       "athletes": [
         6635902,
@@ -64491,7 +65661,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-06-08_128",
+      "id": "group_2025-06-08_130",
       "date": "2025-06-08",
       "athletes": [
         110979265,
@@ -64511,7 +65681,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-06-03_129",
+      "id": "group_2025-06-03_131",
       "date": "2025-06-03",
       "athletes": [
         1841009,
@@ -64531,7 +65701,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-05-22_130",
+      "id": "group_2025-05-22_132",
       "date": "2025-05-22",
       "athletes": [
         6635902,
@@ -64551,7 +65721,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-05-08_131",
+      "id": "group_2025-05-08_133",
       "date": "2025-05-08",
       "athletes": [
         68391361,
@@ -64573,7 +65743,7 @@
       "country": "Népal"
     },
     {
-      "id": "group_2025-05-06_132",
+      "id": "group_2025-05-06_134",
       "date": "2025-05-06",
       "athletes": [
         6635902,
@@ -64593,7 +65763,7 @@
       "country": "Népal"
     },
     {
-      "id": "group_2025-05-02_133",
+      "id": "group_2025-05-02_135",
       "date": "2025-05-02",
       "athletes": [
         6635902,
@@ -64613,7 +65783,7 @@
       "country": "Népal"
     },
     {
-      "id": "group_2025-04-16_134",
+      "id": "group_2025-04-16_136",
       "date": "2025-04-16",
       "athletes": [
         68391361,
@@ -64633,7 +65803,7 @@
       "country": "Népal"
     },
     {
-      "id": "group_2025-04-16_135",
+      "id": "group_2025-04-16_137",
       "date": "2025-04-16",
       "athletes": [
         110979265,
@@ -64653,7 +65823,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-03-30_136",
+      "id": "group_2025-03-30_138",
       "date": "2025-03-30",
       "athletes": [
         6635902,
@@ -64673,7 +65843,7 @@
       "country": "Suisse"
     },
     {
-      "id": "group_2025-03-22_137",
+      "id": "group_2025-03-22_139",
       "date": "2025-03-22",
       "athletes": [
         19523416,
@@ -64693,7 +65863,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-03-22_138",
+      "id": "group_2025-03-22_140",
       "date": "2025-03-22",
       "athletes": [
         110979265,
@@ -64713,7 +65883,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-03-18_139",
+      "id": "group_2025-03-18_141",
       "date": "2025-03-18",
       "athletes": [
         6635902,
@@ -64735,7 +65905,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-03-04_140",
+      "id": "group_2025-03-04_142",
       "date": "2025-03-04",
       "athletes": [
         6635902,
@@ -64755,7 +65925,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-02-25_141",
+      "id": "group_2025-02-25_143",
       "date": "2025-02-25",
       "athletes": [
         5231535,
@@ -64775,7 +65945,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-02-16_142",
+      "id": "group_2025-02-16_144",
       "date": "2025-02-16",
       "athletes": [
         6635902,
@@ -64795,7 +65965,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-02-15_143",
+      "id": "group_2025-02-15_145",
       "date": "2025-02-15",
       "athletes": [
         6635902,
@@ -64815,7 +65985,47 @@
       "country": "France"
     },
     {
-      "id": "group_2025-02-01_144",
+      "id": "group_2025-02-14_146",
+      "date": "2025-02-14",
+      "athletes": [
+        19523416,
+        25332977
+      ],
+      "activity_ids": [
+        13627275545,
+        13630283076
+      ],
+      "sport": "BackcountrySki",
+      "sport_category": "Ski mountaineering",
+      "name": "Trou de la mouche",
+      "elevation": 1075,
+      "duration": 7526,
+      "distance": 9130,
+      "athlete_count": 2,
+      "country": "France"
+    },
+    {
+      "id": "group_2025-02-07_147",
+      "date": "2025-02-07",
+      "athletes": [
+        25332977,
+        19523416
+      ],
+      "activity_ids": [
+        13565545696,
+        13565226327
+      ],
+      "sport": "BackcountrySki",
+      "sport_category": "Ski mountaineering",
+      "name": "Roc de tavaneuse et descente par le couloir NW",
+      "elevation": 1060,
+      "duration": 7410,
+      "distance": 8419,
+      "athlete_count": 2,
+      "country": "France"
+    },
+    {
+      "id": "group_2025-02-01_148",
       "date": "2025-02-01",
       "athletes": [
         6635902,
@@ -64835,7 +66045,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-02-01_145",
+      "id": "group_2025-02-01_149",
       "date": "2025-02-01",
       "athletes": [
         110979265,
@@ -64855,7 +66065,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-25_146",
+      "id": "group_2025-01-25_150",
       "date": "2025-01-25",
       "athletes": [
         68391361,
@@ -64875,7 +66085,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-24_147",
+      "id": "group_2025-01-24_151",
       "date": "2025-01-24",
       "athletes": [
         1841009,
@@ -64895,7 +66105,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-23_148",
+      "id": "group_2025-01-23_152",
       "date": "2025-01-23",
       "athletes": [
         6635902,
@@ -64915,7 +66125,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-16_149",
+      "id": "group_2025-01-16_153",
       "date": "2025-01-16",
       "athletes": [
         6635902,
@@ -64935,7 +66145,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-09_150",
+      "id": "group_2025-01-09_154",
       "date": "2025-01-09",
       "athletes": [
         6635902,
@@ -64955,7 +66165,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-06_151",
+      "id": "group_2025-01-06_155",
       "date": "2025-01-06",
       "athletes": [
         6635902,
@@ -64975,7 +66185,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-12-13_152",
+      "id": "group_2025-12-13_156",
       "date": "2025-12-13",
       "athletes": [
         110979265,
@@ -64995,7 +66205,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-10-30_153",
+      "id": "group_2025-10-30_157",
       "date": "2025-10-30",
       "athletes": [
         1841009,
@@ -65015,7 +66225,7 @@
       "country": "Salvador"
     },
     {
-      "id": "group_2025-10-21_154",
+      "id": "group_2025-10-21_158",
       "date": "2025-10-21",
       "athletes": [
         3762537,
@@ -65035,7 +66245,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-10-16_155",
+      "id": "group_2025-10-16_159",
       "date": "2025-10-16",
       "athletes": [
         3762537,
@@ -65055,7 +66265,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-09-23_156",
+      "id": "group_2025-09-23_160",
       "date": "2025-09-23",
       "athletes": [
         1841009,
@@ -65075,7 +66285,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-09-05_157",
+      "id": "group_2025-09-05_161",
       "date": "2025-09-05",
       "athletes": [
         119310419,
@@ -65095,7 +66305,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-09-03_158",
+      "id": "group_2025-09-03_162",
       "date": "2025-09-03",
       "athletes": [
         1841009,
@@ -65115,7 +66325,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-09-01_159",
+      "id": "group_2025-09-01_163",
       "date": "2025-09-01",
       "athletes": [
         3762537,
@@ -65135,7 +66345,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-08-26_160",
+      "id": "group_2025-08-26_164",
       "date": "2025-08-26",
       "athletes": [
         110979265,
@@ -65155,7 +66365,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-08-12_161",
+      "id": "group_2025-08-12_165",
       "date": "2025-08-12",
       "athletes": [
         1841009,
@@ -65175,7 +66385,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-07-24_162",
+      "id": "group_2025-07-24_166",
       "date": "2025-07-24",
       "athletes": [
         119310419,
@@ -65195,7 +66405,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-07-23_163",
+      "id": "group_2025-07-23_167",
       "date": "2025-07-23",
       "athletes": [
         3762537,
@@ -65215,7 +66425,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-07-23_164",
+      "id": "group_2025-07-23_168",
       "date": "2025-07-23",
       "athletes": [
         3762537,
@@ -65235,7 +66445,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-04-12_165",
+      "id": "group_2025-04-12_169",
       "date": "2025-04-12",
       "athletes": [
         1841009,
@@ -65255,7 +66465,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-03-09_166",
+      "id": "group_2025-03-09_170",
       "date": "2025-03-09",
       "athletes": [
         110979265,
@@ -65275,7 +66485,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-30_167",
+      "id": "group_2025-01-30_171",
       "date": "2025-01-30",
       "athletes": [
         1841009,
@@ -65297,7 +66507,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-30_168",
+      "id": "group_2025-01-30_172",
       "date": "2025-01-30",
       "athletes": [
         5231535,
@@ -65317,7 +66527,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-07_169",
+      "id": "group_2025-01-07_173",
       "date": "2025-01-07",
       "athletes": [
         110979265,
@@ -65337,7 +66547,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-11-29_170",
+      "id": "group_2025-11-29_174",
       "date": "2025-11-29",
       "athletes": [
         110979265,
@@ -65357,7 +66567,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-11-10_171",
+      "id": "group_2025-11-10_175",
       "date": "2025-11-10",
       "athletes": [
         1841009,
@@ -65377,7 +66587,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-09-10_172",
+      "id": "group_2025-09-10_176",
       "date": "2025-09-10",
       "athletes": [
         119310419,
@@ -65397,7 +66607,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-06-04_173",
+      "id": "group_2025-06-04_177",
       "date": "2025-06-04",
       "athletes": [
         119310419,
@@ -65417,7 +66627,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-21_174",
+      "id": "group_2025-01-21_178",
       "date": "2025-01-21",
       "athletes": [
         1841009,
@@ -65437,7 +66647,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-12-16_175",
+      "id": "group_2025-12-16_179",
       "date": "2025-12-16",
       "athletes": [
         5231535,
@@ -65457,7 +66667,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-11-26_176",
+      "id": "group_2025-11-26_180",
       "date": "2025-11-26",
       "athletes": [
         110979265,
@@ -65477,7 +66687,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-11-18_177",
+      "id": "group_2025-11-18_181",
       "date": "2025-11-18",
       "athletes": [
         110979265,
@@ -65497,7 +66707,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-10-23_178",
+      "id": "group_2025-10-23_182",
       "date": "2025-10-23",
       "athletes": [
         1841009,
@@ -65517,7 +66727,7 @@
       "country": "Salvador"
     },
     {
-      "id": "group_2025-08-01_179",
+      "id": "group_2025-08-01_183",
       "date": "2025-08-01",
       "athletes": [
         1841009,
@@ -65537,7 +66747,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-06-22_180",
+      "id": "group_2025-06-22_184",
       "date": "2025-06-22",
       "athletes": [
         110979265,
@@ -65557,7 +66767,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-06-15_181",
+      "id": "group_2025-06-15_185",
       "date": "2025-06-15",
       "athletes": [
         110979265,
@@ -65577,7 +66787,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-05-27_182",
+      "id": "group_2025-05-27_186",
       "date": "2025-05-27",
       "athletes": [
         5231535,
@@ -65597,7 +66807,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-04-26_183",
+      "id": "group_2025-04-26_187",
       "date": "2025-04-26",
       "athletes": [
         1841009,
@@ -65617,7 +66827,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-04-26_184",
+      "id": "group_2025-04-26_188",
       "date": "2025-04-26",
       "athletes": [
         119310419,
@@ -65637,7 +66847,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-26_185",
+      "id": "group_2025-01-26_189",
       "date": "2025-01-26",
       "athletes": [
         1841009,
@@ -65657,7 +66867,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-09-30_186",
+      "id": "group_2025-09-30_190",
       "date": "2025-09-30",
       "athletes": [
         110979265,
@@ -65677,7 +66887,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-05-18_187",
+      "id": "group_2025-05-18_191",
       "date": "2025-05-18",
       "athletes": [
         110979265,
@@ -65697,7 +66907,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-03-23_188",
+      "id": "group_2025-03-23_192",
       "date": "2025-03-23",
       "athletes": [
         1841009,
@@ -65717,7 +66927,7 @@
       "country": "France"
     },
     {
-      "id": "group_2025-01-13_189",
+      "id": "group_2025-01-13_193",
       "date": "2025-01-13",
       "athletes": [
         1841009,
