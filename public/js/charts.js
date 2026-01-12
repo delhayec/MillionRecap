@@ -1153,7 +1153,7 @@ export function showRankingTable(data) {
     if (hour >= 20 || hour < 5) {
       athleteStats[id].night_activities++;
     }
-    if (hour >= 5 && hour < 9) {
+    if (hour >= 4 && hour < 7) {
       athleteStats[id].morning_activities++;
     }
     
@@ -1334,7 +1334,7 @@ function generateAchievements(stats) {
       id: 'earlybird',
       emoji: '🐓',
       name: 'Lève-tôt',
-      desc: 'Activités 5h-9h (heure locale)',
+      desc: 'Activités 4h-7h (heure locale)',
       type: 'normal',
       getValue: s => s.morning_activities,
       format: v => `${v} sorties`
