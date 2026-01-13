@@ -79,6 +79,12 @@ function updateChart() {
     const sportValue = document.getElementById('sportSelect').value;
     const filteredData = getFilteredData();
 
+    // Mettre à jour l'état du bouton Classement
+    const btnClassement = document.getElementById('btnClassement');
+    if (btnClassement) {
+      btnClassement.classList.toggle('active', athleteValue === 'classement');
+    }
+
     const rankingTableContainer = document.getElementById('rankingTableContainer');
     const mapSection = document.querySelector('.map-section');
     const sankeySection = document.querySelector('.sankey-section');
@@ -288,6 +294,26 @@ async function init() {
 
     document.getElementById('athleteSelect').addEventListener('change', updateChart);
     document.getElementById('sportSelect').addEventListener('change', updateChart);
+    
+    // Bouton Classement
+    const btnClassement = document.getElementById('btnClassement');
+    if (btnClassement) {
+      btnClassement.addEventListener('click', () => {
+        const athleteSelect = document.getElementById('athleteSelect');
+        const isClassement = athleteSelect.value === 'classement';
+        
+        if (isClassement) {
+          // Si déjà en mode classement, revenir à "Tous"
+          athleteSelect.value = '';
+          btnClassement.classList.remove('active');
+        } else {
+          // Passer en mode classement
+          athleteSelect.value = 'classement';
+          btnClassement.classList.add('active');
+        }
+        updateChart();
+      });
+    }
 
     // MASQUER L'ÉCRAN DE CHARGEMENT ===
     // On masque AVANT de générer les graphiques pour un ressenti plus rapide

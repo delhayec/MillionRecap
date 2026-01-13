@@ -1119,9 +1119,8 @@ export function showRankingTable(data) {
     athleteStats[id].active_days.add(day);
     athleteStats[id].elevation_by_day[day] = (athleteStats[id].elevation_by_day[day] || 0) + (activity.total_elevation_gain || 0);
     
-    // Sports utilisés
-    const sport = mapSportName(activity.sport_type);
-    athleteStats[id].sports_used.add(sport);
+    // Sports utilisés - utiliser le sport_type original pour compter la vraie diversité
+    athleteStats[id].sports_used.add(activity.sport_type);
     
     // Meilleure activité (ignorer les activités multi-jours)
     if (!activity._isPartOfMultiDay) {
@@ -2365,9 +2364,8 @@ export function showMiniRanking(data) {
     `;
   }).join('');
 
-  // Pagination par groupe de 4
-  const itemsPerPage = 4;
-  const totalPages = Math.ceil(stats.length / itemsPerPage);
+  // Pagination par groupe
+  const totalPages = 4; // 4 positions pour les dots
   let currentPage = 0;
 
   // Générer les dots
@@ -2385,8 +2383,14 @@ export function showMiniRanking(data) {
   }
 
   function updateSlider() {
-    const itemWidth = 188; // min-width + gap
-    slider.scrollTo({ left: currentPage * itemsPerPage * itemWidth, behavior: 'smooth' });
+    // Calculer la position de scroll basée sur la page
+    const sliderWidth = slider.scrollWidth;
+    const visibleWidth = slider.clientWidth;
+    const maxScroll = sliderWidth - visibleWidth;
+    
+    // Diviser le scroll total en pages égales
+    const scrollPosition = (currentPage / (totalPages - 1)) * maxScroll;
+    slider.scrollTo({ left: scrollPosition, behavior: 'smooth' });
     
     if (dotsContainer) {
       dotsContainer.querySelectorAll('.ranking-dot').forEach((dot, i) => {

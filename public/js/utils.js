@@ -87,6 +87,7 @@ const excludedSports = [
   'Surfing',
   'Pilates',
   'Skateboard'
+  'Tennis'
 ];
 
 export function isExcludedSport(sport) {

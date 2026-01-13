@@ -300,6 +300,31 @@ body {
   display: flex;
   gap: 24px;
   flex-wrap: wrap;
+  align-items: center;
+}
+
+.btn-classement {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, var(--accent-primary) 0%, #e85d04 100%);
+  border: none;
+  border-radius: 8px;
+  color: var(--bg-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-classement:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+}
+
+.btn-classement.active {
+  background: linear-gradient(135deg, #22d3ee 0%, #0ea5e9 100%);
+  box-shadow: 0 4px 15px rgba(34, 211, 238, 0.4);
 }
 
 .filter-group {
