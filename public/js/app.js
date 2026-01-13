@@ -76,6 +76,12 @@ function updateChart() {
     const sportValue = document.getElementById('sportSelect').value;
     const filteredData = getFilteredData();
 
+    const totalFiltered = filteredData.reduce((sum, a) => sum + (a.total_elevation_gain || 0), 0);
+const totalAll = allData.reduce((sum, a) => sum + (a.total_elevation_gain || 0), 0);
+console.log(`🔍 Mode: ${isClassementMode ? 'CLASSEMENT' : 'TOUS'}`);
+console.log(`🔍 filteredData: ${filteredData.length} activités, ${Math.round(totalFiltered)} m D+`);
+console.log(`🔍 allData: ${allData.length} activités, ${Math.round(totalAll)} m D+`);
+
     // Mettre à jour l'état du bouton Classement
     const btnClassement = document.getElementById('btnClassement');
     if (btnClassement) {

@@ -482,11 +482,13 @@ export function updateStats(filteredData) {
   const totalTime = Math.round(filteredData.reduce((sum, a) => sum + (a.moving_time || 0), 0) / 3600);
 
   window.statsValues = { totalElevation, totalActivities, totalDistance, totalTime, TARGET };
-
+ //console.log(`📊 updateStats appelé avec ${filteredData.length} activités, statsAnimated=${statsAnimated}`);
+ //console.trace();
   const percentage = (totalElevation / TARGET * 100).toFixed(1);
   const progressPercent = document.getElementById('progressPercent');
   if (progressPercent) {
     progressPercent.textContent = `${percentage}%`;
+    //console.log(`📊 statsAnimated = ${statsAnimated}`);
   }
 
   const bestDay = findBestDay(filteredData);
@@ -497,21 +499,12 @@ export function updateStats(filteredData) {
   document.getElementById('bestWeek').textContent = bestWeek ?
     `${bestWeek.period} (${bestWeek.elevation.toLocaleString('fr-FR')} m)` : '-';
 
-  const statsSection = document.getElementById('statsSection');
+const statsSection = document.getElementById('statsSection');
   if (statsSection && !statsAnimated) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !statsAnimated) {
-          statsAnimated = true;
-          triggerStatsAnimation();
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.3 });
-
-    observer.observe(statsSection);
-  } else if (statsAnimated) {
-    document.getElementById('totalElevation').textContent = totalElevation.toLocaleString('fr-FR');
+    statsAnimated = true;
+    triggerStatsAnimation();
+  } else {
+    document.getElementById('totalElevation').textContent = Math.round(totalElevation).toLocaleString('fr-FR');
     document.getElementById('totalActivities').textContent = totalActivities.toLocaleString('fr-FR');
     document.getElementById('totalDistance').textContent = totalDistance.toLocaleString('fr-FR');
     document.getElementById('totalTime').textContent = totalTime.toLocaleString('fr-FR');
@@ -521,6 +514,7 @@ export function updateStats(filteredData) {
 
 function triggerStatsAnimation() {
   const { totalElevation, totalActivities, totalDistance, totalTime, TARGET } = window.statsValues;
+  //console.log(`🎬 Animation avec totalElevation = ${Math.round(totalElevation)}`);
   animateValue('totalElevation', totalElevation);
   animateValue('totalActivities', totalActivities);
   animateValue('totalDistance', totalDistance);
@@ -545,6 +539,9 @@ function animateValue(elementId, endValue) {
 
     if (progress < 1) {
       requestAnimationFrame(update);
+    } else {
+      // S'assurer que la valeur finale est exacte
+      element.textContent = Math.round(endValue).toLocaleString('fr-FR');
     }
   }
 
