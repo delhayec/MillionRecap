@@ -202,7 +202,7 @@ export function decodePolyline(encoded) {
 const CACHE_KEY = 'recapmillion_activities_cache';
 const NORMALIZED_CACHE_KEY = 'recapmillion_normalized_cache';
 const CACHE_VERSION_KEY = 'recapmillion_cache_version';
-const CURRENT_CACHE_VERSION = '1.3';
+const CURRENT_CACHE_VERSION = '1.5';
 
 export async function loadData() {
   // Vérifier si le cache existe et est valide
@@ -238,10 +238,10 @@ export async function loadData() {
   console.log('🔄 Chargement des données depuis le serveur...');
 
   const possiblePaths = [
-    'data/activities_with_groups.json',
-    './data/activities_with_groups.json',
-    '/data/activities_with_groups.json',
-    '/public/data/activities_with_groups.json'
+    'data/all_activities_2025.json',
+    './data/all_activities_2025.json',
+    '/data/all_activities_2025.json',
+    '/public/data/all_activities_2025.json'
   ];
 
   for (const path of possiblePaths) {

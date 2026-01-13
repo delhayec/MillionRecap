@@ -1214,7 +1214,7 @@ export function showRankingTable(data) {
       
       row.innerHTML = `
         <td style="color: ${getAthleteColor(s.athlete_id)}">${getAthleteName(s.athlete_id)}</td>
-        <td>${s.total_elevation.toLocaleString('fr-FR')}</td>
+        <td>${Math.round(s.total_elevation).toLocaleString('fr-FR')}</td>
         <td>${s.activity_count}</td>
         <td>${(s.total_distance / 1000).toFixed(0)}</td>
         <td>${Math.round(s.total_time / 3600)}</td>
