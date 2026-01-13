@@ -65551,30 +65551,6 @@
       "comment_count": 0
     },
     {
-      "activity_id": 15079932540,
-      "athlete_id": 25332977,
-      "athlete_name": "25332977",
-      "name": "Carroz",
-      "sport_type": "MountainBikeRide",
-      "start_date": "2025-07-11T14:17:01Z",
-      "moving_time": 7663,
-      "elapsed_time": 10158,
-      "distance": 36047.0,
-      "total_elevation_gain": 3532.3,
-      "map": {
-        "id": "a15079932540",
-        "summary_polyline": "{i~wGostg@u@b@Vh@UvCrBhCyAxApBfAc@|@`DlCrAtG|AlC\\fGc@fBjH~E_@h@dBVkAv@vApArApDx@k@|Cr@aAb@dM`IhKrDpDvE\\pFsA[ExAu@NcAvDRfBw@p@jA`ALtAfFxEg@Vh@Ih@`BXEcEg_A_DubA]XJxAzAVK|Fi@pAn@DMZFx@pAf@BlAt@x@Mn@~I`L~EhLeJSDh@o@G[r@uDB}GgBgEAhAdAcHHu@l@WvA}HnAv@`AK\\mGfA|A~Ar@zCtAWlDNw@nAfChBhDhAu@L|@`CrHlBjGbF}@lAIrAsBY`@lFo@Wu@bClAxChAXvAhBNhAzGrI_JwbC_@MA`B|Ah@SpAVvBzAz@HrAn@z@[`GvDpDvOvWsAxA{@IZ~Be@j@kAc@eFDqFbByCiAy@nAUdAmPo@^tB_CQkAdCuALnBj@d@lA|@?dFtDlJbDnE~Fh@`FsASGdBs@F[tCc@VHdBm@j@xArCxF`GR~A\\AmDgbA{Dk_A_@W_AzE}DrD{IhD[hBrBdFiAlB[vEkM_G_BfHqCpC}BnGzAtAIXzEjCYv@bBVo@|@pApA~@fD`FQIl@o@N|AZ|@lBp@WjFhEbKvD|D`Fd@dF{A_@?fBaAb@UrBi@l@TxAw@r@tAfAnFxHb@rBXGwE_lALwBs@yPa@yCLmCuAkFCcPYKcAfFkExDoI|Cw@~D}GWA|AaBF?jBe@b@_ArGeDbDoBtG`AhB~EjC]t@fBNgAfAzAlA~@nChAUfD?Bb@{@r@vCxB|EvCdMtEjD~Ef@bFeAOI`Bo@Ne@~Cg@XN|Aq@f@tH`Kl@jBb@Aa@QkIebC_@Py@`E_BtAx@rDIpApA\\A|A`B~AJz@gCz@d@pE}AXjAtDoCtBu@Rb@rCaI^Xv@iAd@G~@wI~Ap@fBcG`ApAlAvAlDzEQGj@_ATpCvBdDrA]`@bBnCdGpAdGxEu@rC{BKh@jFiBZEnAhAvCjAl@JbAxFnGtCv@o@X@dA^DaJeaCEk@[FJ`BxAPC~Fi@rAn@NIrAdA^HrAt@z@Kv@bExDtJpQtC~DoArA}@ORhCc@f@wEFeAa@wFpAsBm@Wn@s@Ac@rAeOy@s@V\\jBsBMqAdC{ARxBf@f@lAt@OhS|KtCxDl@jFuASC|Aq@Le@nCg@^\\`B{@r@`A`AL|@jDfE|Cx@Au@yCu@Bg@n@E",
-        "resource_state": 2
-      },
-      "start_latlng": [
-        46.04,
-        6.66
-      ],
-      "country": "France",
-      "kudos_count": 3,
-      "comment_count": 0
-    },
-    {
       "activity_id": 15058688379,
       "athlete_id": 25332977,
       "athlete_name": "25332977",
