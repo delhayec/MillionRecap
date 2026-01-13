@@ -21,16 +21,13 @@ import {
 // ==============================
 let allData = [];
 let groupActivities = null;
+let isClassementMode = false;
 
 // ==============================
 // REMPLISSAGE DES DROPDOWNS
 // ==============================
 function fillDropdowns(data) {
   const athleteSelect = document.getElementById('athleteSelect');
-  const optionClassement = document.createElement('option');
-  optionClassement.value = "classement";
-  optionClassement.textContent = "Classement";
-  athleteSelect.appendChild(optionClassement);
 
   const athletes = [...new Set(data.map(item => item.athlete_id))];
   athletes.forEach(athlete => {
@@ -63,7 +60,7 @@ function getFilteredData() {
     filteredData = filteredData.filter(item => item.sport_type === sportValue);
   }
 
-  if (athleteValue && athleteValue !== "classement") {
+  if (athleteValue) {
     filteredData = filteredData.filter(item => item.athlete_id == athleteValue);
   }
 
@@ -82,7 +79,7 @@ function updateChart() {
     // Mettre à jour l'état du bouton Classement
     const btnClassement = document.getElementById('btnClassement');
     if (btnClassement) {
-      btnClassement.classList.toggle('active', athleteValue === 'classement');
+      btnClassement.classList.toggle('active', isClassementMode);
     }
 
     const rankingTableContainer = document.getElementById('rankingTableContainer');
@@ -109,7 +106,8 @@ function updateChart() {
       });
     };
 
-    if (athleteValue === "classement") {
+    if (isClassementMode) {
+      // Mode Classement
       rankingTableContainer.style.display = 'block';
       if (mapSection) mapSection.style.display = 'none';
       if (sankeySection) sankeySection.style.display = 'none';
@@ -292,25 +290,25 @@ async function init() {
     initMap();
     setupFullscreen();
 
-    document.getElementById('athleteSelect').addEventListener('change', updateChart);
+    document.getElementById('athleteSelect').addEventListener('change', () => {
+      // Désactiver le mode classement quand on sélectionne un athlète
+      isClassementMode = false;
+      updateChart();
+    });
     document.getElementById('sportSelect').addEventListener('change', updateChart);
     
     // Bouton Classement
     const btnClassement = document.getElementById('btnClassement');
     if (btnClassement) {
       btnClassement.addEventListener('click', () => {
-        const athleteSelect = document.getElementById('athleteSelect');
-        const isClassement = athleteSelect.value === 'classement';
+        // Basculer le mode classement
+        isClassementMode = !isClassementMode;
         
-        if (isClassement) {
-          // Si déjà en mode classement, revenir à "Tous"
-          athleteSelect.value = '';
-          btnClassement.classList.remove('active');
-        } else {
-          // Passer en mode classement
-          athleteSelect.value = 'classement';
-          btnClassement.classList.add('active');
+        // Réinitialiser le dropdown athlète quand on active le classement
+        if (isClassementMode) {
+          document.getElementById('athleteSelect').value = '';
         }
+        
         updateChart();
       });
     }

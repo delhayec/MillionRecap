@@ -86,7 +86,7 @@ const excludedSports = [
   'IceSkate',
   'Surfing',
   'Pilates',
-  'Skateboard',
+  'Skateboard'
   'Tennis'
 ];
 

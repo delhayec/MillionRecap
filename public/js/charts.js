@@ -1122,6 +1122,9 @@ export function showRankingTable(data) {
     // Sports utilisés - utiliser le sport_type original pour compter la vraie diversité
     athleteStats[id].sports_used.add(activity.sport_type);
     
+    // Sport mappé pour les stats par catégorie
+    const sport = mapSportName(activity.sport_type);
+    
     // Meilleure activité (ignorer les activités multi-jours)
     if (!activity._isPartOfMultiDay) {
       if (!athleteStats[id].best_activity || (activity.total_elevation_gain || 0) > athleteStats[id].best_activity.elevation) {
